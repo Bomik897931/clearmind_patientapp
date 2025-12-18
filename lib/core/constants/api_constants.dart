@@ -14,6 +14,7 @@ class ApiConstants {
   static const String getAppointmentsEndpoint = 'Patient/my-appointmentsPnt';// Update with your endpoint// Update with your endpoint
   static const String addReviewEndpoint = 'Patient/add-review';
   static const String getReviewsEndpoint = 'Patient/get-reviews';
+  static const String getFavoriteDoctorsEndpoint = 'Patient/get-doctor-wishlist';
   static const String logout = '/auth/logout';
   static const String refreshToken = '/auth/refresh-token';
 

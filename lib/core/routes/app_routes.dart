@@ -30,5 +30,6 @@ class AppRoutes {
   static const String REVIEWS_LIST = '/reviews-list';
   static const String FAQS = '/faqs';
   static const String HELP = '/help';
+  static const String FAVORITE_DOCTORS = '/favorite-doctors';
   static const String LanguageSwitcher = '/language';
 }

@@ -42,6 +42,8 @@ import '../../modules/Auth/controllers/splash_controller.dart';
 import '../../modules/Auth/view/login_screen.dart';
 import '../../modules/Auth/view/registration_screen.dart';
 import '../../modules/Auth/view/splash_screen.dart';
+import '../../modules/favorite/controller/favorite_controller.dart';
+import '../../modules/favorite/view/favorite_screen.dart';
 import '../../modules/homevc/view/homevc_view.dart';
 import '../../modules/incomingCall/view/incoming_call_screen.dart';
 import '../../modules/review/controller/review_controller.dart';
@@ -249,6 +251,13 @@ class AppPages {
       page: () => const ReviewsListScreen(),
       binding: BindingsBuilder(() {
         Get.lazyPut(() => ReviewsListController());
+      }),
+    ),
+    GetPage(
+      name: AppRoutes.FAVORITE_DOCTORS,
+      page: () => const FavoriteDoctorsScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => FavoriteDoctorsController());
       }),
     ),
     GetPage(name: AppRoutes.LanguageSwitcher, page: () => LanguageSwitcher())

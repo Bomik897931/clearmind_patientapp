@@ -5,6 +5,7 @@ import 'package:patient_app/data/repositories/user_repository.dart';
 import '../models/api_response.dart';
 import '../models/category_model.dart';
 import '../models/doctor_model.dart';
+import '../models/favorite_model.dart';
 import '../models/slot_model.dart';
 import '../services/api_service.dart';
 
@@ -250,4 +251,43 @@ class DoctorsRepository {
       print('🔴 Repository: Unexpected error - $e');
       throw RepositoryException('Failed to remove favorite: ${e.toString()}');
     }
-  }}
+  }
+
+  Future<List<FavoriteDoctorModel>> getFavoriteDoctors({
+    required String token,
+  }) async {
+    try {
+      print('🔵 Repository: Fetching favorite doctors');
+
+      final response = await _apiService.get(
+        endpoint: ApiConstants.getFavoriteDoctorsEndpoint,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('🟢 Repository: Favorite doctors fetched successfully');
+
+      final apiResponse = ApiResponse.fromJson(response);
+      if (apiResponse.success && apiResponse.data != null) {
+        final List<dynamic> doctorsData = apiResponse.data as List<dynamic>;
+        return doctorsData
+            .map((json) =>
+            FavoriteDoctorModel.fromJson(json as Map<String, dynamic>))
+            .toList();
+      } else {
+        throw RepositoryException(
+          apiResponse.message ?? 'Failed to fetch favorite doctors',
+        );
+      }
+    } on ApiException catch (e) {
+      print('🔴 Repository: ApiException - ${e.message}');
+      throw RepositoryException(e.message);
+    } catch (e) {
+      print('🔴 Repository: Unexpected error - $e');
+      throw RepositoryException(
+          'Failed to fetch favorite doctors: ${e.toString()}');
+    }
+  }
+}
