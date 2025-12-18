@@ -1,0 +1,58 @@
+{
+  "@@locale": "en",
+
+  "appName": "Medical App",
+  "@appName": {
+    "description": "Application name"
+  },
+
+  "letsFindDoctor": "Let's find a doctor",
+  "@letsFindDoctor": {
+    "description": "Home page greeting"
+  },
+
+  "searchSpecialist": "Search Specialist/City",
+  "topDoctors": "Top Doctors",
+  "seeAll": "See All",
+  "categories": "Categories",
+  "myAppointment": "My Appointment",
+  "upcoming": "Upcoming",
+  "completed": "Completed",
+  "bookAppointment": "Book Appointment",
+  "selectDate": "Select Date",
+  "selectHour": "Select Hour",
+  "next": "Next",
+  "cancel": "Cancel",
+  "submit": "Submit",
+  "update": "Update",
+  "reviews": "Reviews",
+  "reschedule": "Reschedule",
+  "viewDetail": "View Detail",
+  "workingTime": "Working Time",
+  "aboutMe": "About Me",
+  "patientDetails": "Patient Details",
+  "fullName": "Full Name",
+  "dateOfBirth": "Date of Birth",
+  "weight": "Weight",
+  "writeYourSymptoms": "Write Your Symptoms",
+  "gender": "Gender",
+  "blood": "Blood",
+  "addNewCard": "Add New Card",
+  "cardName": "Card Name",
+  "cardNumber": "Card Number",
+  "expiryDate": "Expiry Date",
+  "cvv": "CVV",
+  "payments": "Payments",
+  "selectPaymentMethod": "Select Payment Method",
+  "aboutApp": "About App",
+  "notification": "Notification",
+  "changePassword": "Change Password",
+  "faqs": "FAQs",
+  "help": "Help",
+  "logout": "Logout",
+  "yourAge": "Your Age",
+  "writeReview": "Write Review",
+  "sendMail": "Send Mail",
+  "editProfile": "Edit Profile",
+  "emailID": "Email ID"
+}
