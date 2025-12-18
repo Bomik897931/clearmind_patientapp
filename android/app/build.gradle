@@ -30,6 +30,8 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        //Enable core library desugaring(flutter_local_notification)
+        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
@@ -42,7 +44,7 @@ android {
 
     defaultConfig {
         applicationId "com.clearmind.patient_app"
-        minSdk 21
+        minSdkVersion flutter.minSdkVersion
         targetSdk 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -75,4 +77,7 @@ flutter {
 
 dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
+    //    flutter_local_notification
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+//    implementation platform('com.google.firebase:firebase-bom:34.7.0')
 }

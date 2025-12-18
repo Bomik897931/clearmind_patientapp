@@ -12,6 +12,7 @@ import 'data/services/simple_call_service.dart';
 import 'modules/Auth/controllers/auth_controller.dart';
 
 void main() async {
+  print('This print use for testing purpose for GitHub');
   // Catch Flutter framework errors FIRST (before runZonedGuarded)
   FlutterError.onError = (FlutterErrorDetails details) {
     print('❌ FLUTTER ERROR: ${details.exception}');
