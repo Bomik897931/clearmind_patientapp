@@ -102,7 +102,7 @@ class AppStrings {
   static String get selectPaymentMethod => _l10n.selectPaymentMethod;
   static String get aboutApp => _l10n.aboutApp;
   static String get notification => _l10n.notification;
-  // static String get language => _l10n.language;
+  static String get language => _l10n.language;
   static String get changePassword => _l10n.changePassword;
   static String get faqs => _l10n.faqs;
   static String get help => _l10n.help;

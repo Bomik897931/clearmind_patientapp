@@ -379,7 +379,7 @@ class BookAppointmentScreen extends GetView<BookAppointmentController> {
           width: double.infinity,
           height: 56,
           child: ElevatedButton(
-            onPressed: controller.onNext,
+            onPressed: controller.bookAppointment,
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF00BCD4),
               shape: RoundedRectangleBorder(

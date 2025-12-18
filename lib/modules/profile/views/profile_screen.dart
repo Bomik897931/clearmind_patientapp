@@ -41,7 +41,7 @@ class ProfileScreen extends GetView<ProfileController> {
                     SizedBox(height: AppDimensions.paddingMD),
                     ProfileMenuItem(
                       icon: Icons.notifications_outlined,
-                      title: "Language",
+                      title: AppStrings.language,
                       iconColor: AppColors.warning,
                       trailing: Obx(
                         () => Switch(

@@ -205,7 +205,7 @@ class MyAppointmentsScreen extends GetView<MyAppointmentsController> {
           type: type,
           onTap: () => controller.onAppointmentTap(appointment),
           onReschedule: () => controller.onReschedule(appointment),
-          onCancel: () => controller.onCancelAppointment(appointment),
+          onCancel: () => controller.showCancelDialog(appointment),
           onLeaveReview: () => controller.onLeaveReview(appointment),
           onBookAgain: () => controller.onBookAgain(appointment),
           onCall: () => controller.onCall(appointment),

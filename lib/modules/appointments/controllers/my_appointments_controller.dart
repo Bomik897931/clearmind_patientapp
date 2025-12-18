@@ -108,6 +108,7 @@ import 'package:patient_app/core/routes/app_routes.dart';
 import '../../../data/models/appointment_model.dart';
 import '../../../data/repositories/appointment_repository.dart';
 import '../../../data/services/StorageService.dart';
+import '../../../widgets/cancel_appointment_dialog.dart';
 
 class MyAppointmentsController extends GetxController with GetSingleTickerProviderStateMixin {
   final AppointmentsRepository _repository;
@@ -210,27 +211,76 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
       'reschedule': true,
     });
   }
+  void showCancelDialog(Appointment appointment) {
+    Get.dialog(
+      CancelAppointmentDialog(
+        appointment: appointment,
+        onConfirm: () => onCancelAppointment(appointment),
+      ),
+      barrierDismissible: true,
+    );
+  }
 
-  void onCancelAppointment(Appointment appointment) {
-    Get.defaultDialog(
-      title: 'Cancel Appointment',
-      middleText: 'Are you sure you want to cancel this appointment?',
-      textCancel: 'No',
-      textConfirm: 'Yes, Cancel',
-      confirmTextColor: Colors.white,
-      onConfirm: () {
-        // Call cancel API
+  Future<void> onCancelAppointment(Appointment appointment) async {
+    try {
+      Get.back(); // Close dialog
+
+      // Show loading
+      Get.dialog(
+        const Center(
+          child: CircularProgressIndicator(
+            color: Color(0xFF00BCD4),
+          ),
+        ),
+        barrierDismissible: false,
+      );
+
+      final token = await _storage.getToken();
+      if (token == null) {
         Get.back();
+        Get.snackbar('Error', 'Please login first');
+        return;
+      }
+
+      final success = await _repository.cancelAppointment(
+        token: token,
+        appointmentId: appointment.appointmentId,
+      );
+
+      Get.back(); // Close loading
+
+      if (success) {
         Get.snackbar(
-          'Cancelled',
+          'Success',
           'Appointment cancelled successfully',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 2),
+        );
+
+        // Refresh appointments list
+        await loadAppointments();
+      } else {
+        Get.snackbar(
+          'Error',
+          'Failed to cancel appointment',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
           colorText: Colors.white,
         );
-        loadAppointments(); // Refresh list
-      },
-    );
+      }
+    } catch (e) {
+      Get.back(); // Close loading if open
+      print('🔴 Error cancelling appointment: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to cancel appointment',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
 
   // void onLeaveReview(Appointment appointment) {

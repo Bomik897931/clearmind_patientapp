@@ -258,11 +258,16 @@ class HomeScreen extends GetView<HomeController> {
                 color: AppColors.white,
                 size: AppDimensions.iconXL,
               ),
-              // Icon(
-              //   Icons.notifications_none,
-              //   color: AppColors.white,
-              //   size: AppDimensions.iconLG,
-              // ),
+              GestureDetector(
+                onTap: (){
+                  controller.onFavoriteTap();
+                },
+                child: Icon(
+                  Icons.favorite,
+                  color: AppColors.white,
+                  size: AppDimensions.iconLG,
+                ),
+              ),
             ],
           ),
 

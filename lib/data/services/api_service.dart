@@ -332,6 +332,49 @@ class ApiService {
       throw ApiException('Failed to parse response: ${e.toString()}');
     }
   }
+  Future<Map<String, dynamic>> delete({
+    required String endpoint,
+    Map<String, String>? headers,
+  }) async {
+    try {
+      final url = Uri.parse('$baseUrl$endpoint');
+
+      print('🔵 API Service: DELETE $url');
+
+      final defaultHeaders = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+
+      final response = await http.delete(
+        url,
+        headers: headers ?? defaultHeaders,
+      ).timeout(
+        const Duration(seconds: 30),
+        onTimeout: () {
+          throw ApiException(
+            'Connection timeout. Please check your internet connection.',
+          );
+        },
+      );
+
+      print('🟢 API Service: Response Status: ${response.statusCode}');
+      print('🟢 API Service: Response Body: ${response.body}');
+
+      return _handleResponse(response);
+    } on http.ClientException catch (e) {
+      print('🔴 API Service: ClientException - $e');
+      throw ApiException('Network connection failed. Please check internet.');
+    } on FormatException catch (e) {
+      print('🔴 API Service: FormatException - $e');
+      throw ApiException('Invalid response from server.');
+    } catch (e) {
+      print('🔴 API Service: Unexpected error - $e');
+      if (e is ApiException) rethrow;
+      throw ApiException('Network error: ${e.toString()}');
+    }
+  }
+
 
   Future<dynamic> getRaw({
     required String endpoint,

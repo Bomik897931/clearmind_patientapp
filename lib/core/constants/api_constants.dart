@@ -11,6 +11,7 @@ class ApiConstants {
   static const String getSlotsEndpoint = 'Patient/all-slots';
   static const String bookAppointmentEndpoint = 'Patient/book-appointment';
   static const String doctorSlotsEndpoint = 'Patient/doctor-slots';
+  static const String cancelAppointmentEndpoint = 'Patient/cancel-appointment';
   static const String getAppointmentsEndpoint = 'Patient/my-appointmentsPnt';// Update with your endpoint// Update with your endpoint
   static const String addReviewEndpoint = 'Patient/add-review';
   static const String getReviewsEndpoint = 'Patient/get-reviews';

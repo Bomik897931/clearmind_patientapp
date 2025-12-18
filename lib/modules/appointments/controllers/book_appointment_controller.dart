@@ -63,9 +63,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../data/models/appointment_request_model.dart';
 import '../../../data/models/doctor_model.dart';
 import '../../../data/models/slot_model.dart';
 import '../../../data/repositories/appointment_repository.dart';
+import '../../../data/repositories/user_repository.dart';
 import '../../../data/services/StorageService.dart';
 
 class BookAppointmentController extends GetxController {
@@ -167,6 +169,96 @@ class BookAppointmentController extends GetxController {
         backgroundColor: Colors.orange,
         colorText: Colors.white,
       );
+    }
+  }
+
+  Future<void> bookAppointment() async {
+    if (selectedSlot.value == null) {
+      Get.snackbar('Error', 'Please select a slot');
+      return;
+    }
+
+    // if (reasonController.text.trim().isEmpty) {
+    //   Get.snackbar('Error', 'Please enter reason for appointment');
+    //   return;
+    // }
+
+    // Use doctor ID from selected slot if not passed from arguments
+    final finalDoctorUserId = selectedSlot.value!.doctorId;
+
+    try {
+      // isBooking.value = true;
+
+      final token = await _storage.getToken();
+      final user = await _storage.getUser();
+
+      if (token == null || user == null) {
+        Get.snackbar('Error', 'Please login first');
+        Get.offAllNamed('/login');
+        return;
+      }
+
+      if (user.userId == null) {
+        Get.snackbar('Error', 'User ID not found. Please login again.');
+        Get.offAllNamed('/login');
+        return;
+      }
+
+      print('🔵 Controller: Booking appointment...');
+
+      final request = BookAppointmentRequest(
+        doctorUserId: finalDoctorUserId,
+        patientUserId: user.userId!,
+        slotId: selectedSlot.value!.slotId,
+        reason: "",
+        notes: "",
+      );
+
+      final appointment = await _repository.bookAppointment(
+        token: token,
+        request: request,
+      );
+
+      print('🟢 Controller: Appointment booked successfully');
+
+      // Clear form
+      // reasonController.clear();
+      // notesController.clear();
+      selectedSlot.value = null;
+
+      Get.snackbar(
+        'Success',
+        'Appointment booked successfully!',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+      );
+
+      // Navigate to my appointments after short delay
+      await Future.delayed(const Duration(seconds: 1));
+      Get.offAllNamed('/my-appointments');
+
+    } on RepositoryException catch (e) {
+      print('🔴 Controller: RepositoryException - ${e.message}');
+      Get.snackbar(
+        'Error',
+        e.message,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      print('🔴 Controller: Unexpected error - $e');
+      Get.snackbar(
+        'Error',
+        'Failed to book appointment',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } finally {
+      // isBooking.value = false;
     }
   }
 

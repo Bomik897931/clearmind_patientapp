@@ -120,6 +120,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notification => 'Notification';
 
   @override
+  String get language => 'Language';
+
+  @override
   String get changePassword => 'Change Password';
 
   @override
