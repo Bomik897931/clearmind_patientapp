@@ -120,7 +120,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get notification => 'सूचना';
 
   @override
-  String get language => 'सूचना';
+  String get language => 'भाषा';
 
   @override
   String get changePassword => 'पासवर्ड बदलें';
