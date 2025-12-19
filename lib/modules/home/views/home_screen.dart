@@ -260,7 +260,7 @@ class HomeScreen extends GetView<HomeController> {
               ),
               GestureDetector(
                 onTap: (){
-                  controller.onFavoriteTap();
+                  controller.onNotificationTap();
                 },
                 child: Icon(
                   Icons.notifications,

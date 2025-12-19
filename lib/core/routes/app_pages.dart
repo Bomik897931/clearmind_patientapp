@@ -46,6 +46,8 @@ import '../../modules/favorite/controller/favorite_controller.dart';
 import '../../modules/favorite/view/favorite_screen.dart';
 import '../../modules/homevc/view/homevc_view.dart';
 import '../../modules/incomingCall/view/incoming_call_screen.dart';
+import '../../modules/notifications/controller/notification_controller.dart';
+import '../../modules/notifications/views/notification_screen.dart';
 import '../../modules/review/controller/review_controller.dart';
 import '../../modules/review/controller/review_list_controller.dart';
 import '../../modules/review/views/review_list_screen.dart';
@@ -258,6 +260,13 @@ class AppPages {
       page: () => const FavoriteDoctorsScreen(),
       binding: BindingsBuilder(() {
         Get.lazyPut(() => FavoriteDoctorsController());
+      }),
+    ),
+    GetPage(
+      name: AppRoutes.NOTIFICATIONS,
+      page: () => const NotificationScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => NotificationController());
       }),
     ),
     GetPage(name: AppRoutes.LanguageSwitcher, page: () => LanguageSwitcher())

@@ -40,7 +40,7 @@ class BottomNavBar extends StatelessWidget {
             onTap: () => Get.toNamed(AppRoutes.MY_APPOINTMENTS),
           ),
           _buildNavItem(
-            icon: Icons.favorite,
+            icon: Icons.favorite_border,
             activeIcon: Icons.watch_outlined,
             index: 2,
             onTap: () => Get.toNamed(AppRoutes.FAVORITE_DOCTORS),

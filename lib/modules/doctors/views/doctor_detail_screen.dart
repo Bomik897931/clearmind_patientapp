@@ -831,15 +831,15 @@ class DoctorDetailScreen extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         )),
-        actions: [
-          Obx(() => IconButton(
-            icon: Icon(
-              controller.isFavorite.value ? Icons.favorite : Icons.favorite_border,
-              color: controller.isFavorite.value ? Colors.red : Colors.grey[600],
-            ),
-            onPressed: controller.toggleFavorite,
-          )),
-        ],
+        // actions: [
+        //   Obx(() => IconButton(
+        //     icon: Icon(
+        //       controller.isFavorite.value ? Icons.favorite : Icons.favorite_border,
+        //       color: controller.isFavorite.value ? Colors.red : Colors.grey[600],
+        //     ),
+        //     onPressed: controller.toggleFavorite,
+        //   )),
+        // ],
       ),
       body: Obx(() {
         if (controller.isLoading.value) {

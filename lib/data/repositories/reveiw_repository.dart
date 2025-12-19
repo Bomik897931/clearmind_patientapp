@@ -24,7 +24,7 @@ class ReviewRepository {
       final response = await _apiService.post(
         endpoint: ApiConstants.addReviewEndpoint,
         body: {
-          'doctorId': 15,
+          'doctorId': doctorId,
           'appointmentId': appointmentId,
           'rating': rating,
           'reviewText': reviewText,

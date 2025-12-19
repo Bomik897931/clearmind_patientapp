@@ -80,14 +80,14 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
             fontWeight: FontWeight.w600,
           ),
         )),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search, color: Colors.black),
-            onPressed: () {
-              // Implement search functionality
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.search, color: Colors.black),
+        //     onPressed: () {
+        //       // Implement search functionality
+        //     },
+        //   ),
+        // ],
       ),
       body: Obx(() {
         if (controller.isLoading.value) {

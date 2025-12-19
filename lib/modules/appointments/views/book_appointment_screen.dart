@@ -387,8 +387,8 @@ class BookAppointmentScreen extends GetView<BookAppointmentController> {
               ),
               elevation: 0,
             ),
-            child: const Text(
-              'Next',
+            child:  Text(
+              AppStrings.next,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
