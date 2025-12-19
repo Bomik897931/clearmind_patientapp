@@ -40,10 +40,10 @@ class BottomNavBar extends StatelessWidget {
             onTap: () => Get.toNamed(AppRoutes.MY_APPOINTMENTS),
           ),
           _buildNavItem(
-            icon: Icons.watch,
+            icon: Icons.favorite,
             activeIcon: Icons.watch_outlined,
             index: 2,
-            onTap: () => Get.toNamed(AppRoutes.BOOK_SLOT),
+            onTap: () => Get.toNamed(AppRoutes.FAVORITE_DOCTORS),
           ),
           _buildNavItem(
             icon: Icons.person_outline,
