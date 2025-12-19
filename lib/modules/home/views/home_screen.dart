@@ -263,7 +263,7 @@ class HomeScreen extends GetView<HomeController> {
                   controller.onFavoriteTap();
                 },
                 child: Icon(
-                  Icons.favorite,
+                  Icons.notifications,
                   color: AppColors.white,
                   size: AppDimensions.iconLG,
                 ),
