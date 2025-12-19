@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../Auth/controllers/auth_controller.dart';
 
 class HomeVCScreen extends StatelessWidget {
@@ -44,7 +45,7 @@ class HomeVCScreen extends StatelessWidget {
                               'U',
                           style: const TextStyle(
                             fontSize: 32,
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -57,7 +58,7 @@ class HomeVCScreen extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         authController.currentUser.value?.email ?? '',
-                        style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                        style: TextStyle(color: AppColors.grey600, fontSize: 14),
                       ),
                     ],
                   ),

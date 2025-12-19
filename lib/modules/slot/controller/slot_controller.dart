@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/appointment_request_model.dart';
 import '../../../data/models/slot_model.dart';
 import '../../../data/repositories/slot_repository.dart';
@@ -168,8 +169,8 @@ class SlotsController extends GetxController {
         'Success',
         'Appointment booked successfully!',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
+        backgroundColor: AppColors.green,
+        colorText: AppColors.white,
         duration: const Duration(seconds: 3),
       );
 
@@ -183,8 +184,8 @@ class SlotsController extends GetxController {
         'Error',
         e.message,
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } catch (e) {
       print('🔴 Controller: Unexpected error - $e');
@@ -192,8 +193,8 @@ class SlotsController extends GetxController {
         'Error',
         'Failed to book appointment',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } finally {
       isBooking.value = false;

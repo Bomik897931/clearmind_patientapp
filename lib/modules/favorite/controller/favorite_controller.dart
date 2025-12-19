@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/favorite_model.dart';
 import '../../../data/repositories/doctor_repository.dart';
 import '../../../data/services/StorageService.dart';
@@ -18,6 +19,8 @@ class FavoriteDoctorsController extends GetxController {
 
   final RxList<FavoriteDoctorModel> favoriteDoctors = <FavoriteDoctorModel>[].obs;
   final RxBool isLoading = false.obs;
+
+  final RxInt selectedBottomIndex = 2.obs;
 
   @override
   void onInit() {
@@ -46,8 +49,8 @@ class FavoriteDoctorsController extends GetxController {
         'Error',
         'Failed to load favorite doctors',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } finally {
       isLoading.value = false;
@@ -89,8 +92,8 @@ class FavoriteDoctorsController extends GetxController {
           'Success',
           'Removed from favorites',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
+          backgroundColor: AppColors.green,
+          colorText: AppColors.white,
           duration: const Duration(seconds: 2),
         );
       } else {
@@ -105,8 +108,8 @@ class FavoriteDoctorsController extends GetxController {
         'Error',
         'Failed to remove from favorites',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     }
   }

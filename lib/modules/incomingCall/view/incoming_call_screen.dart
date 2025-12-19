@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patient_app/data/services/simple_call_service.dart';
 
+import '../../../core/constants/app_colors.dart';
+
 class IncomingCallScreen extends StatelessWidget {
   const IncomingCallScreen({super.key});
 
@@ -33,10 +35,10 @@ class IncomingCallScreen extends StatelessWidget {
                 const SizedBox(height: 80),
 
                 // Incoming call text
-                const Text(
+                 Text(
                   'Incoming Video Call',
                   style: TextStyle(
-                    color: Colors.white70,
+                    color: AppColors.white,
                     fontSize: 20,
                     letterSpacing: 1.5,
                   ),
@@ -53,7 +55,7 @@ class IncomingCallScreen extends StatelessWidget {
                 Text(
                   callerName,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
                   ),
@@ -73,7 +75,7 @@ class IncomingCallScreen extends StatelessWidget {
                             : 1.0,
                         child: const Text(
                           'is calling you...',
-                          style: TextStyle(color: Colors.white70, fontSize: 20),
+                          style: TextStyle(color: AppColors.white, fontSize: 20),
                         ),
                       );
                     },
@@ -95,7 +97,7 @@ class IncomingCallScreen extends StatelessWidget {
                       _buildActionButton(
                         icon: Icons.call_end,
                         label: 'Decline',
-                        color: Colors.red,
+                        color: AppColors.red,
                         onPressed: () {
                           callService.rejectCall();
                         },
@@ -107,7 +109,7 @@ class IncomingCallScreen extends StatelessWidget {
                       _buildActionButton(
                         icon: Icons.videocam,
                         label: 'Accept',
-                        color: Colors.green,
+                        color: AppColors.green,
                         onPressed: () {
                           callService.acceptCall();
                         },
@@ -136,10 +138,10 @@ class IncomingCallScreen extends StatelessWidget {
             height: 160,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 5),
+              border: Border.all(color: AppColors.white, width: 5),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
+                  color: AppColors.black.withOpacity(0.3),
                   blurRadius: 30,
                   spreadRadius: 10,
                 ),
@@ -147,7 +149,7 @@ class IncomingCallScreen extends StatelessWidget {
             ),
             child: CircleAvatar(
               radius: 75,
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.white,
               child: Icon(Icons.person, size: 80, color: Colors.blue.shade900),
             ),
           ),
@@ -183,7 +185,7 @@ class IncomingCallScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Icon(icon, color: Colors.white, size: 45),
+              child: Icon(icon, color: AppColors.white, size: 45),
             ),
           ),
         ),
@@ -191,7 +193,7 @@ class IncomingCallScreen extends StatelessWidget {
         Text(
           label,
           style: const TextStyle(
-            color: Colors.white,
+            color: AppColors.white,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),

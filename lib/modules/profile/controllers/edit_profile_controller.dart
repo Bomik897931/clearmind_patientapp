@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patient_app/data/repositories/user_repository.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/profile_model.dart';
 import '../../../data/services/StorageService.dart';
 
@@ -159,8 +160,8 @@ class EditProfileController extends GetxController {
       'Success',
       message.isEmpty ? 'Registration successful!' : message,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
+      backgroundColor: AppColors.green,
+      colorText: AppColors.white,
       duration: const Duration(seconds: 3),
     );
   }
@@ -169,8 +170,8 @@ class EditProfileController extends GetxController {
       'Error',
       message,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
+      backgroundColor: AppColors.red,
+      colorText: AppColors.white,
       duration: const Duration(seconds: 3),
     );
   }

@@ -63,8 +63,8 @@
 //         'Success',
 //         'Login successful!',
 //         snackPosition: SnackPosition.BOTTOM,
-//         backgroundColor: Colors.green,
-//         colorText: Colors.white,
+//         backgroundColor: AppColors.green,
+//         colorText: AppColors.white,
 //       );
 //
 //       Get.offAllNamed('/home');
@@ -73,8 +73,8 @@
 //         'Error',
 //         e.toString(),
 //         snackPosition: SnackPosition.BOTTOM,
-//         backgroundColor: Colors.red,
-//         colorText: Colors.white,
+//         backgroundColor: AppColors.red,
+//         colorText: AppColors.white,
 //       );
 //     } finally {
 //       isLoading.value = false;
@@ -101,8 +101,8 @@
 //         'Success',
 //         'Registration successful!',
 //         snackPosition: SnackPosition.BOTTOM,
-//         backgroundColor: Colors.green,
-//         colorText: Colors.white,
+//         backgroundColor: AppColors.green,
+//         colorText: AppColors.white,
 //       );
 //
 //       Get.offAllNamed('/home');
@@ -111,8 +111,8 @@
 //         'Error',
 //         e.toString(),
 //         snackPosition: SnackPosition.BOTTOM,
-//         backgroundColor: Colors.red,
-//         colorText: Colors.white,
+//         backgroundColor: AppColors.red,
+//         colorText: AppColors.white,
 //       );
 //     } finally {
 //       isLoading.value = false;
@@ -145,8 +145,8 @@
 //         'Error',
 //         e.toString(),
 //         snackPosition: SnackPosition.BOTTOM,
-//         backgroundColor: Colors.red,
-//         colorText: Colors.white,
+//         backgroundColor: AppColors.red,
+//         colorText: AppColors.white,
 //       );
 //     } finally {
 //       isLoading.value = false;
@@ -215,6 +215,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patient_app/data/models/register_response.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/register_request.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/repositories/user_repository.dart';
@@ -576,8 +577,8 @@ class AuthController extends GetxController {
       'Error',
       message,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
+      backgroundColor: AppColors.red,
+      colorText: AppColors.white,
       duration: const Duration(seconds: 3),
     );
   }
@@ -593,8 +594,8 @@ class AuthController extends GetxController {
       'Success',
       message.isEmpty ? 'Registration successful!' : message,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
+      backgroundColor: AppColors.green,
+      colorText: AppColors.white,
       duration: const Duration(seconds: 3),
     );
   }
@@ -624,8 +625,8 @@ class AuthController extends GetxController {
         'Error',
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } finally {
       isLoading.value = false;

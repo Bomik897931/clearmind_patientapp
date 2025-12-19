@@ -105,6 +105,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patient_app/core/routes/app_routes.dart';
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/appointment_model.dart';
 import '../../../data/repositories/appointment_repository.dart';
 import '../../../data/services/StorageService.dart';
@@ -191,8 +192,8 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
         'Error',
         'Failed to load appointments',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } finally {
       isLoading.value = false;
@@ -229,7 +230,7 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
       Get.dialog(
         const Center(
           child: CircularProgressIndicator(
-            color: Color(0xFF00BCD4),
+            color: AppColors.circularprogressindicator,
           ),
         ),
         barrierDismissible: false,
@@ -254,8 +255,8 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
           'Success',
           'Appointment cancelled successfully',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
+          backgroundColor: AppColors.green,
+          colorText: AppColors.white,
           duration: const Duration(seconds: 2),
         );
 
@@ -266,8 +267,8 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
           'Error',
           'Failed to cancel appointment',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
+          backgroundColor: AppColors.red,
+          colorText: AppColors.white,
         );
       }
     } catch (e) {
@@ -277,8 +278,8 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
         'Error',
         'Failed to cancel appointment',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     }
   }

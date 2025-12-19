@@ -75,7 +75,7 @@ class SearchBarWidget extends StatelessWidget {
     return Container(
       height: 44, // matches your image height
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(AppDimensions.radiusLG),
       ),
       child: TextField(
@@ -89,9 +89,12 @@ class SearchBarWidget extends StatelessWidget {
           ),
           border: InputBorder.none,
           prefixIconConstraints: const BoxConstraints(minWidth: 0),
-          prefixIcon: Icon(
-            Icons.search,
-            color: AppColors.textTertiary,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 5.0),
+            child: Icon(
+              Icons.search,
+              color: AppColors.textTertiary,
+            ),
           ),
           suffixIcon: Obx(() {
             if (controller.searchQuery.value.isEmpty) {

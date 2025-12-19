@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controller/locale_controller.dart';
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/services/StorageService.dart';
 
@@ -71,8 +72,8 @@ class ProfileController extends GetxController {
         'Success',
         'Logged out successfully',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
+        backgroundColor: AppColors.green,
+        colorText: AppColors.white,
       );
     } catch (e) {
       print('🔴 Controller: Logout error - $e');
@@ -80,8 +81,8 @@ class ProfileController extends GetxController {
         'Error',
         'Failed to logout',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } finally {
       isLoading.value = false;

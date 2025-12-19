@@ -127,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'If you dont have an account? ',
-                                style: TextStyle(color: Colors.grey[600]),
+                                style: TextStyle(color: AppColors.grey600),
                               ),
                               TextButton(
                                 onPressed: () => Get.toNamed('/register'),
@@ -207,7 +207,7 @@ class LoginScreen extends StatelessWidget {
     //               'Sign in to continue',
     //               style: Theme.of(
     //                 context,
-    //               ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
+    //               ).textTheme.bodyLarge?.copyWith(color: AppColors.grey600),
     //               textAlign: TextAlign.center,
     //             ),
     //             const SizedBox(height: 48),
@@ -266,7 +266,7 @@ class LoginScreen extends StatelessWidget {
     //                     ),
     //                   ),
     //                   child: authController.isLoading.value
-    //                       ? const CircularProgressIndicator(color: Colors.white)
+    //                       ? const CircularProgressIndicator(color: AppColors.white)
     //                       : const Text('Login', style: TextStyle(fontSize: 16)),
     //                 ),
     //               ),
@@ -279,7 +279,7 @@ class LoginScreen extends StatelessWidget {
     //               children: [
     //                 Text(
     //                   "Don't have an account? ",
-    //                   style: TextStyle(color: Colors.grey[600]),
+    //                   style: TextStyle(color: AppColors.grey600),
     //                 ),
     //                 TextButton(
     //                   onPressed: () => Get.toNamed('/register'),

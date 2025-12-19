@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_strings.dart';
 import '../../../data/models/notification_model.dart';
 import '../controller/notification_controller.dart';
 
@@ -12,16 +14,16 @@ class NotificationScreen extends GetView<NotificationController> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () => Get.back(),
         ),
-        title: const Text(
-          'Notification',
+        title:  Text(
+          AppStrings.notification,
           style: TextStyle(
-            color: Colors.black,
+            color: AppColors.black,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
@@ -31,7 +33,7 @@ class NotificationScreen extends GetView<NotificationController> {
         if (controller.isLoading.value) {
           return const Center(
             child: CircularProgressIndicator(
-              color: Color(0xFF00BCD4),
+              color: AppColors.circularprogressindicator,
             ),
           );
         }
@@ -50,7 +52,7 @@ class NotificationScreen extends GetView<NotificationController> {
                 Text(
                   'No notifications yet',
                   style: TextStyle(
-                    color: Colors.grey[600],
+                    color: AppColors.grey600,
                     fontSize: 16,
                   ),
                 ),
@@ -63,7 +65,7 @@ class NotificationScreen extends GetView<NotificationController> {
 
         return RefreshIndicator(
           onRefresh: controller.refresh,
-          color: const Color(0xFF00BCD4),
+          color:  AppColors.circularprogressindicator,
           child: ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 16),
             itemCount: grouped.length,
@@ -90,7 +92,7 @@ class NotificationScreen extends GetView<NotificationController> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: Colors.grey[600],
+              color: AppColors.grey600,
             ),
           ),
         ),
@@ -103,11 +105,11 @@ class NotificationScreen extends GetView<NotificationController> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: AppColors.black.withOpacity(0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -116,7 +118,8 @@ class NotificationScreen extends GetView<NotificationController> {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => controller.onNotificationTap(notification),
+          onTap: (){},
+          // onTap: () => controller.onNotificationTap(notification),
           borderRadius: BorderRadius.circular(12),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -127,12 +130,12 @@ class NotificationScreen extends GetView<NotificationController> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF00BCD4).withOpacity(0.1),
+                    color:  AppColors.circularprogressindicator.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Icon(
                     notification.icon,
-                    color: const Color(0xFF00BCD4),
+                    color:  AppColors.circularprogressindicator,
                     size: 20,
                   ),
                 ),
@@ -150,7 +153,7 @@ class NotificationScreen extends GetView<NotificationController> {
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.black87,
+                                color: AppColors.black87,
                               ),
                             ),
                           ),
@@ -168,7 +171,7 @@ class NotificationScreen extends GetView<NotificationController> {
                         notification.message,
                         style: TextStyle(
                           fontSize: 13,
-                          color: Colors.grey[700],
+                          color: AppColors.grey700,
                           height: 1.4,
                         ),
                         maxLines: 3,

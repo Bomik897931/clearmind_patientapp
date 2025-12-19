@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:patient_app/core/constants/app_colors.dart';
 
 import '../controllers/auth_controller.dart';
 
@@ -38,7 +39,7 @@ class RegisterScreen extends StatelessWidget {
                   'Create your account',
                   style: Theme.of(
                     context,
-                  ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
+                  ).textTheme.bodyLarge?.copyWith(color: AppColors.grey600),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 48),
@@ -138,7 +139,7 @@ class RegisterScreen extends StatelessWidget {
                         ),
                       ),
                       child: authController.isLoading.value
-                          ? const CircularProgressIndicator(color: Colors.white)
+                          ? const CircularProgressIndicator(color: AppColors.white)
                           : const Text(
                               'Sign Up',
                               style: TextStyle(fontSize: 16),
@@ -154,7 +155,7 @@ class RegisterScreen extends StatelessWidget {
                   children: [
                     Text(
                       'Already have an account? ',
-                      style: TextStyle(color: Colors.grey[600]),
+                      style: TextStyle(color: AppColors.grey600),
                     ),
                     TextButton(
                       onPressed: () => Get.toNamed('/login'),

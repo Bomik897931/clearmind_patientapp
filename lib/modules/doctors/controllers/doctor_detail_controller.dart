@@ -75,6 +75,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/doctor_model.dart';
 import '../../../data/repositories/doctor_repository.dart';
 import '../../../data/services/StorageService.dart';
@@ -136,8 +137,8 @@ class DoctorDetailController extends GetxController {
         'Error',
         'Failed to load doctor details',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } finally {
       isLoading.value = false;

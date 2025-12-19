@@ -64,25 +64,25 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: AppColors.grey50,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () => Get.back(),
         ),
         title: Obx(() => Text(
           controller.specialization.value?.specializationName ?? 'Doctors',
           style: const TextStyle(
-            color: Colors.black,
+            color: AppColors.black,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
         )),
         // actions: [
         //   IconButton(
-        //     icon: const Icon(Icons.search, color: Colors.black),
+        //     icon: const Icon(Icons.search, color: AppColors.black),
         //     onPressed: () {
         //       // Implement search functionality
         //     },
@@ -93,7 +93,7 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
         if (controller.isLoading.value) {
           return const Center(
             child: CircularProgressIndicator(
-              color: Color(0xFF00BCD4),
+              color: AppColors.circularprogressindicator,
             ),
           );
         }
@@ -106,13 +106,13 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
                 Icon(
                   Icons.medical_services_outlined,
                   size: 64,
-                  color: Colors.grey[400],
+                  color: AppColors.grey400,
                 ),
                 const SizedBox(height: 16),
                 Text(
                   'No doctors found',
                   style: TextStyle(
-                    color: Colors.grey[600],
+                    color: AppColors.grey600,
                     fontSize: 16,
                   ),
                 ),
@@ -123,7 +123,7 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
 
         return RefreshIndicator(
           onRefresh: controller.refresh,
-          color: const Color(0xFF00BCD4),
+          color:  AppColors.circularprogressindicator,
           child: ListView.separated(
             padding: const EdgeInsets.all(16),
             itemCount: controller.doctors.length,
@@ -141,11 +141,11 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
   Widget _buildDoctorCard(DoctorModel doctor) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -184,7 +184,7 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: AppColors.black87,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -192,7 +192,7 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
                         '${doctor.specialty} | ${doctor.wokingHospital}',
                         style: TextStyle(
                           fontSize: 13,
-                          color: Colors.grey[600],
+                          color: AppColors.grey600,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -204,7 +204,7 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
                           const Icon(
                             Icons.star,
                             size: 18,
-                            color: Colors.orange,
+                            color: AppColors.orange,
                           ),
                           const SizedBox(width: 4),
                           Flexible(
@@ -212,7 +212,7 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
                               '${doctor.rating} (${_formatReviews(doctor.reviews)} reviews)',
                               style: TextStyle(
                                 fontSize: 13,
-                                color: Colors.grey[700],
+                                color: AppColors.grey700,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -228,7 +228,7 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
                   onPressed: () => controller.toggleFavorite(doctor),
                   icon: Icon(
                     doctor.isFavorite.value ? Icons.favorite : Icons.favorite_border,
-                    color: doctor.isFavorite.value ? Colors.red : const Color(0xFF00BCD4),
+                    color: doctor.isFavorite.value ? AppColors.red : AppColors.circularprogressindicator,
                     size: 28,
                   ),
                 )),

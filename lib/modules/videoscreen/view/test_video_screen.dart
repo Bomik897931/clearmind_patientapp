@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/services/simple_call_service.dart';
 import '../../Auth/controllers/auth_controller.dart';
 
@@ -46,7 +47,7 @@ class TestVideoScreen extends StatelessWidget {
 //                               'U',
 //                           style: const TextStyle(
 //                             fontSize: 32,
-//                             color: Colors.white,
+//                             color: AppColors.white,
 //                             fontWeight: FontWeight.bold,
 //                           ),
 //                         ),
@@ -113,22 +114,22 @@ class TestVideoScreen extends StatelessWidget {
 //             Container(
 //               padding: const EdgeInsets.all(16),
 //               decoration: BoxDecoration(
-//                 color: Colors.orange.shade50,
+//                 color: AppColors.orange.shade50,
 //                 borderRadius: BorderRadius.circular(12),
-//                 border: Border.all(color: Colors.orange.shade200),
+//                 border: Border.all(color: AppColors.orange.shade200),
 //               ),
 //               child: Column(
 //                 crossAxisAlignment: CrossAxisAlignment.stretch,
 //                 children: [
 //                   Row(
 //                     children: [
-//                       Icon(Icons.science, color: Colors.orange.shade700),
+//                       Icon(Icons.science, color: AppColors.orange.shade700),
 //                       const SizedBox(width: 8),
 //                       Text(
 //                         'Test Incoming Call',
 //                         style: TextStyle(
 //                           fontWeight: FontWeight.bold,
-//                           color: Colors.orange.shade700,
+//                           color: AppColors.orange.shade700,
 //                           fontSize: 16,
 //                         ),
 //                       ),
@@ -154,8 +155,8 @@ class TestVideoScreen extends StatelessWidget {
 //                     icon: const Icon(Icons.phone_in_talk),
 //                     label: const Text('Simulate Incoming Call'),
 //                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: Colors.orange,
-//                       foregroundColor: Colors.white,
+//                       backgroundColor: AppColors.orange,
+//                       foregroundColor: AppColors.white,
 //                     ),
 //                   ),
 //                 ],
@@ -285,7 +286,7 @@ class TestVideoScreen extends StatelessWidget {
                       '3. Use SAME channel name\n'
                       '4. Both users will connect!',
                       style: TextStyle(
-                        color: Colors.orange.shade900,
+                        color: AppColors.orangeshade100,
                         height: 1.5,
                       ),
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/review_model.dart';
 import '../controller/review_list_controller.dart';
 
@@ -12,16 +13,16 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () => Get.back(),
         ),
         title: Obx(() => Text(
           '${controller.averageRating} (${controller.reviews.length} reviews)',
           style: const TextStyle(
-            color: Colors.black,
+            color: AppColors.black,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
@@ -32,7 +33,7 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
           // Filter Tabs
           Container(
             padding: const EdgeInsets.all(16),
-            color: Colors.white,
+            color: AppColors.white,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Obx(() => Row(
@@ -59,7 +60,7 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
               if (controller.isLoading.value) {
                 return const Center(
                   child: CircularProgressIndicator(
-                    color: Color(0xFF00BCD4),
+                    color: AppColors.circularprogressindicator,
                   ),
                 );
               }
@@ -76,7 +77,7 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
                       const SizedBox(height: 16),
                       Text(
                         'No reviews yet',
-                        style: TextStyle(color: Colors.grey[600], fontSize: 16),
+                        style: TextStyle(color: AppColors.grey600, fontSize: 16),
                       ),
                     ],
                   ),
@@ -106,10 +107,10 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF00BCD4) : Colors.white,
+          color: isSelected ?  AppColors.circularprogressindicator : AppColors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? const Color(0xFF00BCD4) : Colors.grey[300]!,
+            color: isSelected ?  AppColors.circularprogressindicator : Colors.grey[300]!,
           ),
         ),
         child: Row(
@@ -117,13 +118,13 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
             Icon(
               Icons.star,
               size: 16,
-              color: isSelected ? Colors.white : const Color(0xFF00BCD4),
+              color: isSelected ? AppColors.white :  AppColors.circularprogressindicator,
             ),
             const SizedBox(width: 4),
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? Colors.white : Colors.black87,
+                color: isSelected ? AppColors.white : AppColors.black87,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -137,11 +138,11 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -155,7 +156,7 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
               CircleAvatar(
                 radius: 24,
                 backgroundColor: Colors.grey[300],
-                child: Icon(Icons.person, color: Colors.grey[600]),
+                child: Icon(Icons.person, color: AppColors.grey600),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -183,7 +184,7 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
                     const Icon(
                       Icons.star,
                       size: 16,
-                      color: Color(0xFF00BCD4),
+                      color: AppColors.circularprogressindicator,
                     ),
                     const SizedBox(width: 4),
                     Text(
@@ -191,7 +192,7 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFF00BCD4),
+                        color: AppColors.circularprogressindicator,
                       ),
                     ),
                   ],
@@ -204,7 +205,7 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
             review.reviewText,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[700],
+              color: AppColors.grey700,
               height: 1.5,
             ),
           ),
@@ -215,7 +216,7 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
               const SizedBox(width: 4),
               Text(
                 '953',
-                style: TextStyle(color: Colors.grey[600], fontSize: 13),
+                style: TextStyle(color: AppColors.grey600, fontSize: 13),
               ),
               const SizedBox(width: 16),
               Text(

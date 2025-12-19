@@ -151,13 +151,13 @@ class AppointmentCard extends StatelessWidget {
 
     switch (status.toLowerCase()) {
       case 'confirmed':
-        color = Colors.green;
+        color = AppColors.green;
         break;
       case 'pending':
-        color = Colors.orange;
+        color = AppColors.orange;
         break;
       case 'cancelled':
-        color = Colors.red;
+        color = AppColors.red;
         break;
       case 'completed':
         color = Colors.blue;
@@ -387,7 +387,7 @@ class AppointmentCard extends StatelessWidget {
                 'Join Call',
                 style: AppTextStyles.bodySmall.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: AppColors.white,
                 ),
               ),
             ),
@@ -431,7 +431,7 @@ class AppointmentCard extends StatelessWidget {
                 'Leave a Review',
                 style: AppTextStyles.bodySmall.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: AppColors.white,
                 ),
               ),
             ),
@@ -454,19 +454,19 @@ class AppointmentCard extends StatelessWidget {
         displayStatus = type == 'upcoming' ? 'Upcoming' : 'Confirmed';
         break;
       case 'pending':
-        color = Colors.orange;
+        color = AppColors.orange;
         displayStatus = 'Upcoming';
         break;
       case 'cancelled':
-        color = Colors.red;
+        color = AppColors.red;
         displayStatus = 'Cancelled';
         break;
       case 'completed':
-        color = Colors.blue;
+        color = AppColors.blue;
         displayStatus = 'Completed';
         break;
       default:
-        color = Colors.grey;
+        color = AppColors.lightGrey;
     }
 
     return Container(

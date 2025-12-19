@@ -127,7 +127,7 @@ class CategoryIconWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppDimensions.radiusMD),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
+                  color: AppColors.black.withOpacity(0.08),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),

@@ -63,6 +63,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/appointment_request_model.dart';
 import '../../../data/models/doctor_model.dart';
 import '../../../data/models/slot_model.dart';
@@ -135,8 +136,8 @@ class BookAppointmentController extends GetxController {
           'No Slots Available',
           'No appointment slots available for this date',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.orange,
-          colorText: Colors.white,
+          backgroundColor: AppColors.orange,
+          colorText: AppColors.white,
         );
       }
     } catch (e) {
@@ -145,8 +146,8 @@ class BookAppointmentController extends GetxController {
         'Error',
         'Failed to load appointment slots',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } finally {
       isLoading.value = false;
@@ -166,8 +167,8 @@ class BookAppointmentController extends GetxController {
         'Unavailable',
         'This slot is already booked',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.orange,
-        colorText: Colors.white,
+        backgroundColor: AppColors.orange,
+        colorText: AppColors.white,
       );
     }
   }
@@ -230,8 +231,8 @@ class BookAppointmentController extends GetxController {
         'Success',
         'Appointment booked successfully!',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
+        backgroundColor: AppColors.green,
+        colorText: AppColors.white,
         duration: const Duration(seconds: 3),
       );
 
@@ -245,8 +246,8 @@ class BookAppointmentController extends GetxController {
         'Error',
         e.message,
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } catch (e) {
       print('🔴 Controller: Unexpected error - $e');
@@ -254,8 +255,8 @@ class BookAppointmentController extends GetxController {
         'Error',
         'Failed to book appointment',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } finally {
       // isBooking.value = false;
@@ -268,8 +269,8 @@ class BookAppointmentController extends GetxController {
         'Error',
         'Please select a time slot',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
       return;
     }

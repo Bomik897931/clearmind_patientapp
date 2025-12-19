@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../core/constants/app_colors.dart';
 import '../data/models/favorite_model.dart';
 
 class RemoveFavoriteDialog extends StatelessWidget {
@@ -19,7 +20,7 @@ class RemoveFavoriteDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -42,7 +43,7 @@ class RemoveFavoriteDialog extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: AppColors.black87,
               ),
             ),
             const SizedBox(height: 24),
@@ -62,7 +63,7 @@ class RemoveFavoriteDialog extends StatelessWidget {
                     height: 80,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: const Color(0xFF00BCD4).withOpacity(0.1),
+                      color:  AppColors.circularprogressindicator.withOpacity(0.1),
                     ),
                     child: Center(
                       child: Text(
@@ -72,7 +73,7 @@ class RemoveFavoriteDialog extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF00BCD4),
+                          color: AppColors.circularprogressindicator,
                         ),
                       ),
                     ),
@@ -95,7 +96,7 @@ class RemoveFavoriteDialog extends StatelessWidget {
                           '${doctor.specialty} | Christ Hospital',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.grey[600],
+                            color: AppColors.grey600,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -104,14 +105,14 @@ class RemoveFavoriteDialog extends StatelessWidget {
                             const Icon(
                               Icons.star,
                               size: 14,
-                              color: Colors.orange,
+                              color: AppColors.orange,
                             ),
                             const SizedBox(width: 4),
                             Text(
                               '${doctor.rating} (${doctor.formattedReviews} reviews)',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.grey[700],
+                                color: AppColors.grey700,
                               ),
                             ),
                           ],
@@ -134,7 +135,7 @@ class RemoveFavoriteDialog extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       side: BorderSide(
-                        color: const Color(0xFF00BCD4).withOpacity(0.3),
+                        color:  AppColors.circularprogressindicator.withOpacity(0.3),
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),
@@ -145,7 +146,7 @@ class RemoveFavoriteDialog extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFF00BCD4),
+                        color: AppColors.circularprogressindicator,
                       ),
                     ),
                   ),
@@ -156,7 +157,7 @@ class RemoveFavoriteDialog extends StatelessWidget {
                     onPressed: onConfirm,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
-                      backgroundColor: const Color(0xFF00BCD4),
+                      backgroundColor:  AppColors.circularprogressindicator,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),
                       ),
@@ -166,7 +167,7 @@ class RemoveFavoriteDialog extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                     ),
                   ),

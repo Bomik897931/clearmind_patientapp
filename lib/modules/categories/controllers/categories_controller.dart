@@ -46,6 +46,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patient_app/data/models/doctor_model.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/category_model.dart';
 import '../../../data/repositories/doctor_repository.dart';
 import '../../../data/services/StorageService.dart';
@@ -159,8 +160,8 @@ class DoctorsBySpecializationController extends GetxController {
             'Success',
             wasFavorite ? 'Removed from favorites' : 'Added to favorites',
             snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
+            backgroundColor: AppColors.green,
+            colorText: AppColors.white,
             duration: const Duration(seconds: 1),
           );
         } else {
@@ -178,8 +179,8 @@ class DoctorsBySpecializationController extends GetxController {
         'Error',
         'Failed to update favorite',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     }
   }
