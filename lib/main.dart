@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'app.dart';
@@ -12,7 +11,7 @@ import 'data/services/simple_call_service.dart';
 import 'modules/Auth/controllers/auth_controller.dart';
 
 void main() async {
-  print('This print use for testing purpose for GitHub');
+  print('This print for GitHub');
   // Catch Flutter framework errors FIRST (before runZonedGuarded)
   FlutterError.onError = (FlutterErrorDetails details) {
     print('❌ FLUTTER ERROR: ${details.exception}');
