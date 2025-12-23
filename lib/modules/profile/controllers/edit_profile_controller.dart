@@ -160,7 +160,7 @@ class EditProfileController extends GetxController {
       'Success',
       message.isEmpty ? 'Registration successful!' : message,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: AppColors.green,
+      backgroundColor: AppColors.circularprogressindicator,
       colorText: AppColors.white,
       duration: const Duration(seconds: 3),
     );

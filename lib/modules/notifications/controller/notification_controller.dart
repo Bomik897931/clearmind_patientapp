@@ -22,10 +22,10 @@ class NotificationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // loadNotifications();
-    loadDummyNotifications();
+    loadNotifications();
+    // loadDummyNotifications();
   }
-  void loadDummyNotifications() {
+ /* void loadDummyNotifications() {
     notifications.value = [
     NotificationModel(
     notificationId: 1,
@@ -60,7 +60,7 @@ class NotificationController extends GetxController {
     isRead: true,
     ),
     ];
-  }
+  }*/
 
     Future<void> loadNotifications() async {
     try {

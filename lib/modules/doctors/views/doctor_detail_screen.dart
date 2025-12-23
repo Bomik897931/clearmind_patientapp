@@ -312,9 +312,7 @@
 //   }
 // }
 
-
 // lib/modules/doctors/screens/doctor_detail_screen.dart
-
 
 //2nd
 /*
@@ -797,15 +795,13 @@ class DoctorDetailScreen extends GetView<DoctorDetailController> {
   }
 }*/
 
-
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patient_app/core/constants/app_colors.dart';
 import 'package:patient_app/core/constants/app_strings.dart';
 
 import '../../../core/routes/app_routes.dart';
+import '../../../data/models/review_model.dart';
 import '../controllers/doctor_detail_controller.dart';
 
 class DoctorDetailScreen extends StatelessWidget {
@@ -824,14 +820,16 @@ class DoctorDetailScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () => Get.back(),
         ),
-        title: Obx(() => Text(
-          controller.doctor.value?.fullName ?? 'Doctor Details',
-          style: const TextStyle(
-            color: AppColors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
+        title: Obx(
+          () => Text(
+            controller.doctor.value?.fullName ?? 'Doctor Details',
+            style: const TextStyle(
+              color: AppColors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        )),
+        ),
         // actions: [
         //   Obx(() => IconButton(
         //     icon: Icon(
@@ -866,7 +864,7 @@ class DoctorDetailScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: controller.refresh,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:  AppColors.circularprogressindicator,
+                    backgroundColor: AppColors.circularprogressindicator,
                   ),
                   child: const Text('Retry'),
                 ),
@@ -959,28 +957,28 @@ class DoctorDetailScreen extends StatelessWidget {
                           icon: Icons.people,
                           value: '${doctor.patients}+',
                           label: 'Patients',
-                          color: const Color(0xFFE0F7FA),
+                          color:  AppColors.primaryLight,
                         ),
                         const SizedBox(width: 12),
                         _buildStatCard(
                           icon: Icons.work,
                           value: '${doctor.experienceYears}+',
                           label: 'Years exper...',
-                          color: const Color(0xFFE0F7FA),
+                          color: AppColors.primaryLight,
                         ),
                         const SizedBox(width: 12),
                         _buildStatCard(
                           icon: Icons.star,
                           value: doctor.rating,
                           label: 'Rating',
-                          color: const Color(0xFFE0F7FA),
+                          color: AppColors.primaryLight,
                         ),
                         const SizedBox(width: 12),
                         _buildStatCard(
                           icon: Icons.chat,
                           value: '${doctor.reviews}',
                           label: AppStrings.aboutMe,
-                          color: const Color(0xFFE0F7FA),
+                          color: AppColors.primaryLight,
                         ),
                       ],
                     ),
@@ -1082,8 +1080,40 @@ class DoctorDetailScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 12),
+                  Obx(() {
+                    print('${controller.reviews}');
+                    print('{controller.reviews}');
+                    if (controller.isLoading.value) {
+                      return const SizedBox(); // or shimmer
+                    }
 
-                  // Sample Review Card
+                    if (controller.reviews.isEmpty) {
+                      return const SizedBox(); // show nothing
+                    }
+
+                    return Column(
+                      children: [
+                        singleReviewCard(controller.reviews[0]),
+
+                        // const SizedBox(height: 8),
+                        //
+                        // Align(
+                        //   alignment: Alignment.centerRight,
+                        //   child: TextButton(
+                        //     onPressed: () {
+                        //       Get.to(() => const ReviewListScreen());
+                        //     },
+                        //     child: const Text(
+                        //       'See All',
+                        //       style: TextStyle(fontWeight: FontWeight.w600),
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
+                    );
+                  }),
+
+                  /*   // Sample Review Card
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     padding: const EdgeInsets.all(16),
@@ -1159,7 +1189,7 @@ class DoctorDetailScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
@@ -1187,7 +1217,7 @@ class DoctorDetailScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: controller.onBookAppointment,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:  AppColors.circularprogressindicator,
+                      backgroundColor: AppColors.circularprogressindicator,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),
                       ),
@@ -1208,6 +1238,81 @@ class DoctorDetailScreen extends StatelessWidget {
           ],
         );
       }),
+    );
+  }
+
+  Widget singleReviewCard(ReviewModel review) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 24,
+                backgroundColor: Colors.grey[300],
+                child: Icon(Icons.person, color: Colors.grey[600]),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                   'Charlotte',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.cardBackground,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.star, size: 16, color: AppColors.primaryDark),
+                    const SizedBox(width: 4),
+                    Text(
+                      review.rating?.toString() ?? '0',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primaryDark,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            review.reviewText ?? '',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[700],
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -1241,7 +1346,7 @@ class DoctorDetailScreen extends StatelessWidget {
               ),
               child: Icon(
                 icon,
-                color:  AppColors.circularprogressindicator,
+                color: AppColors.white,
                 size: 24,
               ),
             ),
@@ -1257,10 +1362,7 @@ class DoctorDetailScreen extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               label,
-              style: TextStyle(
-                fontSize: 11,
-                color: AppColors.grey600,
-              ),
+              style: TextStyle(fontSize: 11, color: AppColors.grey600),
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

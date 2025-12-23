@@ -105,7 +105,7 @@ class RemoveFavoriteDialog extends StatelessWidget {
                             const Icon(
                               Icons.star,
                               size: 14,
-                              color: AppColors.orange,
+                              color: AppColors.primary,
                             ),
                             const SizedBox(width: 4),
                             Text(

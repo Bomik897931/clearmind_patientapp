@@ -16,7 +16,7 @@ class ApiConstants {
   static const String addReviewEndpoint = 'Patient/add-review';
   static const String getReviewsEndpoint = 'Patient/get-reviews';
   static const String getFavoriteDoctorsEndpoint = 'Patient/get-doctor-wishlist';
-  static const String notificationsEndpoint = 'Patient/notifications';
+  static const String notificationsEndpoint = 'Patient/get-notification';
   static const String markNotificationReadEndpoint = 'Patient/mark-notification-read';
 
   static const String logout = '/auth/logout';

@@ -82,6 +82,7 @@ class FavoriteDoctorsController extends GetxController {
       // Optimistically remove from list
       favoriteDoctors.removeWhere((d) => d.doctorId == doctor.doctorId);
 
+
       final success = await _repository.removeFavorite(
         token: token,
         doctorId: doctor.doctorId,
@@ -92,7 +93,7 @@ class FavoriteDoctorsController extends GetxController {
           'Success',
           'Removed from favorites',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: AppColors.green,
+          backgroundColor: AppColors.circularprogressindicator,
           colorText: AppColors.white,
           duration: const Duration(seconds: 2),
         );

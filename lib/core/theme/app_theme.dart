@@ -15,7 +15,7 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.scaffoldBackground,
       colorScheme: ColorScheme.light(
         primary: AppColors.primary,
-        secondary: AppColors.primaryLight,
+        secondary: AppColors.primary,
         error: AppColors.error,
         surface: AppColors.white,
       ),

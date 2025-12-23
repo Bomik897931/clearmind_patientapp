@@ -160,7 +160,7 @@ class DoctorsBySpecializationController extends GetxController {
             'Success',
             wasFavorite ? 'Removed from favorites' : 'Added to favorites',
             snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: AppColors.green,
+            backgroundColor: AppColors.circularprogressindicator,
             colorText: AppColors.white,
             duration: const Duration(seconds: 1),
           );

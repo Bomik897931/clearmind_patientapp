@@ -2,44 +2,60 @@ import 'package:flutter/material.dart';
 
 class NotificationModel {
   final int notificationId;
+  final String type;
+  final int? appointmentId;
+  final int? prescriptionId;
+  final int? ticketId;
+  final int receiverUserId;
+  final int senderUserId;
   final String title;
   final String message;
-  final String type; // 'appointment_successful', 'reschedule', 'reminder'
-  final DateTime createdAt;
   final bool isRead;
+  final DateTime createdAt;
 
   NotificationModel({
     required this.notificationId,
+    required this.type,
+    this.appointmentId,
+    this.prescriptionId,
+    this.ticketId,
+    required this.receiverUserId,
+    required this.senderUserId,
     required this.title,
     required this.message,
-    required this.type,
-    required this.createdAt,
     required this.isRead,
+    required this.createdAt,
   });
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
     return NotificationModel(
       notificationId: json['notificationId'] ?? 0,
+      type: json['type'] ?? '',
+      appointmentId: json['appointmentId'],
+      prescriptionId: json['prescriptionId'],
+      ticketId: json['ticketId'],
+      receiverUserId: json['receiverUserId'] ?? 0,
+      senderUserId: json['senderUserId'] ?? 0,
       title: json['title'] ?? '',
       message: json['message'] ?? '',
-      type: json['type'] ?? 'general',
+      isRead: json['isRead'] ?? false,
       createdAt: json['createdAt'] != null
           ? DateTime.parse(json['createdAt'])
           : DateTime.now(),
-      isRead: json['isRead'] ?? false,
     );
   }
 
   IconData get icon {
     switch (type.toLowerCase()) {
-      case 'appointment_successful':
       case 'appointment':
         return Icons.calendar_today;
+      case 'prescription':
+        return Icons.medical_services;
+      case 'ticket':
+        return Icons.confirmation_number;
       case 'reschedule':
-      case 'reschedule_successful':
         return Icons.event_repeat;
       case 'reminder':
-      case 'appointment_reminder':
         return Icons.access_time;
       default:
         return Icons.notifications;
@@ -50,7 +66,9 @@ class NotificationModel {
     final now = DateTime.now();
     final difference = now.difference(createdAt);
 
-    if (difference.inMinutes < 60) {
+    if (difference.inMinutes < 1) {
+      return 'Just now';
+    } else if (difference.inMinutes < 60) {
       return '${difference.inMinutes}m';
     } else if (difference.inHours < 24) {
       return '${difference.inHours}h';
@@ -72,6 +90,7 @@ class NotificationModel {
     );
 
     final difference = now.difference(createdAt);
+
     if (notificationDate == today) {
       return 'Today';
     } else if (notificationDate == yesterday) {

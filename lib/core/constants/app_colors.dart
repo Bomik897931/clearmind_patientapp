@@ -3,16 +3,20 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  static const Color primary = Color(0xFF1EAFB3);
-  static const Color primaryLight = Color(0xFF4DD4D2);
-  static const Color primaryDark = Color(0xFF1BA3A1);
+  // static const Color primary = Color(0xFF1EAFB3);
+  static const Color primary = Color(0xFFBC6C25);
+  static const Color primaryLight = Color(0xFFD58843);
+  static const Color primaryDark = Color(0xFFD67118);
 
-  static const Color background = Color(0xFFF5F5F5);
+  // static const Color background = Color(0xFFF5F5F5);
+  static const Color background = Color(0xFFFFF3E9);
   static const Color cardBackground = Color(0xFFFFFFFF);
   static const Color scaffoldBackground = Color(0xFFF8F9FA);
 
-  static const Color textPrimary = Color(0xFF1F2937);
-  static const Color textSecondary = Color(0xFF6B7280);
+  // static const Color textPrimary = Color(0xFF1F2937);
+  static const Color textPrimary = Color(0xFF18171d);
+  // static const Color textSecondary = Color(0xFF6B7280);
+  static const Color textSecondary = Color(0xFF3f3f47);
   static const Color textTertiary = Color(0xFF9CA3AF);
   static const Color textWhite = Color(0xFFFFFFFF);
   static const Color searchcolor = Color(0xffF3F3F3);
@@ -49,12 +53,13 @@ class AppColors {
   static const Color hinttextcolor = Color(0xFF7D7D7D);
 
 
-  static const Color circularprogressindicator = Color(0xFF00BCD4);
+  static const Color circularprogressindicator = Color(0xFFBC6C25);
 
 
 
   static const Color rating = Color(0xFFFBBF24);
-  static const Color border = Color(0xFFE5E7EB);
+  // static const Color border = Color(0xFFE5E7EB);
+  static const Color border = Color(0xFFd9d9d9);
   static const Color divider = Color(0xFFE5E7EB);
 
   static Color shadow = const Color(0xFF000000).withOpacity(0.08);

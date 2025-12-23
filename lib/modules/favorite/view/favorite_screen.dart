@@ -149,7 +149,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
                           const Icon(
                             Icons.star,
                             size: 18,
-                            color: AppColors.orange,
+                            color: AppColors.primary,
                           ),
                           const SizedBox(width: 4),
                           Flexible(

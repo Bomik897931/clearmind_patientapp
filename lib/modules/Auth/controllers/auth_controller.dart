@@ -594,7 +594,7 @@ class AuthController extends GetxController {
       'Success',
       message.isEmpty ? 'Registration successful!' : message,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: AppColors.green,
+      backgroundColor: AppColors.primaryLight,
       colorText: AppColors.white,
       duration: const Duration(seconds: 3),
     );

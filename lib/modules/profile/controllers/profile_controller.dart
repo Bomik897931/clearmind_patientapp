@@ -72,7 +72,7 @@ class ProfileController extends GetxController {
         'Success',
         'Logged out successfully',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.green,
+        backgroundColor: AppColors.primaryLight,
         colorText: AppColors.white,
       );
     } catch (e) {

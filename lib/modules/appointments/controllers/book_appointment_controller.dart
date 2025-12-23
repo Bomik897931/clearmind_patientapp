@@ -185,7 +185,7 @@ class BookAppointmentController extends GetxController {
     // }
 
     // Use doctor ID from selected slot if not passed from arguments
-    final finalDoctorUserId = selectedSlot.value!.doctorId;
+    final finalDoctorUserId = doctor.value!.userId;
 
     try {
       // isBooking.value = true;
@@ -231,7 +231,7 @@ class BookAppointmentController extends GetxController {
         'Success',
         'Appointment booked successfully!',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.green,
+        backgroundColor: AppColors.circularprogressindicator,
         colorText: AppColors.white,
         duration: const Duration(seconds: 3),
       );

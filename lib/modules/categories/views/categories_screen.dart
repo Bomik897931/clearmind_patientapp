@@ -204,7 +204,7 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
                           const Icon(
                             Icons.star,
                             size: 18,
-                            color: AppColors.orange,
+                            color: AppColors.primary,
                           ),
                           const SizedBox(width: 4),
                           Flexible(
@@ -228,7 +228,7 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
                   onPressed: () => controller.toggleFavorite(doctor),
                   icon: Icon(
                     doctor.isFavorite.value ? Icons.favorite : Icons.favorite_border,
-                    color: doctor.isFavorite.value ? AppColors.red : AppColors.circularprogressindicator,
+                    color: doctor.isFavorite.value ? AppColors.primary : AppColors.circularprogressindicator,
                     size: 28,
                   ),
                 )),
