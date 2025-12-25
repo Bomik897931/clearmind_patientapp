@@ -29,10 +29,17 @@ class NotificationRepository {
 
       final apiResponse = ApiResponse.fromJson(response);
       if (apiResponse.success && apiResponse.data != null) {
-        final List<dynamic> notificationsData = apiResponse.data as List<dynamic>;
-        return notificationsData
-            .map((json) => NotificationModel.fromJson(json as Map<String, dynamic>))
+        final dataMap = apiResponse.data as Map<String, dynamic>;
+        final List<dynamic> items = dataMap['items'] ?? [];
+
+        return items
+            .map((json) =>
+            NotificationModel.fromJson(json as Map<String, dynamic>))
             .toList();
+        // final List<dynamic> notificationsData = apiResponse.data as List<dynamic>;
+        // return notificationsData
+        //     .map((json) => NotificationModel.fromJson(json as Map<String, dynamic>))
+        //     .toList();
       } else {
         throw RepositoryException(
           apiResponse.message ?? 'Failed to fetch notifications',
