@@ -33,4 +33,6 @@ class AppRoutes {
   static const String HELP = '/help';
   static const String FAVORITE_DOCTORS = '/favorite-doctors';
   static const String LanguageSwitcher = '/language';
+
+  // static const String notification = '/notifications';
 }

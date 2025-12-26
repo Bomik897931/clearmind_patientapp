@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "175873953726",
+    "project_id": "patient-app-f19cd",
+    "storage_bucket": "patient-app-f19cd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175873953726:android:624f3598d4c4488e9c73ef",
+        "android_client_info": {
+          "package_name": "com.clearmind.patient_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaSNiEy5ilsuOKF_MfHct4JydEC_JZGZk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
