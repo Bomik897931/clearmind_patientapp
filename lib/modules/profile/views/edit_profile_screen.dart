@@ -186,7 +186,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
-                        color: Colors.orange,
+                        color: AppColors.white,
                         child: const Center(
                           child: Text('🇮🇳', style: TextStyle(fontSize: 14)),
                         ),

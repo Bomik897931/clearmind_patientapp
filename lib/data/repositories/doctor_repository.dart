@@ -231,9 +231,8 @@ class DoctorsRepository {
     try {
       print('🔵 Repository: Removing favorite for doctor $doctorId');
 
-      final response = await _apiService.post(
+      final response = await _apiService.delete(
         endpoint: '${ApiConstants.removeFavoriteEndpoint}?doctorId=$doctorId',
-        body: {},
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

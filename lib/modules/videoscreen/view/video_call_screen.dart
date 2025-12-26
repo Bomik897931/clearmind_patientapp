@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:patient_app/modules/videoscreen/controller/video_call_controller.dart';
 
+import '../../../core/constants/app_colors.dart';
+
 
 class VideoCallScreen extends StatefulWidget {
   const VideoCallScreen({super.key});
@@ -34,7 +36,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.black,
       body: SafeArea(
         child: Stack(
           children: [
@@ -49,7 +51,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
 
   Widget _buildVideoViews() {
     if (!controller.engineInitialized.value) {
-      return const Center(child: CircularProgressIndicator(color: Colors.white));
+      return const Center(child: CircularProgressIndicator(color: AppColors.white));
     }
 
     if (controller.remoteUid.value != 0) {
@@ -76,9 +78,9 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                 ),
               )
                   : Container(
-                color: Colors.black87,
+                color: AppColors.black87,
                 child: const Center(
-                  child: Icon(Icons.videocam_off, size: 48, color: Colors.white),
+                  child: Icon(Icons.videocam_off, size: 48, color: AppColors.white),
                 ),
               ),
             ),
@@ -96,9 +98,9 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
             ),
           )
               : Container(
-            color: Colors.black87,
+            color: AppColors.black87,
             child: const Center(
-              child: Icon(Icons.videocam_off, size: 80, color: Colors.white),
+              child: Icon(Icons.videocam_off, size: 80, color: AppColors.white),
             ),
           ),
         ),
@@ -115,33 +117,33 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.black.withOpacity(0.7), Colors.transparent],
+            colors: [AppColors.black.withOpacity(0.7), Colors.transparent],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
         child: Row(
           children: [
-            const Icon(Icons.video_call, color: Colors.white),
+            const Icon(Icons.video_call, color: AppColors.white),
             const SizedBox(width: 8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(channelName ?? 'Video Call', style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-                  Obx(() => Text(controller.getFormattedDuration(), style: const TextStyle(color: Colors.white70))),
+                  Text(channelName ?? 'Video Call', style: const TextStyle(color: AppColors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                  Obx(() => Text(controller.getFormattedDuration(), style: const TextStyle(color: AppColors.white70))),
                 ],
               ),
             ),
             Obx(() => Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: controller.isCallConnected.value ? Colors.green : Colors.orange,
+                color: controller.isCallConnected.value ? AppColors.green : AppColors.orange,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
                 controller.isCallConnected.value ? 'Connected' : 'Connecting...',
-                style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                style: const TextStyle(color: AppColors.white, fontSize: 12, fontWeight: FontWeight.bold),
               ),
             )),
           ],
@@ -159,7 +161,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+            colors: [AppColors.black.withOpacity(0.8), Colors.transparent],
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
           ),
@@ -171,13 +173,13 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
               icon: controller.isMuted.value ? Icons.mic_off : Icons.mic,
               label: controller.isMuted.value ? 'Unmute' : 'Mute',
               onPressed: controller.toggleMute,
-              backgroundColor: controller.isMuted.value ? Colors.red : Colors.white24,
+              backgroundColor: controller.isMuted.value ? AppColors.red : AppColors.white24,
             )),
             Obx(() => _buildControlButton(
               icon: controller.isVideoEnabled.value ? Icons.videocam : Icons.videocam_off,
               label: controller.isVideoEnabled.value ? 'Stop Video' : 'Start Video',
               onPressed: controller.toggleVideo,
-              backgroundColor: controller.isVideoEnabled.value ? Colors.white24 : Colors.red,
+              backgroundColor: controller.isVideoEnabled.value ? AppColors.white24 : AppColors.red,
             )),
             _buildControlButton(
               icon: Icons.call_end,
@@ -186,20 +188,20 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                 controller.leaveCall();
                 Get.back();
               },
-              backgroundColor: Colors.red,
+              backgroundColor: AppColors.red,
               iconSize: 32,
             ),
             _buildControlButton(
               icon: Icons.flip_camera_android,
               label: 'Flip',
               onPressed: controller.switchCamera,
-              backgroundColor: Colors.white24,
+              backgroundColor: AppColors.white24,
             ),
             Obx(() => _buildControlButton(
               icon: controller.isSpeakerEnabled.value ? Icons.volume_up : Icons.volume_off,
               label: 'Speaker',
               onPressed: controller.toggleSpeaker,
-              backgroundColor: controller.isSpeakerEnabled.value ? Colors.white24 : Colors.grey,
+              backgroundColor: controller.isSpeakerEnabled.value ? AppColors.white24 : Colors.grey,
             )),
           ],
         ),
@@ -222,11 +224,11 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(color: backgroundColor, shape: BoxShape.circle),
-            child: Icon(icon, color: Colors.white, size: iconSize),
+            child: Icon(icon, color: AppColors.white, size: iconSize),
           ),
         ),
         const SizedBox(height: 8),
-        Text(label, style: const TextStyle(color: Colors.white, fontSize: 12)),
+        Text(label, style: const TextStyle(color: AppColors.white, fontSize: 12)),
       ],
     );
   }

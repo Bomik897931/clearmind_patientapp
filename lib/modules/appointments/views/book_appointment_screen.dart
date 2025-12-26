@@ -124,6 +124,7 @@ class BookAppointmentScreen extends GetView<BookAppointmentController> {
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:patient_app/core/constants/app_colors.dart';
 import 'package:patient_app/core/constants/app_strings.dart';
 
 import '../../../widgets/date_time_selector.dart';
@@ -135,18 +136,18 @@ class BookAppointmentScreen extends GetView<BookAppointmentController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: AppColors.grey50,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () => Get.back(),
         ),
         title:  Text(
           AppStrings.bookAppointment,
           style: TextStyle(
-            color: Colors.black,
+            color: AppColors.black,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
@@ -184,11 +185,11 @@ class BookAppointmentScreen extends GetView<BookAppointmentController> {
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: AppColors.black.withOpacity(0.05),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -224,7 +225,7 @@ class BookAppointmentScreen extends GetView<BookAppointmentController> {
                     doc.specialty,
                     style: TextStyle(
                       fontSize: 13,
-                      color: Colors.grey[600],
+                      color: AppColors.grey600,
                     ),
                   ),
                 ],
@@ -276,7 +277,7 @@ class BookAppointmentScreen extends GetView<BookAppointmentController> {
               child: Padding(
                 padding: EdgeInsets.all(32.0),
                 child: CircularProgressIndicator(
-                  color: Color(0xFF00BCD4),
+                  color: AppColors.circularprogressindicator,
                 ),
               ),
             );
@@ -286,7 +287,7 @@ class BookAppointmentScreen extends GetView<BookAppointmentController> {
             return Container(
               padding: const EdgeInsets.all(32),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
@@ -297,7 +298,7 @@ class BookAppointmentScreen extends GetView<BookAppointmentController> {
                     Text(
                       'No slots available for this date',
                       style: TextStyle(
-                        color: Colors.grey[600],
+                        color: AppColors.grey600,
                         fontSize: 14,
                       ),
                     ),
@@ -324,27 +325,27 @@ class BookAppointmentScreen extends GetView<BookAppointmentController> {
                   ),
                   decoration: BoxDecoration(
                     color: !isAvailable
-                        ? Colors.grey[200]
+                        ? AppColors.grey200
                         : isSelected
-                        ? const Color(0xFF00BCD4)
-                        : Colors.white,
+                        ?  AppColors.circularprogressindicator
+                        : AppColors.white,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: !isAvailable
-                          ? Colors.grey[300]!
+                          ? AppColors.grey300
                           : isSelected
-                          ? const Color(0xFF00BCD4)
-                          : Colors.grey[300]!,
+                          ? AppColors.circularprogressindicator
+                          : AppColors.grey300,
                     ),
                   ),
                   child: Text(
                     slot.displayTime,
                     style: TextStyle(
                       color: !isAvailable
-                          ? Colors.grey[500]
+                          ? AppColors.grey500
                           : isSelected
-                          ? Colors.white
-                          : Colors.black87,
+                          ? AppColors.white
+                          : AppColors.black87,
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       decoration: !isAvailable
@@ -365,10 +366,10 @@ class BookAppointmentScreen extends GetView<BookAppointmentController> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: AppColors.black.withOpacity(0.1),
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),
@@ -381,18 +382,18 @@ class BookAppointmentScreen extends GetView<BookAppointmentController> {
           child: ElevatedButton(
             onPressed: controller.bookAppointment,
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF00BCD4),
+              backgroundColor:  AppColors.circularprogressindicator,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(28),
               ),
               elevation: 0,
             ),
-            child: const Text(
-              'Next',
+            child:  Text(
+              AppStrings.next,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: AppColors.white,
               ),
             ),
           ),

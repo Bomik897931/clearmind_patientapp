@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../core/constants/app_colors.dart';
 import '../data/models/appointment_model.dart';
 
 class CancelAppointmentDialog extends StatelessWidget {
@@ -19,7 +20,7 @@ class CancelAppointmentDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -29,12 +30,12 @@ class CancelAppointmentDialog extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.1),
+                color: AppColors.orange.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
                 Icons.warning_amber_rounded,
-                color: Colors.orange,
+                color: AppColors.orange,
                 size: 48,
               ),
             ),
@@ -46,7 +47,7 @@ class CancelAppointmentDialog extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: AppColors.black87,
               ),
             ),
             const SizedBox(height: 12),
@@ -58,7 +59,7 @@ class CancelAppointmentDialog extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.grey[600],
+                color: AppColors.grey600,
                 height: 1.5,
               ),
             ),
@@ -122,7 +123,7 @@ class CancelAppointmentDialog extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black87,
+                        color: AppColors.black87,
                       ),
                     ),
                   ),
@@ -133,7 +134,7 @@ class CancelAppointmentDialog extends StatelessWidget {
                     onPressed: onConfirm,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
-                      backgroundColor: Colors.red,
+                      backgroundColor: AppColors.red,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -143,7 +144,7 @@ class CancelAppointmentDialog extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                     ),
                   ),

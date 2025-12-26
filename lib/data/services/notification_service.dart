@@ -8,7 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:patient_app/ma_test_screen/notification_screen.dart';
 
-import '../../../core/routes/app_routes.dart';
+import '../../core/routes/app_routes.dart';
 
 class NotificationServices {
   // import 'dart:convert';

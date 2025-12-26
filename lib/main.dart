@@ -9,7 +9,7 @@ import 'controller/locale_controller.dart';
 import 'core/constants/app_colors.dart';
 import 'data/services/StorageService.dart'; // ← FIXED: Correct path
 import 'data/services/api_service.dart';
-import 'data/services/notification/notification_service.dart';
+import 'data/services/notification_service.dart';
 import 'data/services/simple_call_service.dart';
 import 'modules/Auth/controllers/auth_controller.dart';
 import 'package:firebase_core/firebase_core.dart';

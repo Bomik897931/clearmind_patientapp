@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../controller/review_controller.dart';
 
 class ReviewScreen extends GetView<ReviewController> {
@@ -9,18 +10,18 @@ class ReviewScreen extends GetView<ReviewController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: controller.cancel,
         ),
         title: const Text(
           'Write a Review',
           style: TextStyle(
-            color: Colors.black,
+            color: AppColors.black,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
@@ -43,7 +44,7 @@ class ReviewScreen extends GetView<ReviewController> {
                     height: 120,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: const Color(0xFF00BCD4).withOpacity(0.1),
+                      color:  AppColors.circularprogressindicator.withOpacity(0.1),
                       image: doc.imageUrl.isNotEmpty &&
                           doc.imageUrl != 'image url' &&
                           doc.imageUrl != 'string'
@@ -64,7 +65,7 @@ class ReviewScreen extends GetView<ReviewController> {
                         style: const TextStyle(
                           fontSize: 48,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF00BCD4),
+                          color: AppColors.circularprogressindicator,
                         ),
                       ),
                     )
@@ -77,7 +78,7 @@ class ReviewScreen extends GetView<ReviewController> {
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: Colors.black87,
+                      color: AppColors.black87,
                     ),
                   ),
                 ],
@@ -98,7 +99,7 @@ class ReviewScreen extends GetView<ReviewController> {
                         : Icons.star_border,
                     size: 40,
                     color: index < controller.rating.value
-                        ? Colors.orange
+                        ? AppColors.orange
                         : Colors.grey[300],
                   ),
                 );
@@ -115,7 +116,7 @@ class ReviewScreen extends GetView<ReviewController> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Colors.black87,
+                  color: AppColors.black87,
                 ),
               ),
             ),
@@ -147,7 +148,7 @@ class ReviewScreen extends GetView<ReviewController> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Colors.black87,
+                  color: AppColors.black87,
                 ),
               ),
             ),
@@ -166,7 +167,7 @@ class ReviewScreen extends GetView<ReviewController> {
                             shape: BoxShape.circle,
                             border: Border.all(
                               color: controller.wouldRecommend.value
-                                  ? const Color(0xFF00BCD4)
+                                  ?  AppColors.circularprogressindicator
                                   : Colors.grey[400]!,
                               width: 2,
                             ),
@@ -178,7 +179,7 @@ class ReviewScreen extends GetView<ReviewController> {
                               height: 12,
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Color(0xFF00BCD4),
+                                color: AppColors.circularprogressindicator,
                               ),
                             ),
                           )
@@ -189,7 +190,7 @@ class ReviewScreen extends GetView<ReviewController> {
                           'Yes',
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.black87,
+                            color: AppColors.black87,
                           ),
                         ),
                       ],
@@ -208,7 +209,7 @@ class ReviewScreen extends GetView<ReviewController> {
                             shape: BoxShape.circle,
                             border: Border.all(
                               color: !controller.wouldRecommend.value
-                                  ? const Color(0xFF00BCD4)
+                                  ?  AppColors.circularprogressindicator
                                   : Colors.grey[400]!,
                               width: 2,
                             ),
@@ -220,7 +221,7 @@ class ReviewScreen extends GetView<ReviewController> {
                               height: 12,
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Color(0xFF00BCD4),
+                                color: AppColors.circularprogressindicator,
                               ),
                             ),
                           )
@@ -231,7 +232,7 @@ class ReviewScreen extends GetView<ReviewController> {
                           'No',
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.black87,
+                            color: AppColors.black87,
                           ),
                         ),
                       ],
@@ -254,7 +255,7 @@ class ReviewScreen extends GetView<ReviewController> {
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       side: BorderSide(
-                        color: const Color(0xFF00BCD4).withOpacity(0.3),
+                        color:  AppColors.circularprogressindicator.withOpacity(0.3),
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),
@@ -265,7 +266,7 @@ class ReviewScreen extends GetView<ReviewController> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: const Color(0xFF00BCD4),
+                        color:  AppColors.circularprogressindicator,
                       ),
                     ),
                   ),
@@ -278,7 +279,7 @@ class ReviewScreen extends GetView<ReviewController> {
                         : controller.submitReview,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: const Color(0xFF00BCD4),
+                      backgroundColor:  AppColors.circularprogressindicator,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),
                       ),
@@ -288,7 +289,7 @@ class ReviewScreen extends GetView<ReviewController> {
                       width: 20,
                       height: 20,
                       child: CircularProgressIndicator(
-                        color: Colors.white,
+                        color: AppColors.white,
                         strokeWidth: 2,
                       ),
                     )
@@ -297,7 +298,7 @@ class ReviewScreen extends GetView<ReviewController> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                     ),
                   ),

@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patient_app/core/constants/app_colors.dart';
-import 'package:patient_app/data/services/notification/send_notification.dart';
+// import 'package:patient_app/data/services/notification/send_notification.dart';
 
 import '../../../core/constants/constant.dart';
-import '../../../data/services/notification/notification_service.dart';
+import '../../../data/services/notification_service.dart';
 import '../../../widgets/primary_button.dart';
 import '../../../widgets/textWidget.dart';
 import '../../../widgets/text_box.dart';

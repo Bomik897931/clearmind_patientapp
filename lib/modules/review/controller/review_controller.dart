@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/doctor_model.dart';
 import '../../../data/repositories/reveiw_repository.dart';
 import '../../../data/services/StorageService.dart';
@@ -63,8 +64,8 @@ class ReviewController extends GetxController {
         'Error',
         'Please select a rating',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.orange,
-        colorText: Colors.white,
+        backgroundColor: AppColors.orange,
+        colorText: AppColors.white,
       );
       return;
     }
@@ -74,8 +75,8 @@ class ReviewController extends GetxController {
         'Error',
         'Please write a review',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.orange,
-        colorText: Colors.white,
+        backgroundColor: AppColors.orange,
+        colorText: AppColors.white,
       );
       return;
     }
@@ -104,8 +105,8 @@ class ReviewController extends GetxController {
         'Success',
         'Review submitted successfully',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
+        backgroundColor: AppColors.green,
+        colorText: AppColors.white,
       );
 
       // Go back after a short delay
@@ -118,8 +119,8 @@ class ReviewController extends GetxController {
         'Error',
         'Failed to submit review',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } finally {
       isSubmitting.value = false;

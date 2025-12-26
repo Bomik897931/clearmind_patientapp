@@ -130,7 +130,7 @@ class SlotsScreen extends GetView<SlotsController> {
                   ? AppColors.primary
                   : slot.isAvailable
                   ? AppColors.grey300
-                  : Colors.red.withOpacity(0.3),
+                  : AppColors.red.withOpacity(0.3),
               width: isSelected ? 2 : 1,
             ),
           ),
@@ -206,14 +206,14 @@ class SlotsScreen extends GetView<SlotsController> {
                 ),
                 decoration: BoxDecoration(
                   color: slot.isAvailable
-                      ? Colors.green.withOpacity(0.1)
-                      : Colors.red.withOpacity(0.1),
+                      ? AppColors.green.withOpacity(0.1)
+                      : AppColors.red.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppDimensions.radiusSM),
                 ),
                 child: Text(
                   slot.isAvailable ? 'Available' : 'Booked',
                   style: AppTextStyles.caption.copyWith(
-                    color: slot.isAvailable ? Colors.green : Colors.red,
+                    color: slot.isAvailable ? AppColors.green : AppColors.red,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -243,7 +243,7 @@ class SlotsScreen extends GetView<SlotsController> {
         color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -285,7 +285,7 @@ class SlotsScreen extends GetView<SlotsController> {
         color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: AppColors.black.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -352,13 +352,13 @@ class SlotsScreen extends GetView<SlotsController> {
                   child: const CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor:
-                    AlwaysStoppedAnimation<Color>(Colors.white),
+                    AlwaysStoppedAnimation<Color>(AppColors.white),
                   ),
                 )
                     : Text(
                   'Book Appointment',
                   style: AppTextStyles.bodyLarge.copyWith(
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

@@ -74,8 +74,11 @@
 // lib/modules/doctors/controllers/doctor_detail_controller.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:patient_app/data/repositories/reveiw_repository.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/doctor_model.dart';
+import '../../../data/models/review_model.dart';
 import '../../../data/repositories/doctor_repository.dart';
 import '../../../data/services/StorageService.dart';
 
@@ -90,6 +93,8 @@ class DoctorDetailController extends GetxController {
         _storage = storage ?? StorageService();
 
   final Rx<DoctorModel?> doctor = Rx<DoctorModel?>(null);
+  RxList<ReviewModel> reviews = <ReviewModel>[].obs;
+  final ReviewRepository _repository = ReviewRepository();
   final RxBool isLoading = false.obs;
   final RxBool isFavorite = false.obs;
 
@@ -104,7 +109,10 @@ class DoctorDetailController extends GetxController {
     if (args != null && args['doctor'] != null) {
       final passedDoctor = args['doctor'] as DoctorModel;
       doctorId = passedDoctor.userId;
+
       loadDoctorDetails();
+
+
     }
   }
 
@@ -128,6 +136,8 @@ class DoctorDetailController extends GetxController {
       );
 
       doctor.value = response;
+      print(doctor.value);
+      fetchReview(doctor.value!.userId);
       print('🟢 Controller: Doctor details loaded successfully');
 
     } catch (e) {
@@ -136,8 +146,8 @@ class DoctorDetailController extends GetxController {
         'Error',
         'Failed to load doctor details',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } finally {
       isLoading.value = false;
@@ -159,5 +169,43 @@ class DoctorDetailController extends GetxController {
 
   void refresh() {
     loadDoctorDetails();
+  }
+
+
+  Future<void> fetchReview(int value) async {
+    print(doctor.value);
+    if (value == null) return;
+
+    try {
+      isLoading.value = true;
+
+      final token = await _storage.getToken();
+      if (token == null) {
+        Get.snackbar('Error', 'Please login first');
+        Get.offAllNamed('/login');
+        return;
+      }
+
+      print('${doctor.value!.userId}');
+      final fetchedReviews = await _repository.getReviews(
+        token: token,
+        // doctorId: 15
+        doctorId: value,
+      );
+
+      reviews.value = fetchedReviews;
+      print('🟢 Loaded ${fetchedReviews.length} reviews');
+    } catch (e) {
+      print('🔴 Error loading reviews: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to load reviews',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
+      );
+    } finally {
+      isLoading.value = false;
+    }
   }
 }
