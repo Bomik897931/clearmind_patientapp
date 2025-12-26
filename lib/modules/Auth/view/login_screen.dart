@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patient_app/core/constants/app_colors.dart';
+import 'package:patient_app/data/services/notification/send_notification.dart';
 
 import '../../../core/constants/constant.dart';
+import '../../../data/services/notification/notification_service.dart';
 import '../../../widgets/primary_button.dart';
 import '../../../widgets/textWidget.dart';
 import '../../../widgets/text_box.dart';
@@ -20,34 +22,31 @@ class LoginScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.primary,
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
-        }
-        ,
+        },
         child: Column(
           children: [
-            SizedBox(
-              height: height * .20,
-            ),
+            SizedBox(height: height * .20),
             Stack(
               alignment: Alignment.topCenter,
               clipBehavior: Clip.none,
               children: [
                 Container(
                   decoration: const BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20))),
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
                   height: height * .80,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          const SizedBox(
-                            height: 100,
-                          ),
+                          const SizedBox(height: 100),
                           TextField(
                             controller: authController.firstNameController,
                             keyboardType: TextInputType.name,
@@ -64,11 +63,9 @@ class LoginScreen extends StatelessWidget {
                           // textbox(
                           //     hinttext: "User Name",
                           //     icon: CupertinoIcons.person_circle),
-                          const SizedBox(
-                            height: 25,
-                          ),
+                          const SizedBox(height: 25),
                           Obx(
-                                () => TextField(
+                            () => TextField(
                               controller: authController.passwordController,
                               obscureText: authController.obscurePassword.value,
                               decoration: InputDecoration(
@@ -81,7 +78,8 @@ class LoginScreen extends StatelessWidget {
                                         ? Icons.visibility_outlined
                                         : Icons.visibility_off_outlined,
                                   ),
-                                  onPressed: authController.togglePasswordVisibility,
+                                  onPressed:
+                                      authController.togglePasswordVisibility,
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -92,29 +90,25 @@ class LoginScreen extends StatelessWidget {
                           // textbox(
                           //     hinttext: "Password",
                           //     icon: Icons.visibility_outlined),
-                          const SizedBox(
-                            height: 5,
-                          ),
+                          const SizedBox(height: 5),
                           Align(
                             alignment: Alignment.topRight,
                             child: regulartext(
-                                text: 'Forgot Password?',
-                                fontsize: 12,
-                                textAlign: TextAlign.end),
+                              text: 'Forgot Password?',
+                              fontsize: 12,
+                              textAlign: TextAlign.end,
+                            ),
                           ),
-                          const SizedBox(
-                            height: 50,
-                          ),
+                          const SizedBox(height: 50),
                           primaryButton(
-                              buttontext: "Log in",
-                              ontap: () {
-                                authController.login();
-                                // Get.toNamed('/home');
-                                // Get.to(() => const SelectCountryScreen());
-                              }),
-                          const SizedBox(
-                            height: 30,
+                            buttontext: "Log in",
+                            ontap: () {
+                              authController.login();
+                              // Get.toNamed('/home');
+                              // Get.to(() => const SelectCountryScreen());
+                            },
                           ),
+                          const SizedBox(height: 30),
                           // regulartext(text: "Or Continue With", fontsize: 12),
                           // const SizedBox(
                           //   height: 25,
@@ -127,7 +121,7 @@ class LoginScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'If you dont have an account? ',
-                                style: TextStyle(color: Colors.grey[600]),
+                                style: TextStyle(color: AppColors.grey600),
                               ),
                               TextButton(
                                 onPressed: () => Get.toNamed('/register'),
@@ -159,19 +153,20 @@ class LoginScreen extends StatelessWidget {
                     height: 100,
                     width: 100,
                     decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.primary, width: 5),
-                        borderRadius: BorderRadius.circular(100),
-                        color: AppColors.white),
+                      border: Border.all(color: AppColors.primary, width: 5),
+                      borderRadius: BorderRadius.circular(100),
+                      color: AppColors.white,
+                    ),
                     child: Center(
-                        // child: Image.asset(
-                        //   logo,
-                        //   height: 50,
-                        //   width: 50,
-                        //   fit: BoxFit.fill,
-                        // )
+                      // child: Image.asset(
+                      //   logo,
+                      //   height: 50,
+                      //   width: 50,
+                      //   fit: BoxFit.fill,
+                      // )
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ],
@@ -207,7 +202,7 @@ class LoginScreen extends StatelessWidget {
     //               'Sign in to continue',
     //               style: Theme.of(
     //                 context,
-    //               ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
+    //               ).textTheme.bodyLarge?.copyWith(color: AppColors.grey600),
     //               textAlign: TextAlign.center,
     //             ),
     //             const SizedBox(height: 48),
@@ -266,7 +261,7 @@ class LoginScreen extends StatelessWidget {
     //                     ),
     //                   ),
     //                   child: authController.isLoading.value
-    //                       ? const CircularProgressIndicator(color: Colors.white)
+    //                       ? const CircularProgressIndicator(color: AppColors.white)
     //                       : const Text('Login', style: TextStyle(fontSize: 16)),
     //                 ),
     //               ),
@@ -279,7 +274,7 @@ class LoginScreen extends StatelessWidget {
     //               children: [
     //                 Text(
     //                   "Don't have an account? ",
-    //                   style: TextStyle(color: Colors.grey[600]),
+    //                   style: TextStyle(color: AppColors.grey600),
     //                 ),
     //                 TextButton(
     //                   onPressed: () => Get.toNamed('/register'),

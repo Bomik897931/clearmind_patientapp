@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../data/models/favorite_model.dart';
+import '../../../widgets/bottom_nav_bar.dart';
 import '../controller/favorite_controller.dart';
 
 class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
@@ -12,16 +14,16 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () => Get.back(),
         ),
         title: const Text(
           'My Favourite Doctor',
           style: TextStyle(
-            color: Colors.black,
+            color: AppColors.black,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
@@ -31,7 +33,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
         if (controller.isLoading.value) {
           return const Center(
             child: CircularProgressIndicator(
-              color: Color(0xFF00BCD4),
+              color: AppColors.circularprogressindicator,
             ),
           );
         }
@@ -45,7 +47,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
                 const SizedBox(height: 16),
                 Text(
                   'No favorite doctors yet',
-                  style: TextStyle(color: Colors.grey[600], fontSize: 16),
+                  style: TextStyle(color: AppColors.grey600, fontSize: 16),
                 ),
               ],
             ),
@@ -54,7 +56,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
 
         return RefreshIndicator(
           onRefresh: controller.refresh,
-          color: const Color(0xFF00BCD4),
+          color:  AppColors.circularprogressindicator,
           child: ListView.separated(
             padding: const EdgeInsets.all(16),
             itemCount: controller.favoriteDoctors.length,
@@ -66,17 +68,20 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
           ),
         );
       }),
+      bottomNavigationBar: Obx(
+            () => BottomNavBar(currentIndex: controller.selectedBottomIndex.value),
+      ),
     );
   }
 
   Widget _buildDoctorCard(FavoriteDoctorModel doctor) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -97,7 +102,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
                   height: 120,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: const Color(0xFF00BCD4).withOpacity(0.1),
+                    color:  AppColors.circularprogressindicator.withOpacity(0.1),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
@@ -124,7 +129,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: AppColors.black87,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -132,7 +137,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
                         '${doctor.specialty} | Christ Hospital',
                         style: TextStyle(
                           fontSize: 13,
-                          color: Colors.grey[600],
+                          color: AppColors.grey600,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -144,7 +149,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
                           const Icon(
                             Icons.star,
                             size: 18,
-                            color: Colors.orange,
+                            color: AppColors.primary,
                           ),
                           const SizedBox(width: 4),
                           Flexible(
@@ -152,7 +157,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
                               '${doctor.rating} (${doctor.formattedReviews} reviews)',
                               style: TextStyle(
                                 fontSize: 13,
-                                color: Colors.grey[700],
+                                color: AppColors.grey700,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -168,7 +173,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
                   onPressed: () => controller.showRemoveDialog(doctor),
                   icon: const Icon(
                     Icons.favorite,
-                    color: Color(0xFF00BCD4),
+                    color: AppColors.circularprogressindicator,
                     size: 28,
                   ),
                 ),
@@ -189,14 +194,14 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
 
   Widget _buildPlaceholder(String name) {
     return Container(
-      color: const Color(0xFF00BCD4).withOpacity(0.1),
+      color:  AppColors.circularprogressindicator.withOpacity(0.1),
       child: Center(
         child: Text(
           name.isNotEmpty ? name[0].toUpperCase() : 'D',
           style: const TextStyle(
             fontSize: 40,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF00BCD4),
+            color: AppColors.circularprogressindicator,
           ),
         ),
       ),

@@ -177,6 +177,10 @@ class HomeController extends GetxController {
   void onFavoriteTap(){
     Get.toNamed(AppRoutes.FAVORITE_DOCTORS);
   }
+  void onNotificationTap(){
+    Get.toNamed(AppRoutes.NOTIFICATIONS);
+  }
+
 
   void onCategoryTap(Specialization category) {
     if (category.specializationName == 'More') {

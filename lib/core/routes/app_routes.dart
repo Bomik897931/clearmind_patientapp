@@ -28,8 +28,11 @@ class AppRoutes {
   static const String EDIT_PROFILE = '/edit-profile';
   static const String WRITE_REVIEW = '/write-review';
   static const String REVIEWS_LIST = '/reviews-list';
+  static const String NOTIFICATIONS = '/notifications';
   static const String FAQS = '/faqs';
   static const String HELP = '/help';
   static const String FAVORITE_DOCTORS = '/favorite-doctors';
   static const String LanguageSwitcher = '/language';
+
+  // static const String notification = '/notifications';
 }

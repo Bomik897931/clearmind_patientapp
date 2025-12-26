@@ -2,6 +2,9 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+    // Add the Google services Gradle plugin
+    id 'com.google.gms.google-services'
+
 }
 
 def localProperties = new Properties()
@@ -24,18 +27,21 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.clearmind.patient_app"
-    compileSdk 35
+    compileSdk 35   //need to 35-->36
     ndkVersion '27.0.12077973'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+//        sourceCompatibility JavaVersion.VERSION_17
+//        targetCompatibility JavaVersion.VERSION_17
         //Enable core library desugaring(flutter_local_notification)
         coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
         jvmTarget = '1.8'
+//        jvmTarget = '17'
     }
 
     sourceSets {
@@ -79,5 +85,6 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     //    flutter_local_notification
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-//    implementation platform('com.google.firebase:firebase-bom:34.7.0')
+    implementation platform('com.google.firebase:firebase-bom:34.7.0')
+    implementation 'com.google.firebase:firebase-analytics'
 }

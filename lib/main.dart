@@ -1,17 +1,27 @@
 import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'app.dart';
 import 'controller/locale_controller.dart';
+import 'core/constants/app_colors.dart';
 import 'data/services/StorageService.dart'; // ← FIXED: Correct path
 import 'data/services/api_service.dart';
+import 'data/services/notification/notification_service.dart';
 import 'data/services/simple_call_service.dart';
 import 'modules/Auth/controllers/auth_controller.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+@pragma('vm:entry-point')
+Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(
+    // options: DefaultFirebaseOptions.currentPlatform,
+  );
+}
 
 void main() async {
-  print('This print for GitHub ');
   // Catch Flutter framework errors FIRST (before runZonedGuarded)
   FlutterError.onError = (FlutterErrorDetails details) {
     print('❌ FLUTTER ERROR: ${details.exception}');
@@ -23,6 +33,31 @@ void main() async {
       try {
         // CRITICAL: Must be first
         WidgetsFlutterBinding.ensureInitialized();
+
+        // await Firebase.initializeApp();
+        // Optional: only if you handle background messages
+        // FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
+
+        await Firebase.initializeApp(
+          // options: DefaultFirebaseOptions.currentPlatform,
+        );
+
+        // 🔴 REQUIRED for background messages
+        FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
+
+        // 🔔 Initialize notification service
+        final notificationService = NotificationServices();
+        await notificationService.init();
+
+        // ✅ TERMINATED STATE HANDLING
+        RemoteMessage? message = await FirebaseMessaging.instance
+            .getInitialMessage();
+        // App opened from terminated state via notification
+        if (message != null) {
+          notificationService.handleNavigationFromMessage(message);
+        }
+
+        // runApp(const MyApp());
 
         print('✅ Starting app initialization...');
 
@@ -70,7 +105,7 @@ void main() async {
         runApp(
           MaterialApp(
             home: Scaffold(
-              backgroundColor: Colors.red.shade100,
+              backgroundColor: AppColors.redshade100,
               body: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -80,7 +115,7 @@ void main() async {
                       const Icon(
                         Icons.error_outline,
                         size: 64,
-                        color: Colors.red,
+                        color: AppColors.red,
                       ),
                       const SizedBox(height: 20),
                       const Text(
@@ -88,7 +123,7 @@ void main() async {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.red,
+                          color: AppColors.red,
                         ),
                       ),
                       const SizedBox(height: 10),
