@@ -7,12 +7,53 @@ import '../models/register_request.dart';
 import '../models/register_response.dart';
 import '../models/user_model.dart';
 import '../services/api_service.dart';
+import '../services/notification_service.dart';
 
 class AuthRepository {
   final ApiService _apiService;
 
   AuthRepository({ApiService? apiService})
       : _apiService = apiService ?? ApiService();
+
+  // lib/repositories/auth_repository.dart
+
+  Future<void> registerDevice({
+    required String token,
+    required String deviceToken,
+    required String platform,
+  }) async {
+    try {
+      print('🔵 Repository: Registering device - Platform: $platform');
+
+      final response = await _apiService.post(
+        endpoint: ApiConstants.registerDeviceEndpoint,
+        body: {
+          'deviceToken': deviceToken,
+          'platform': platform,
+        },
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('🟢 Repository: Device registered successfully');
+
+      final apiResponse = ApiResponse<String>.fromJson(response);
+
+      if (!apiResponse.success) {
+        throw RepositoryException(
+          apiResponse.message ?? 'Failed to register device',
+        );
+      }
+    } on ApiException catch (e) {
+      print('🔴 Repository: ApiException - ${e.message}');
+      throw RepositoryException(e.message);
+    } catch (e) {
+      print('🔴 Repository: Unexpected error - $e');
+      throw RepositoryException('Failed to register device: ${e.toString()}');
+    }
+  }
 
   Future<RegisterResponse> register(RegisterRequest request) async {
     try {
@@ -57,6 +98,10 @@ class AuthRepository {
       // Login API returns user data directly (not wrapped in ApiResponse)
       if (response.containsKey('token') && response.containsKey('userId')) {
         print('✅ Repository: Token found, creating User object');
+        // After successful login
+        await NotificationServices().init();
+// or force re-register
+//         await NotificationServices()._getFCMToken();
         return User.fromJson(response);
       } else if (response.containsKey('message')) {
         print('❌ Repository: Login failed with message: ${response['message']}');

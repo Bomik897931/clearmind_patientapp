@@ -50,7 +50,7 @@ android {
 
     defaultConfig {
         applicationId "com.clearmind.patient_app"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 23
         targetSdk 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

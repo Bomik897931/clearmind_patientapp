@@ -1,7 +1,9 @@
 class ApiConstants {
   // Replace with your actual .NET backend URL
   static const String baseUrl = 'http://erabdulg-001-site21.anytempurl.com/api/';
-  //
+
+  //Firebase
+  static const String registerDeviceEndpoint = 'Patient/register-userDevice';
   // // Auth Endpoints
   static const String registerEndpoint = 'Patient/register-patient';
   static const String loginEndpoint = 'auth/login';
