@@ -16,10 +16,10 @@ class NotificationScreen extends GetView<NotificationController> {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.black),
-          onPressed: () => Get.back(),
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: AppColors.black),
+        //   onPressed: () => Get.back(),
+        // ),
         title:  Text(
           AppStrings.notification,
           style: TextStyle(

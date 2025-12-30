@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'app.dart';
 import 'controller/locale_controller.dart';
 import 'core/constants/app_colors.dart';
+import 'core/constants/constant.dart';
 import 'data/services/StorageService.dart'; // ← FIXED: Correct path
 import 'data/services/api_service.dart';
 import 'data/services/notification_service.dart';
@@ -50,14 +51,16 @@ void main() async {
         await notificationService.init();
 
         // ✅ TERMINATED STATE HANDLING
-        RemoteMessage? message = await FirebaseMessaging.instance
-            .getInitialMessage();
-        // App opened from terminated state via notification
-        if (message != null) {
-          notificationService.handleNavigationFromMessage(message);
-        }
 
-        // runApp(const MyApp());
+        // RemoteMessage? message = await FirebaseMessaging.instance
+        //     .getInitialMessage();
+        // // App opened from terminated state via notification
+        // if (message != null) {
+        //   notificationService.handleNavigationFromMessage(message);
+        // }
+
+        initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+
 
         print('✅ Starting app initialization...');
 

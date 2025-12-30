@@ -49,7 +49,6 @@
 //   static const String emailID = 'Email ID';
 // }
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../l10n/app_localizations.dart';
