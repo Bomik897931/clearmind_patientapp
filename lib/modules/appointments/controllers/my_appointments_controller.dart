@@ -107,6 +107,7 @@ import 'package:get/get.dart';
 import 'package:patient_app/core/routes/app_routes.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/appointment_model.dart';
+import '../../../data/repositories/agora_repository.dart';
 import '../../../data/repositories/appointment_repository.dart';
 import '../../../data/services/StorageService.dart';
 import '../../../widgets/cancel_appointment_dialog.dart';
@@ -316,12 +317,60 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
     });
   }
 
-  void onCall(Appointment appointment) {
+  void onCall(Appointment appointment) async{
     // Implement call functionality
-    Get.snackbar(
-      'Call',
-      'Calling ${appointment.doctorName}...',
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    try {
+      // Show loading
+      // Get.dialog(
+      //   const Center(child: CircularProgressIndicator()),
+      //   barrierDismissible: false,
+      // );
+
+      final storage = StorageService();
+      final token = await storage.getToken();
+
+      if (token == null) {
+        Get.back(); // Close loading
+        Get.snackbar('Error', 'Please login first');
+        return;
+      }
+
+      // Get Agora token from API
+      final agoraRepo = AgoraRepository();
+      final agoraToken = await agoraRepo.getAgoraToken(
+        token: token,
+        appointmentId: appointment.appointmentId,
+      );
+
+      // Get.back(); // Close loading
+
+      // Navigate to video call screen with token
+      Get.toNamed(
+        '/video-call',
+        arguments: {
+          'appId': agoraToken.appId,
+          'channelName': agoraToken.channelName,
+          'token': agoraToken.token,
+          'uid': agoraToken.uid,
+        },
+      );
+    } catch (e) {
+      Get.back(); // Close loading
+      print('Error joining call: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to join call. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+
+
+    // Get.snackbar(
+    //   'Call',
+    //   'Calling ${appointment.doctorName}...',
+    //   snackPosition: SnackPosition.BOTTOM,
+    // );
   }
 }

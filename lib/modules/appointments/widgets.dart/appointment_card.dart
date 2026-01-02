@@ -374,8 +374,8 @@ class AppointmentCard extends StatelessWidget {
           SizedBox(width: AppDimensions.paddingSM),
           Expanded(
             child: ElevatedButton(
-              onPressed: (){},
-              // onPressed: onReschedule,
+              // onPressed: (){},
+              onPressed: onCall,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 padding: EdgeInsets.symmetric(vertical: 12.h),

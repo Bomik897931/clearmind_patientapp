@@ -478,6 +478,11 @@ class AuthController extends GetxController {
       print('🟢 Controller: Login successful, user: ${user.email}');
 
       currentUser.value = user;
+      if (user.role == 'Patient'){
+        Get.offAllNamed('/home');
+      }else{
+        _showSuccess('Your role is not patient, Please try again with another user');
+      }
 
       // Save token separately if needed
       if (user.token != null) {
@@ -495,7 +500,8 @@ class AuthController extends GetxController {
       // loginEmailController.clear();
       // loginPasswordController.clear();
 
-      Get.offAllNamed('/home');
+
+
     } on RepositoryException catch (e) {
       print('🔴 Controller: RepositoryException - ${e.message}');
       _showError(e.message);

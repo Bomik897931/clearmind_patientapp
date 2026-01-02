@@ -212,7 +212,9 @@
 //   }
 // }
 
-import 'dart:async';
+
+//working upto 573
+/*import 'dart:async';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -566,5 +568,326 @@ class VideoCallController extends GetxController {
     engine = null;
     engineInitialized.value = false;
     print('✅ Disposed');
+  }
+}*/
+
+
+// lib/modules/videoscreen/controller/video_call_controller.dart
+import 'dart:async';
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import '../../../data/repositories/agora_repository.dart';
+
+class VideoCallController extends GetxController {
+  final AgoraRepository _agoraRepository;
+
+  VideoCallController({AgoraRepository? agoraRepository})
+      : _agoraRepository = agoraRepository ?? AgoraRepository();
+
+  RtcEngine? engine;
+
+  final RxBool isJoined = false.obs;
+  final RxInt remoteUid = 0.obs;
+  final RxBool isMuted = false.obs;
+  final RxBool isVideoEnabled = true.obs;
+  final RxBool isSpeakerEnabled = true.obs;
+  final RxBool isCallConnected = false.obs;
+  final RxBool engineInitialized = false.obs;
+  final RxBool isJoining = false.obs;
+
+  String? channelName;
+  String? appId;
+  String? agoraToken;
+  int? localUid;
+
+  Timer? _callDurationTimer;
+  final RxInt callDuration = 0.obs;
+
+  @override
+  void onClose() {
+    _dispose();
+    super.onClose();
+  }
+
+  /// Initialize Agora engine with dynamic App ID
+  Future<void> initializeAgora(String dynamicAppId) async {
+    try {
+      print('🎥 === INITIALIZING AGORA ===');
+      print('🔑 App ID: $dynamicAppId');
+
+      // Step 1: Check permissions
+      print('📷 Checking permissions...');
+      var cameraStatus = await Permission.camera.status;
+      var micStatus = await Permission.microphone.status;
+
+      if (!cameraStatus.isGranted || !micStatus.isGranted) {
+        print('⚠️ Requesting permissions...');
+        var statuses = await [
+          Permission.camera,
+          Permission.microphone,
+        ].request();
+
+        if (statuses[Permission.camera] != PermissionStatus.granted ||
+            statuses[Permission.microphone] != PermissionStatus.granted) {
+          print('❌ Permissions DENIED!');
+          Get.snackbar(
+            'Permissions Required',
+            'Camera and microphone permissions are required',
+            snackPosition: SnackPosition.BOTTOM,
+          );
+          return;
+        }
+      }
+      print('✅ Permissions granted');
+
+      // Step 2: Validate App ID
+      if (dynamicAppId.isEmpty) {
+        print('❌ Invalid App ID!');
+        Get.snackbar(
+          'Configuration Error',
+          'Agora App ID not available',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        return;
+      }
+
+      // Step 3: Create engine
+      print('🔧 Creating RTC Engine...');
+      engine = createAgoraRtcEngine();
+
+      await engine!.initialize(
+        RtcEngineContext(
+          appId: dynamicAppId,
+          channelProfile: ChannelProfileType.channelProfileCommunication,
+        ),
+      );
+      print('✅ Engine created');
+
+      // Step 4: Register event handlers
+      print('📡 Registering event handlers...');
+      engine!.registerEventHandler(
+        RtcEngineEventHandler(
+          onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
+            print('✅✅✅ JOIN SUCCESS! ✅✅✅');
+            print('Local UID: ${connection.localUid}');
+            print('Channel: ${connection.channelId}');
+
+            localUid = connection.localUid;
+            isJoined.value = true;
+            isJoining.value = false;
+            _startCallDurationTimer();
+
+            Get.snackbar(
+              'Connected',
+              'Successfully joined call',
+              snackPosition: SnackPosition.TOP,
+              duration: const Duration(seconds: 2),
+            );
+          },
+
+          onUserJoined: (RtcConnection connection, int uid, int elapsed) {
+            print('✅✅✅ REMOTE USER JOINED! ✅✅✅');
+            print('Remote UID: $uid');
+
+            remoteUid.value = uid;
+            isCallConnected.value = true;
+
+            Get.snackbar(
+              'User Joined',
+              'Doctor has joined the call',
+              snackPosition: SnackPosition.TOP,
+              duration: const Duration(seconds: 2),
+            );
+          },
+
+          onUserOffline:
+              (RtcConnection connection, int uid, UserOfflineReasonType reason) {
+            print('❌ Remote user left: $uid');
+            remoteUid.value = 0;
+            isCallConnected.value = false;
+
+            Get.snackbar(
+              'User Left',
+              'Doctor has left the call',
+              snackPosition: SnackPosition.TOP,
+            );
+          },
+
+          onLeaveChannel: (RtcConnection connection, RtcStats stats) {
+            print('👋 Left channel');
+            isJoined.value = false;
+            remoteUid.value = 0;
+            isCallConnected.value = false;
+          },
+
+          onError: (ErrorCodeType err, String msg) {
+            print('❌❌❌ AGORA ERROR! ❌❌❌');
+            print('Error: $err - $msg');
+
+            isJoining.value = false;
+
+            Get.snackbar(
+              'Connection Error',
+              'Error: $msg',
+              snackPosition: SnackPosition.BOTTOM,
+            );
+          },
+
+          onConnectionStateChanged:
+              (RtcConnection connection, ConnectionStateType state,
+              ConnectionChangedReasonType reason) {
+            print('🔄 Connection State: $state');
+          },
+        ),
+      );
+
+      // Step 5: Enable video and audio
+      print('📹 Enabling video & audio...');
+      await engine!.enableVideo();
+      await engine!.enableAudio();
+      await engine!.setClientRole(role: ClientRoleType.clientRoleBroadcaster);
+      await engine!.startPreview();
+      print('✅ Preview started');
+
+      engineInitialized.value = true;
+      print('✅✅✅ AGORA FULLY INITIALIZED! ✅✅✅');
+    } catch (e, stack) {
+      print('❌❌❌ INITIALIZATION FAILED! ❌❌❌');
+      print('Error: $e');
+
+      engineInitialized.value = false;
+      Get.snackbar(
+        'Initialization Error',
+        'Failed to initialize video call',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  /// Join call with token from API
+  Future<void> joinCallWithToken(
+      String token,
+      String channel,
+      String dynamicAppId,
+      int uid,
+      ) async {
+    try {
+      print('\n🚀 === JOINING CALL ===');
+      print('Channel: $channel');
+      print('App ID: $dynamicAppId');
+      print('UID: $uid');
+
+      channelName = channel;
+      appId = dynamicAppId;
+      agoraToken = token;
+      localUid = uid;
+      isJoining.value = true;
+
+      // Initialize with dynamic app ID
+      if (engine == null || !engineInitialized.value) {
+        print('⚠️ Initializing engine...');
+        await initializeAgora(dynamicAppId);
+
+        if (engine == null) {
+          print('❌ Failed to initialize!');
+          isJoining.value = false;
+          return;
+        }
+
+        await Future.delayed(const Duration(milliseconds: 500));
+      }
+
+      print('📞 Joining channel...');
+
+      await engine!.joinChannel(
+        token: token,
+        channelId: channel,
+        uid: uid,
+        options: const ChannelMediaOptions(
+          channelProfile: ChannelProfileType.channelProfileCommunication,
+          clientRoleType: ClientRoleType.clientRoleBroadcaster,
+          publishCameraTrack: true,
+          publishMicrophoneTrack: true,
+          autoSubscribeAudio: true,
+          autoSubscribeVideo: true,
+        ),
+      );
+
+      print('✅ joinChannel() called');
+    } catch (e) {
+      print('❌❌❌ JOIN FAILED! ❌❌❌');
+      print('Error: $e');
+
+      isJoining.value = false;
+
+      Get.snackbar(
+        'Connection Failed',
+        'Failed to join call',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  Future<void> leaveCall() async {
+    print('👋 Leaving call...');
+    _stopCallDurationTimer();
+    await engine?.leaveChannel();
+    isJoined.value = false;
+    isJoining.value = false;
+    remoteUid.value = 0;
+    isCallConnected.value = false;
+    callDuration.value = 0;
+  }
+
+  Future<void> toggleMute() async {
+    isMuted.value = !isMuted.value;
+    await engine?.muteLocalAudioStream(isMuted.value);
+  }
+
+  Future<void> toggleVideo() async {
+    isVideoEnabled.value = !isVideoEnabled.value;
+    await engine?.muteLocalVideoStream(!isVideoEnabled.value);
+  }
+
+  Future<void> switchCamera() async {
+    await engine?.switchCamera();
+  }
+
+  Future<void> toggleSpeaker() async {
+    isSpeakerEnabled.value = !isSpeakerEnabled.value;
+    await engine?.setEnableSpeakerphone(isSpeakerEnabled.value);
+  }
+
+  void _startCallDurationTimer() {
+    _callDurationTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      callDuration.value++;
+    });
+  }
+
+  void _stopCallDurationTimer() {
+    _callDurationTimer?.cancel();
+    _callDurationTimer = null;
+  }
+
+  String getFormattedDuration() {
+    int hours = callDuration.value ~/ 3600;
+    int minutes = (callDuration.value % 3600) ~/ 60;
+    int seconds = callDuration.value % 60;
+
+    if (hours > 0) {
+      return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+    }
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> _dispose() async {
+    print('🧹 Disposing...');
+    _stopCallDurationTimer();
+    await engine?.leaveChannel();
+    await engine?.release();
+    engine = null;
+    engineInitialized.value = false;
   }
 }

@@ -16,14 +16,48 @@ class VideoCallScreen extends StatefulWidget {
 class _VideoCallScreenState extends State<VideoCallScreen> {
   final VideoCallController controller = Get.put(VideoCallController());
   String? channelName;
+  String? appId;
+  String? token;
+  int? uid;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   final args = Get.arguments as Map<String, dynamic>?;
+  //   channelName = args?['channelName'];
+  //   if (channelName != null) {
+  //     controller.joinCall(channelName!);
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
+
+    // Get arguments
     final args = Get.arguments as Map<String, dynamic>?;
-    channelName = args?['channelName'];
-    if (channelName != null) {
-      controller.joinCall(channelName!);
+
+    if (args != null) {
+      appId = args['appId'];
+      channelName = args['channelName'];
+      token = args['token'];
+      uid = args['uid'] ?? 0;
+
+      print('📱 Video Call Arguments:');
+      print('App ID: $appId');
+      print('Channel: $channelName');
+      print('UID: $uid');
+
+      // Join call with token
+      if (appId != null && channelName != null && token != null) {
+        controller.joinCallWithToken(token!, channelName!, appId!, uid!);
+      } else {
+        Get.snackbar('Error', 'Invalid call parameters');
+        Get.back();
+      }
+    } else {
+      Get.snackbar('Error', 'No call parameters provided');
+      Get.back();
     }
   }
 
