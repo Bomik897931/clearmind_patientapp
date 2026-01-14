@@ -44,10 +44,10 @@
 // lib/modules/doctors/controllers/doctors_by_specialization_controller.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:patient_app/data/models/doctor_model.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/category_model.dart';
+import '../../../data/models/doctor_model.dart';
 import '../../../data/repositories/doctor_repository.dart';
 import '../../../data/services/StorageService.dart';
 

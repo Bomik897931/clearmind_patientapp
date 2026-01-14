@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_app/core/constants/app_text_style.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_dimensions.dart';
+import '../constants/app_text_style.dart';
 
 class AppTheme {
   AppTheme._();

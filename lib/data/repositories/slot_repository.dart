@@ -1,7 +1,6 @@
-// lib/repositories/slots_repository.dart
-import 'package:patient_app/core/constants/api_constants.dart';
-import 'package:patient_app/data/repositories/user_repository.dart';
+import 'package:Clarminds/data/repositories/user_repository.dart';
 
+import '../../core/constants/api_constants.dart';
 import '../models/api_response.dart';
 import '../models/appointment_model.dart';
 import '../models/appointment_request_model.dart';

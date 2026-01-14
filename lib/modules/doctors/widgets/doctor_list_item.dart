@@ -112,10 +112,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:patient_app/data/models/doctor_model.dart';
 import '../../../core/constants/app_text_style.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
+import '../../../data/models/doctor_model.dart';
 import '../controllers/top_doctors_controller.dart';
 
 class DoctorListItem extends StatelessWidget {

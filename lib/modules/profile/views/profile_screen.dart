@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:patient_app/core/constants/app_text_style.dart';
-import 'package:patient_app/modules/profile/controllers/edit_profile_controller.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
+import '../../../core/constants/app_text_style.dart';
 import '../../../widgets/bottom_nav_bar.dart';
+import '../controllers/edit_profile_controller.dart';
 import '../controllers/profile_controller.dart';
 import '../widgets/profile_menu_item.dart';
 

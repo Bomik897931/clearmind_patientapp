@@ -51,6 +51,7 @@ class ApiConstants {
 
   // Agora Configuration
   static const String getAgoraTokenEndpoint = 'Agora/agora-token';
+  static const String leaveAgoraCallEndpoint = 'Agora/leaveCall';
   static const String agoraAppId = '4db547526f3247f48c47958b706e0b9b';
   // static const String agoraAppId = 'Y6203f525327e4b42b6958ae822a30d5b';
 

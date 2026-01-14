@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:patient_app/core/constants/app_colors.dart';
-import 'package:patient_app/core/routes/app_routes.dart';
-import 'package:patient_app/data/repositories/doctor_repository.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/routes/app_routes.dart';
 import '../../../data/models/doctor_model.dart';
 import '../../../data/models/category_model.dart';
+import '../../../data/repositories/doctor_repository.dart';
 import '../../../data/services/StorageService.dart';
 
 class HomeController extends GetxController {
@@ -170,6 +170,7 @@ class HomeController extends GetxController {
 
   void onSpecializationTap(Specialization specialization) {
     // Navigate to doctors list filtered by specialization
+    print(specialization);
     Get.toNamed('/doctors-by-specialization', arguments: {
       'specialization': specialization,
     });

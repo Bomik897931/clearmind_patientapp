@@ -1,57 +1,55 @@
 import 'package:get/get.dart';
-import 'package:patient_app/languageswitcher.dart';
-import 'package:patient_app/modules/appointments/controllers/book_appointment_controller.dart';
-import 'package:patient_app/modules/appointments/controllers/my_appointments_controller.dart';
-import 'package:patient_app/modules/appointments/controllers/patient_details_controller.dart';
-import 'package:patient_app/modules/appointments/views/book_appointment_screen.dart';
-import 'package:patient_app/modules/appointments/views/my_appointments_screen.dart';
-import 'package:patient_app/modules/appointments/views/patient_details_screen.dart';
-import 'package:patient_app/modules/categories/controllers/categories_controller.dart';
-import 'package:patient_app/modules/categories/views/categories_screen.dart';
-import 'package:patient_app/modules/consultation/controllers/appointment_detail_controller.dart';
-import 'package:patient_app/modules/consultation/controllers/chat_controller.dart';
-import 'package:patient_app/modules/consultation/controllers/consultation_end_controller.dart';
-import 'package:patient_app/modules/consultation/controllers/video_call_controller.dart';
-import 'package:patient_app/modules/consultation/views/appointment_detail_screen.dart';
-import 'package:patient_app/modules/consultation/views/chat_screen.dart';
-import 'package:patient_app/modules/consultation/views/consultation_end_screen.dart';
-import 'package:patient_app/modules/consultation/views/video_call_screen.dart';
-import 'package:patient_app/modules/doctors/controllers/doctor_detail_controller.dart';
-import 'package:patient_app/modules/doctors/controllers/top_doctors_controller.dart';
-import 'package:patient_app/modules/doctors/views/doctor_detail_screen.dart';
-import 'package:patient_app/modules/doctors/views/top_doctors_screen.dart';
-import 'package:patient_app/modules/home/controller/home_controller.dart';
-import 'package:patient_app/modules/home/views/home_screen.dart';
-import 'package:patient_app/modules/payments/controllers/add_card_controller.dart';
-import 'package:patient_app/modules/payments/controllers/payment_controller.dart';
-import 'package:patient_app/modules/payments/views/add_card_screen.dart';
-import 'package:patient_app/modules/payments/views/payment_screen.dart';
-import 'package:patient_app/modules/profile/controllers/edit_profile_controller.dart';
-import 'package:patient_app/modules/profile/controllers/faqs_controller.dart';
-import 'package:patient_app/modules/profile/controllers/help_controller.dart';
-import 'package:patient_app/modules/profile/controllers/profile_controller.dart';
-import 'package:patient_app/modules/profile/controllers/write_review_controller.dart';
-import 'package:patient_app/modules/profile/views/edit_profile_screen.dart';
-import 'package:patient_app/modules/profile/views/faqs_screen.dart';
-import 'package:patient_app/modules/profile/views/help_screen.dart';
-import 'package:patient_app/modules/profile/views/profile_screen.dart';
-import 'package:patient_app/modules/profile/views/write_review_screen.dart';
-import 'package:patient_app/modules/slot/controller/slot_controller.dart';
-import 'package:patient_app/modules/slot/view/slot_screen.dart';
+import '../../languageswitcher.dart';
 import '../../modules/Auth/controllers/splash_controller.dart';
 import '../../modules/Auth/view/login_screen.dart';
 import '../../modules/Auth/view/registration_screen.dart';
 import '../../modules/Auth/view/splash_screen.dart';
+import '../../modules/appointments/controllers/book_appointment_controller.dart';
+import '../../modules/appointments/controllers/my_appointments_controller.dart';
+import '../../modules/appointments/controllers/patient_details_controller.dart';
+import '../../modules/appointments/views/book_appointment_screen.dart';
+import '../../modules/appointments/views/my_appointments_screen.dart';
+import '../../modules/appointments/views/patient_details_screen.dart';
+import '../../modules/categories/controllers/categories_controller.dart';
+import '../../modules/categories/views/categories_screen.dart';
+import '../../modules/consultation/controllers/appointment_detail_controller.dart';
+import '../../modules/consultation/controllers/chat_controller.dart';
+import '../../modules/consultation/controllers/consultation_end_controller.dart';
+import '../../modules/consultation/views/appointment_detail_screen.dart';
+import '../../modules/consultation/views/chat_screen.dart';
+import '../../modules/consultation/views/consultation_end_screen.dart';
+import '../../modules/doctors/controllers/doctor_detail_controller.dart';
+import '../../modules/doctors/controllers/top_doctors_controller.dart';
+import '../../modules/doctors/views/doctor_detail_screen.dart';
+import '../../modules/doctors/views/top_doctors_screen.dart';
 import '../../modules/favorite/controller/favorite_controller.dart';
 import '../../modules/favorite/view/favorite_screen.dart';
+import '../../modules/home/controller/home_controller.dart';
+import '../../modules/home/views/home_screen.dart';
 import '../../modules/homevc/view/homevc_view.dart';
 import '../../modules/incomingCall/view/incoming_call_screen.dart';
 import '../../modules/notifications/controller/notification_controller.dart';
 import '../../modules/notifications/views/notification_screen.dart';
+import '../../modules/payments/controllers/add_card_controller.dart';
+import '../../modules/payments/controllers/payment_controller.dart';
+import '../../modules/payments/views/add_card_screen.dart';
+import '../../modules/payments/views/payment_screen.dart';
+import '../../modules/profile/controllers/edit_profile_controller.dart';
+import '../../modules/profile/controllers/faqs_controller.dart';
+import '../../modules/profile/controllers/help_controller.dart';
+import '../../modules/profile/controllers/profile_controller.dart';
+import '../../modules/profile/views/edit_profile_screen.dart';
+import '../../modules/profile/views/faqs_screen.dart';
+import '../../modules/profile/views/help_screen.dart';
+import '../../modules/profile/views/profile_screen.dart';
+import '../../modules/review/controller/review_confirm_controller.dart';
 import '../../modules/review/controller/review_controller.dart';
 import '../../modules/review/controller/review_list_controller.dart';
+import '../../modules/review/views/review_confirm_screen.dart';
 import '../../modules/review/views/review_list_screen.dart';
 import '../../modules/review/views/review_screen.dart';
+import '../../modules/slot/controller/slot_controller.dart';
+import '../../modules/slot/view/slot_screen.dart';
 import '../../modules/videoscreen/view/test_video_screen.dart';
 import '../../modules/videoscreen/view/video_call_screen.dart';
 import 'app_routes.dart';
@@ -267,6 +265,13 @@ class AppPages {
       page: () => const NotificationScreen(),
       binding: BindingsBuilder(() {
         Get.lazyPut(() => NotificationController());
+      }),
+    ),
+    GetPage(
+      name: AppRoutes.REVIEW_CONFIRM,
+      page: () => const ReviewConfirmScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => ReviewConfirmController());
       }),
     ),
     GetPage(name: AppRoutes.LanguageSwitcher, page: () => LanguageSwitcher())

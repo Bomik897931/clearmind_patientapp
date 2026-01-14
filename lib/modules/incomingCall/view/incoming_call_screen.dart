@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:patient_app/data/services/simple_call_service.dart';
 
 import '../../../core/constants/app_colors.dart';
+import '../../../data/services/simple_call_service.dart';
 
 class IncomingCallScreen extends StatelessWidget {
   const IncomingCallScreen({super.key});

@@ -87,6 +87,11 @@ class BookAppointmentController extends GetxController {
   final RxBool isReschedule = false.obs;
   final RxBool isLoading = false.obs;
   final RxList<Slot> slots = <Slot>[].obs;
+  final selectedDuration = '10 Minute'.obs;
+  final ageController = TextEditingController();
+  final selectedGender = ''.obs;
+  final selectedIdProof = ''.obs;
+  final displayMonth = DateTime.now().obs;
 
   @override
   void onInit() {
@@ -103,6 +108,19 @@ class BookAppointmentController extends GetxController {
     }
   }
 
+  void previousMonth() {
+    displayMonth.value = DateTime(
+      displayMonth.value.year,
+      displayMonth.value.month - 1,
+    );
+  }
+
+  void nextMonth() {
+    displayMonth.value = DateTime(
+      displayMonth.value.year,
+      displayMonth.value.month + 1,
+    );
+  }
   Future<void> loadSlots(DateTime date) async {
     if (doctor.value == null) return;
 
@@ -239,6 +257,16 @@ class BookAppointmentController extends GetxController {
       // Navigate to my appointments after short delay
       await Future.delayed(const Duration(seconds: 1));
       Get.offAllNamed('/my-appointments');
+
+      // Get.toNamed('/review-confirm', arguments: {
+      //   'doctor': doctor.value,
+      //   'selectedDate': selectedDate.value,
+      //   'selectedTime': selectedDate.value,
+      //   'consultationDuration': selectedDuration.value,
+      //   'selectedIdProof': selectedIdProof.value,
+      //   'age': ageController.text,
+      //   'gender': selectedGender.value,
+      // });
 
     } on RepositoryException catch (e) {
       print('🔴 Controller: RepositoryException - ${e.message}');

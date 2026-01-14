@@ -28,6 +28,51 @@ class AppTextStyles {
     fontFamily: 'Inter',
     height: 1.3,
   );
+  static TextStyle heading51 = TextStyle(
+    fontSize: 14.sp, // ✅ 14px
+    fontWeight: FontWeight.w500, // ✅ Medium (500)
+    fontFamily: 'EBGaramond', // ✅ EB Garamond
+    color: AppColors.white,
+    height: 21 / 14, // ✅ line-height: 21px
+    letterSpacing: -0.011 * 14, // ✅ -1.1%
+  );
+  static TextStyle subHeading = TextStyle(
+    fontSize: 24.sp, // ✅ 24px
+    fontWeight: FontWeight.w500, // ✅ Medium
+    fontFamily: 'Quicksand', // ✅ Font
+    color: AppColors.white,
+    height: 31.2 / 24, // ✅ line-height
+    letterSpacing: -0.011 * 24, // ✅ -1.1%
+  );
+  static TextStyle heading5 = TextStyle(
+    fontFamily: 'Quicksand',
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
+    height: 1.5, // 21px line-height
+    letterSpacing: -0.15,
+    color:  AppColors.textPrimary,
+  );
+  static TextStyle heading5_2 = TextStyle(
+    fontFamily: 'Quicksand',
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
+    height: 1.5,          // 21px line height
+    letterSpacing: -0.15, // -1.1%
+    color: AppColors.textPrimary,
+  );
+
+
+  static TextStyle heading5_1 = TextStyle(
+    fontFamily: 'EBGaramond',
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
+    height: 1.5, // 21px line height
+    letterSpacing: -0.15, // -1.1%
+    color: const Color(0xFF3F3F47),
+  );
+
+
+
 
   static TextStyle h4 = TextStyle(
     fontSize: 20.sp,
@@ -92,4 +137,5 @@ class AppTextStyles {
     fontFamily: 'Inter',
     height: 1.4,
   );
+
 }

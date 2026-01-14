@@ -213,7 +213,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:patient_app/data/models/register_response.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/register_request.dart';

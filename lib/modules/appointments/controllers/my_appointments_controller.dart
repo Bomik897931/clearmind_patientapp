@@ -104,11 +104,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:patient_app/core/routes/app_routes.dart';
+import 'package:Clarminds/data/repositories/user_repository.dart';
+
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_strings.dart';
+import '../../../core/routes/app_routes.dart';
 import '../../../data/models/appointment_model.dart';
 import '../../../data/repositories/agora_repository.dart';
 import '../../../data/repositories/appointment_repository.dart';
+import '../../../data/repositories/user_repository.dart';
 import '../../../data/services/StorageService.dart';
 import '../../../widgets/cancel_appointment_dialog.dart';
 
@@ -352,10 +356,56 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
           'channelName': agoraToken.channelName,
           'token': agoraToken.token,
           'uid': agoraToken.uid,
+          'appointmentId':appointment.appointmentId
         },
       );
-    } catch (e) {
-      Get.back(); // Close loading
+    } on RepositoryException catch (e) {
+      // Get.back();
+
+      if (e.message.contains('already connected')) {
+        // Show dialog with force disconnect option
+        Get.dialog(
+          AlertDialog(
+            title: Row(
+              children: [
+                Icon(Icons.warning_amber, color: AppColors.orange, size: 28),
+                SizedBox(width: 12),
+                Text('Already Connected'),
+              ],
+            ),
+            content: Text(
+              'Patient already connected to this call on another device. Please disconnect there and try again.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Get.back(),
+                child: Text(AppStrings.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                  // onCall(appointment);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
+                child: Text('Disconnect'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        Get.snackbar(
+          'Error',
+          e.message,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    }
+    catch (e) {
+      // Get.back(); // Close loading
       print('Error joining call: $e');
       Get.snackbar(
         'Error',

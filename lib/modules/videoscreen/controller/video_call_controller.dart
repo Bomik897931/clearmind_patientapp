@@ -578,7 +578,10 @@ import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../core/constants/app_colors.dart';
+import '../../../core/routes/app_routes.dart';
 import '../../../data/repositories/agora_repository.dart';
+import '../../../data/services/StorageService.dart';
 
 class VideoCallController extends GetxController {
   final AgoraRepository _agoraRepository;
@@ -830,7 +833,7 @@ class VideoCallController extends GetxController {
     }
   }
 
-  Future<void> leaveCall() async {
+  Future<void> leaveCall(int appointmentId) async {
     print('👋 Leaving call...');
     _stopCallDurationTimer();
     await engine?.leaveChannel();
@@ -839,6 +842,38 @@ class VideoCallController extends GetxController {
     remoteUid.value = 0;
     isCallConnected.value = false;
     callDuration.value = 0;
+    try {
+      final storage = StorageService();
+      final token = await storage.getToken();
+
+      if (token == null) {
+        print('Token missing while leaving call');
+        return;
+      }
+
+      final agoraRepo = AgoraRepository();
+
+    final agoraToken= await agoraRepo.leaveAgoraCall(
+        token: token,
+        appointmentId: appointmentId,
+      );
+
+      print('Call left successfully');
+
+      // Navigate back after leaving call
+      Get.offAllNamed(AppRoutes.HOME);
+
+    } catch (e) {
+      print('Error leaving call: $e');
+
+      Get.snackbar(
+        'Error',
+        'Failed to leave call properly',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
+      );
+    }
   }
 
   Future<void> toggleMute() async {

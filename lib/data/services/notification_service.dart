@@ -6,11 +6,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:patient_app/data/repositories/user_repository.dart';
-import 'package:patient_app/data/services/StorageService.dart';
-import 'package:patient_app/ma_test_screen/notification_screen.dart';
+import 'package:Clarminds/data/repositories/user_repository.dart';
+
+import '../../core/constants/api_constants.dart';
 
 import '../../core/routes/app_routes.dart';
+import 'StorageService.dart';
 
 class NotificationServices {
 

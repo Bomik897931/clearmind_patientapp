@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:patient_app/core/constants/app_colors.dart';
+
+import '../../../core/constants/app_colors.dart';
 
 class HelpController extends GetxController {
   final messageController = TextEditingController();

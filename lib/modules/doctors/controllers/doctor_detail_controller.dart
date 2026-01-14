@@ -74,12 +74,12 @@
 // lib/modules/doctors/controllers/doctor_detail_controller.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:patient_app/data/repositories/reveiw_repository.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/doctor_model.dart';
 import '../../../data/models/review_model.dart';
 import '../../../data/repositories/doctor_repository.dart';
+import '../../../data/repositories/reveiw_repository.dart';
 import '../../../data/services/StorageService.dart';
 
 class DoctorDetailController extends GetxController {

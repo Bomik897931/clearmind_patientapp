@@ -19,16 +19,17 @@ class SplashScreen extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // App Logo/Icon
-            Icon(
-              Icons.local_hospital,
-              size: 100.w,
-              color: AppColors.white,
-            ),
+            // Icon(
+            //   Icons.local_hospital,
+            //   size: 100.w,
+            //   color: AppColors.white,
+            // ),
+            Image.asset('assets/images/applogo.png',width: 100.w,height: 100.w,),
             SizedBox(height: 24.h),
 
             // App Name
             Text(
-              'Patient App',
+              'Clarminds',
               style: AppTextStyles.h2.copyWith(
                 color: AppColors.white,
                 fontWeight: FontWeight.bold,

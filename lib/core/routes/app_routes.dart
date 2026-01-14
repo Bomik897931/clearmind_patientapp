@@ -29,6 +29,7 @@ class AppRoutes {
   static const String WRITE_REVIEW = '/write-review';
   static const String REVIEWS_LIST = '/reviews-list';
   static const String NOTIFICATIONS = '/notifications';
+  static const String REVIEW_CONFIRM = '/review-confirm';
   static const String FAQS = '/faqs';
   static const String HELP = '/help';
   static const String FAVORITE_DOCTORS = '/favorite-doctors';

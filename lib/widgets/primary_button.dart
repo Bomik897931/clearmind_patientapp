@@ -1,7 +1,7 @@
 
+import 'package:Clarminds/widgets/textWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:patient_app/widgets/textWidget.dart';
 
 import '../core/constants/app_colors.dart';
 import '../core/constants/constant.dart';

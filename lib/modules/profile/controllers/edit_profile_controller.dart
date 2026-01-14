@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:patient_app/data/repositories/user_repository.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/profile_model.dart';
+import '../../../data/repositories/user_repository.dart';
 import '../../../data/services/StorageService.dart';
 
 class EditProfileController extends GetxController {

@@ -1,4 +1,5 @@
-import 'package:patient_app/data/repositories/user_repository.dart';
+
+import 'package:Clarminds/data/repositories/user_repository.dart';
 
 import '../../core/constants/api_constants.dart';
 import '../models/api_response.dart';

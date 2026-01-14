@@ -797,9 +797,9 @@ class DoctorDetailScreen extends GetView<DoctorDetailController> {
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:patient_app/core/constants/app_colors.dart';
-import 'package:patient_app/core/constants/app_strings.dart';
 
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_strings.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../data/models/review_model.dart';
 import '../controllers/doctor_detail_controller.dart';
