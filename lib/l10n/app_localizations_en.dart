@@ -148,4 +148,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emailID => 'Email ID';
+
+  @override
+  String get allDoctors => 'All Doctors';
 }

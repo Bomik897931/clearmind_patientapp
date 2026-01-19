@@ -496,6 +496,7 @@ class HomeScreen extends GetView<HomeController> {
 
 
 
+import 'package:Clarminds/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -642,7 +643,7 @@ class _HeaderSection extends StatelessWidget {
             final uiList = <_UiSpecialization>[
               _UiSpecialization(
                 icon: Icons.grid_view_rounded,
-                name: 'All Doctors',
+                name: AppStrings.allDocotrs,
                 raw: null,
               ),
             ];

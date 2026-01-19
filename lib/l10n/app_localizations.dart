@@ -379,6 +379,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email ID'**
   String get emailID;
+
+  /// No description provided for @allDoctors.
+  ///
+  /// In en, this message translates to:
+  /// **'All Doctors'**
+  String get allDoctors;
 }
 
 class _AppLocalizationsDelegate

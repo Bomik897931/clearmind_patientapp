@@ -111,4 +111,5 @@ class AppStrings {
   static String get sendMail => _l10n.sendMail;
   static String get editProfile => _l10n.editProfile;
   static String get emailID => _l10n.emailID;
+  static String get allDocotrs => _l10n.allDoctors;
 }

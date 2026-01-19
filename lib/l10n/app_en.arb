@@ -55,5 +55,6 @@
   "writeReview": "Write Review",
   "sendMail": "Send Mail",
   "editProfile": "Edit Profile",
-  "emailID": "Email ID"
+  "emailID": "Email ID",
+  "allDoctors": "All Doctors"
 }
