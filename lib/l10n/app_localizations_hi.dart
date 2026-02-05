@@ -148,7 +148,4 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get emailID => 'ईमेल आईडी';
-
-  @override
-  String get allDoctors => 'सभी डॉक्टर';
 }

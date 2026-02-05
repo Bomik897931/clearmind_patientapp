@@ -11,11 +11,11 @@ class DoctorCardWidget extends StatelessWidget {
   final VoidCallback onFavorite;
 
   const DoctorCardWidget({
-    Key? key,
+    super.key,
     required this.doctor,
     required this.onTap,
     required this.onFavorite,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

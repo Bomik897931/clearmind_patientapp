@@ -5,7 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../controller/review_controller.dart';
 
 class ReviewScreen extends GetView<ReviewController> {
-  const ReviewScreen({Key? key}) : super(key: key);
+  const ReviewScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,31 +44,35 @@ class ReviewScreen extends GetView<ReviewController> {
                     height: 120,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color:  AppColors.circularprogressindicator.withOpacity(0.1),
-                      image: doc.imageUrl.isNotEmpty &&
-                          doc.imageUrl != 'image url' &&
-                          doc.imageUrl != 'string'
+                      color: AppColors.circularprogressindicator.withOpacity(
+                        0.1,
+                      ),
+                      image:
+                          doc.imageUrl.isNotEmpty &&
+                              doc.imageUrl != 'image url' &&
+                              doc.imageUrl != 'string'
                           ? DecorationImage(
-                        image: NetworkImage(doc.imageUrl),
-                        fit: BoxFit.cover,
-                      )
+                              image: NetworkImage(doc.imageUrl),
+                              fit: BoxFit.cover,
+                            )
                           : null,
                     ),
-                    child: doc.imageUrl.isEmpty ||
-                        doc.imageUrl == 'image url' ||
-                        doc.imageUrl == 'string'
+                    child:
+                        doc.imageUrl.isEmpty ||
+                            doc.imageUrl == 'image url' ||
+                            doc.imageUrl == 'string'
                         ? Center(
-                      child: Text(
-                        doc.fullName.isNotEmpty
-                            ? doc.fullName[0].toUpperCase()
-                            : 'D',
-                        style: const TextStyle(
-                          fontSize: 48,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.circularprogressindicator,
-                        ),
-                      ),
-                    )
+                            child: Text(
+                              doc.fullName.isNotEmpty
+                                  ? doc.fullName[0].toUpperCase()
+                                  : 'D',
+                              style: const TextStyle(
+                                fontSize: 48,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.circularprogressindicator,
+                              ),
+                            ),
+                          )
                         : null,
                   ),
                   const SizedBox(height: 16),
@@ -88,23 +92,26 @@ class ReviewScreen extends GetView<ReviewController> {
             const SizedBox(height: 24),
 
             // Star Rating
-            Obx(() => Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(5, (index) {
-                return IconButton(
-                  onPressed: () => controller.setRating((index + 1).toDouble()),
-                  icon: Icon(
-                    index < controller.rating.value
-                        ? Icons.star
-                        : Icons.star_border,
-                    size: 40,
-                    color: index < controller.rating.value
-                        ? AppColors.orange
-                        : Colors.grey[300],
-                  ),
-                );
-              }),
-            )),
+            Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(5, (index) {
+                  return IconButton(
+                    onPressed: () =>
+                        controller.setRating((index + 1).toDouble()),
+                    icon: Icon(
+                      index < controller.rating.value
+                          ? Icons.star
+                          : Icons.star_border,
+                      size: 40,
+                      color: index < controller.rating.value
+                          ? AppColors.orange
+                          : Colors.grey[300],
+                    ),
+                  );
+                }),
+              ),
+            ),
 
             const SizedBox(height: 32),
 
@@ -153,158 +160,165 @@ class ReviewScreen extends GetView<ReviewController> {
               ),
             ),
             const SizedBox(height: 16),
-            Obx(() => Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => controller.setRecommendation(true),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 24,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: controller.wouldRecommend.value
-                                  ?  AppColors.circularprogressindicator
-                                  : Colors.grey[400]!,
-                              width: 2,
-                            ),
-                          ),
-                          child: controller.wouldRecommend.value
-                              ? Center(
-                            child: Container(
-                              width: 12,
-                              height: 12,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.circularprogressindicator,
+            Obx(
+              () => Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => controller.setRecommendation(true),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: controller.wouldRecommend.value
+                                    ? AppColors.circularprogressindicator
+                                    : Colors.grey[400]!,
+                                width: 2,
                               ),
                             ),
-                          )
-                              : null,
-                        ),
-                        const SizedBox(width: 12),
-                        const Text(
-                          'Yes',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: AppColors.black87,
+                            child: controller.wouldRecommend.value
+                                ? Center(
+                                    child: Container(
+                                      width: 12,
+                                      height: 12,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color:
+                                            AppColors.circularprogressindicator,
+                                      ),
+                                    ),
+                                  )
+                                : null,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => controller.setRecommendation(false),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 24,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: !controller.wouldRecommend.value
-                                  ?  AppColors.circularprogressindicator
-                                  : Colors.grey[400]!,
-                              width: 2,
+                          const SizedBox(width: 12),
+                          const Text(
+                            'Yes',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: AppColors.black87,
                             ),
                           ),
-                          child: !controller.wouldRecommend.value
-                              ? Center(
-                            child: Container(
-                              width: 12,
-                              height: 12,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.circularprogressindicator,
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => controller.setRecommendation(false),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: !controller.wouldRecommend.value
+                                    ? AppColors.circularprogressindicator
+                                    : Colors.grey[400]!,
+                                width: 2,
                               ),
                             ),
-                          )
-                              : null,
-                        ),
-                        const SizedBox(width: 12),
-                        const Text(
-                          'No',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: AppColors.black87,
+                            child: !controller.wouldRecommend.value
+                                ? Center(
+                                    child: Container(
+                                      width: 12,
+                                      height: 12,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color:
+                                            AppColors.circularprogressindicator,
+                                      ),
+                                    ),
+                                  )
+                                : null,
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 12),
+                          const Text(
+                            'No',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: AppColors.black87,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )),
+                ],
+              ),
+            ),
 
             const SizedBox(height: 48),
 
             // Action Buttons
-            Obx(() => Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: controller.isSubmitting.value
-                        ? null
-                        : controller.cancel,
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      side: BorderSide(
-                        color:  AppColors.circularprogressindicator.withOpacity(0.3),
+            Obx(
+              () => Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: controller.isSubmitting.value
+                          ? null
+                          : controller.cancel,
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        side: BorderSide(
+                          color: AppColors.circularprogressindicator
+                              .withOpacity(0.3),
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(28),
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(28),
-                      ),
-                    ),
-                    child: Text(
-                      'Cancel',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color:  AppColors.circularprogressindicator,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: controller.isSubmitting.value
-                        ? null
-                        : controller.submitReview,
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor:  AppColors.circularprogressindicator,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(28),
-                      ),
-                    ),
-                    child: controller.isSubmitting.value
-                        ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        color: AppColors.white,
-                        strokeWidth: 2,
-                      ),
-                    )
-                        : const Text(
-                      'Submit',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white,
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.circularprogressindicator,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            )),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: controller.isSubmitting.value
+                          ? null
+                          : controller.submitReview,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        backgroundColor: AppColors.circularprogressindicator,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(28),
+                        ),
+                      ),
+                      child: controller.isSubmitting.value
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: AppColors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : const Text(
+                              'Submit',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.white,
+                              ),
+                            ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/constants/app_colors.dart';
@@ -11,11 +10,9 @@ class ReviewsListController extends GetxController {
   final ReviewRepository _repository;
   final StorageService _storage;
 
-  ReviewsListController({
-    ReviewRepository? repository,
-    StorageService? storage,
-  })  : _repository = repository ?? ReviewRepository(),
-        _storage = storage ?? StorageService();
+  ReviewsListController({ReviewRepository? repository, StorageService? storage})
+    : _repository = repository ?? ReviewRepository(),
+      _storage = storage ?? StorageService();
 
   final Rx<DoctorModel?> doctor = Rx<DoctorModel?>(null);
   final RxList<ReviewModel> reviews = <ReviewModel>[].obs;
@@ -81,7 +78,8 @@ class ReviewsListController extends GetxController {
 
   String get averageRating {
     if (reviews.isEmpty) return '0.0';
-    final avg = reviews.map((r) => r.rating).reduce((a, b) => a + b) / reviews.length;
+    final avg =
+        reviews.map((r) => r.rating).reduce((a, b) => a + b) / reviews.length;
     return avg.toStringAsFixed(1);
   }
 }

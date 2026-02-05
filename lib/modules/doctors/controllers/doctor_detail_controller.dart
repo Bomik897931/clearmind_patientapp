@@ -69,17 +69,17 @@
 //   //     );
 //   //   }
 //   // }
+import 'package:flutter/material.dart';
 // }
 
 // lib/modules/doctors/controllers/doctor_detail_controller.dart
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../data/repositories/reveiw_repository.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/doctor_model.dart';
 import '../../../data/models/review_model.dart';
 import '../../../data/repositories/doctor_repository.dart';
-import '../../../data/repositories/reveiw_repository.dart';
 import '../../../data/services/StorageService.dart';
 
 class DoctorDetailController extends GetxController {
@@ -89,14 +89,22 @@ class DoctorDetailController extends GetxController {
   DoctorDetailController({
     DoctorsRepository? doctorsRepository,
     StorageService? storage,
-  })  : _doctorsRepository = doctorsRepository ?? DoctorsRepository(),
-        _storage = storage ?? StorageService();
+  }) : _doctorsRepository = doctorsRepository ?? DoctorsRepository(),
+       _storage = storage ?? StorageService();
 
   final Rx<DoctorModel?> doctor = Rx<DoctorModel?>(null);
   RxList<ReviewModel> reviews = <ReviewModel>[].obs;
   final ReviewRepository _repository = ReviewRepository();
   final RxBool isLoading = false.obs;
   final RxBool isFavorite = false.obs;
+  final supportedLocales = const [
+    Locale('en'),
+    Locale('hi'),
+  ];
+
+  final _locale = const Locale('en').obs;
+  Locale get locale => _locale.value;
+
 
   late int doctorId;
 
@@ -111,9 +119,15 @@ class DoctorDetailController extends GetxController {
       doctorId = passedDoctor.userId;
 
       loadDoctorDetails();
-
-
     }
+  }
+  Future<void> changeLocale(Locale newLocale) async {
+    print(newLocale);
+    if (!supportedLocales.contains(newLocale)) return;
+
+    _locale.value = newLocale;
+    Get.updateLocale(newLocale);
+    update();
   }
 
   Future<void> loadDoctorDetails() async {
@@ -139,7 +153,6 @@ class DoctorDetailController extends GetxController {
       print(doctor.value);
       fetchReview(doctor.value!.userId);
       print('🟢 Controller: Doctor details loaded successfully');
-
     } catch (e) {
       print('🔴 Controller: Error - $e');
       Get.snackbar(
@@ -154,27 +167,75 @@ class DoctorDetailController extends GetxController {
     }
   }
 
-  void toggleFavorite() {
-    isFavorite.value = !isFavorite.value;
-    // Save to local storage
+  Future<void> toggleFavorite(DoctorModel doctor) async {
+    try {
+      final token = await _storage.getToken();
+      if (token == null) {
+        Get.snackbar('Error', 'Please login first');
+        return;
+      }
+
+      // Optimistically update UI (only the icon will update)
+      final wasFavorite = doctor.isFavorite.value;
+      doctor.isFavorite.value = !wasFavorite;
+
+      try {
+        final bool success;
+        if (wasFavorite) {
+          success = await _doctorsRepository.removeFavorite(
+            token: token,
+            doctorId: doctor.userId,
+          );
+        } else {
+          success = await _doctorsRepository.addFavorite(
+            token: token,
+            doctorId: doctor.userId,
+          );
+        }
+
+        if (success) {
+          Get.snackbar(
+            'Success',
+            wasFavorite ? 'Removed from favorites' : 'Added to favorites',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColors.circularprogressindicator,
+            colorText: AppColors.white,
+            duration: const Duration(seconds: 1),
+          );
+        } else {
+          // Revert on failure
+          doctor.isFavorite.value = wasFavorite;
+        }
+      } catch (e) {
+        // Revert on error
+        doctor.isFavorite.value = wasFavorite;
+        rethrow;
+      }
+    } catch (e) {
+      print('🔴 Error toggling favorite: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to update favorite',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
+      );
+    }
   }
 
   void onBookAppointment() {
     if (doctor.value != null) {
-      Get.toNamed('/book-appointment', arguments: {
-        'doctor': doctor.value,
-      });
+      Get.toNamed('/book-appointment', arguments: {'doctor': doctor.value});
     }
   }
 
+  @override
   void refresh() {
     loadDoctorDetails();
   }
 
-
   Future<void> fetchReview(int value) async {
     print(doctor.value);
-    if (value == null) return;
 
     try {
       isLoading.value = true;

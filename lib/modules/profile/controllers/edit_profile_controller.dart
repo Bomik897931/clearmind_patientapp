@@ -16,8 +16,8 @@ class EditProfileController extends GetxController {
   final RxString selectedGender = 'Female'.obs;
   final RxInt selectedAge = 25.obs;
   final isLoading = false.obs;
-  final StorageService _storage =  StorageService();
-  final  AuthRepository _authRepository = AuthRepository();
+  final StorageService _storage = StorageService();
+  final AuthRepository _authRepository = AuthRepository();
 
   final Rx<UserProfile?> currentUser = Rx<UserProfile?>(null);
 
@@ -75,7 +75,7 @@ class EditProfileController extends GetxController {
       final success = await _authRepository.updateMyProfile(
         currentUser.value!.userId!,
         data,
-        token!
+        token
       );
       isLoading.value = false;
 
@@ -92,7 +92,7 @@ class EditProfileController extends GetxController {
         );
       }
 
-    // }
+      // }
     } on RepositoryException catch (e) {
       print('🔴 Controller: RepositoryException - ${e.message}');
       _showError(e.message);
@@ -105,8 +105,6 @@ class EditProfileController extends GetxController {
       isLoading.value = false;
     }
   }
-
-
 
   Future<void> getProfile() async {
     try {
@@ -155,6 +153,7 @@ class EditProfileController extends GetxController {
       isLoading.value = false;
     }
   }
+
   void _showSuccess(String message) {
     Get.snackbar(
       'Success',
@@ -165,6 +164,7 @@ class EditProfileController extends GetxController {
       duration: const Duration(seconds: 3),
     );
   }
+
   void _showError(String message) {
     Get.snackbar(
       'Error',

@@ -1,10 +1,7 @@
-// lib/modules/splash/controllers/splash_controller.dart
 import 'package:get/get.dart';
 
-import '../../../core/constants/constant.dart';
-import '../../../core/routes/app_routes.dart';
+import '../../../data/repositories/user_repository.dart';
 import '../../../data/services/StorageService.dart';
-import '../../../data/services/notification_service.dart';
 
 class SplashController extends GetxController {
   final StorageService _storage;
@@ -15,7 +12,8 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _checkAuthStatus();
+    // _checkAuthStatus();
+    checkRefreshToken();
   }
 
   Future<void> _checkAuthStatus() async {
@@ -27,37 +25,40 @@ class SplashController extends GetxController {
       final token = await _storage.getToken();
       final user = await _storage.getUser();
 
-      // final notificationService = NotificationServices();
-      // 🔔 App opened from notification (cold start)
-      if (initialMessage != null) {
-        print("🔔 Opened from notification");
-        Get.offAllNamed('/home');
-        Future.delayed(Duration(milliseconds: 100), () {
-          Get.toNamed(AppRoutes.NOTIFICATIONS, arguments: initialMessage);
-        });
-        return;
-        // notificationService.handleNavigationFromMessage(initialMessage!);
-        // Get.offAllNamed(pendingRoute!, arguments: pendingArgs);
-        // Clear after use
-        // pendingRoute = null;
-        // pendingArgs = null;
-      } else {
-        print('Token: ${token != null ? "Found" : "Not found"}');
-        print('User: ${user?.email ?? "Not found"}');
+      print('Token: ${token != null ? "Found" : "Not found"}');
+      print('User: ${user?.email ?? "Not found"}');
 
-        if (token != null && user != null) {
-          // User is logged in, go to home
-          print('✅ Splash: User logged in, navigating to home');
-          Get.offAllNamed('/home');
-        } else {
-          // User not logged in, go to login
-          print('❌ Splash: User not logged in, navigating to login');
-          Get.offAllNamed('/login');
-        }
+      if (token != null && user != null) {
+        print('✅ Splash: User logged in, navigating to home');
+        Get.offAllNamed('/onboard-view');
+      } else {
+        print('❌ Splash: User not logged in, navigating to login');
+        // Get.offAllNamed('/login');
       }
     } catch (e) {
       print('🔴 Splash: Error checking auth - $e');
-      // On error, go to login
+      // Get.offAllNamed('/login');
+    }
+  }
+
+  Future<void> checkRefreshToken() async {
+    try {
+      final token = await _storage.getToken();
+      final user = await _storage.getUser();
+      final AuthRepository authRepo = AuthRepository();
+
+      final response = await authRepo.refreshToken(token!);
+
+      if (response!.isValid == true && response.userId != null) {
+        print(' Splash: User logged in, navigating to home');
+        Get.offAllNamed('/home');
+      } else {
+        print('❌ Splash: You session has expired, navigating to login');
+
+        Get.offAllNamed('/onboard-view');
+      }
+    } catch (e) {
+      print('🔴 Splash: Error checking auth - $e');
       Get.offAllNamed('/login');
     }
   }

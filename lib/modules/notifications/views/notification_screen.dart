@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/constants/app_colors.dart';
@@ -7,20 +8,20 @@ import '../../../data/models/notification_model.dart';
 import '../controller/notification_controller.dart';
 
 class NotificationScreen extends GetView<NotificationController> {
-  const NotificationScreen({Key? key}) : super(key: key);
+  const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      // backgroundColor: Colors.grey[50],
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back, color: AppColors.black),
-        //   onPressed: () => Get.back(),
-        // ),
-        title:  Text(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.black),
+          onPressed: () => Get.back(),
+        ),
+        title: Text(
           AppStrings.notification,
           style: TextStyle(
             color: AppColors.black,
@@ -51,10 +52,7 @@ class NotificationScreen extends GetView<NotificationController> {
                 const SizedBox(height: 16),
                 Text(
                   'No notifications yet',
-                  style: TextStyle(
-                    color: AppColors.grey600,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(color: AppColors.grey600, fontSize: 16),
                 ),
               ],
             ),
@@ -65,7 +63,7 @@ class NotificationScreen extends GetView<NotificationController> {
 
         return RefreshIndicator(
           onRefresh: controller.refresh,
-          color:  AppColors.circularprogressindicator,
+          color: AppColors.circularprogressindicator,
           child: ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 16),
             itemCount: grouped.length,
@@ -81,7 +79,10 @@ class NotificationScreen extends GetView<NotificationController> {
     );
   }
 
-  Widget _buildNotificationGroup(String title, List<NotificationModel> notifications) {
+  Widget _buildNotificationGroup(
+    String title,
+    List<NotificationModel> notifications,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -96,7 +97,9 @@ class NotificationScreen extends GetView<NotificationController> {
             ),
           ),
         ),
-        ...notifications.map((notification) => _buildNotificationCard(notification)),
+        ...notifications.map(
+          (notification) => _buildNotificationCard(notification),
+        ),
       ],
     );
   }
@@ -105,20 +108,20 @@ class NotificationScreen extends GetView<NotificationController> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        // color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: AppColors.black.withOpacity(0.04),
+        //     blurRadius: 8,
+        //     offset: const Offset(0, 2),
+        //   ),
+        // ],
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: (){},
+          onTap: () {},
           // onTap: () => controller.onNotificationTap(notification),
           borderRadius: BorderRadius.circular(12),
           child: Padding(
@@ -130,12 +133,12 @@ class NotificationScreen extends GetView<NotificationController> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color:  AppColors.circularprogressindicator.withOpacity(0.1),
+                    color: AppColors.grey300.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Icon(
                     notification.icon,
-                    color:  AppColors.circularprogressindicator,
+                    color: AppColors.black.withOpacity(0.5),
                     size: 20,
                   ),
                 ),
@@ -150,10 +153,13 @@ class NotificationScreen extends GetView<NotificationController> {
                           Expanded(
                             child: Text(
                               notification.title,
-                              style: const TextStyle(
-                                fontSize: 15,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontFamily: 'Quicksand',
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.black87,
+                                color: AppColors.black,
+                                height: 24 / 16, // Line height 24px / font size 16px
+                                letterSpacing: -0.11 * 16 / 100, // -1.1% letter spacing
                               ),
                             ),
                           ),
@@ -170,9 +176,12 @@ class NotificationScreen extends GetView<NotificationController> {
                       Text(
                         notification.message,
                         style: TextStyle(
-                          fontSize: 13,
-                          color: AppColors.grey700,
-                          height: 1.4,
+                          fontSize: 14.sp,
+                          fontFamily: 'Quicksand',
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.black,
+                          height: 24 / 16, // Line height 24px / font size 16px
+                          letterSpacing: -0.11 * 16 / 100, // -1.1% letter spacing
                         ),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,

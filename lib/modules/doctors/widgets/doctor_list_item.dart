@@ -111,12 +111,10 @@
 // lib/modules/doctors/widgets/doctor_list_item.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import '../../../data/models/doctor_model.dart';
 import '../../../core/constants/app_text_style.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
-import '../../../data/models/doctor_model.dart';
-import '../controllers/top_doctors_controller.dart';
 
 class DoctorListItem extends StatelessWidget {
   final DoctorModel doctor;
@@ -124,11 +122,11 @@ class DoctorListItem extends StatelessWidget {
   final VoidCallback onFavorite;
 
   const DoctorListItem({
-    Key? key,
+    super.key,
     required this.doctor,
     required this.onTap,
     required this.onFavorite,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -221,16 +219,24 @@ class DoctorListItem extends StatelessWidget {
                   SizedBox(height: AppDimensions.paddingSM),
                   Row(
                     children: [
-                      Icon(Icons.work_outline, color: AppColors.textSecondary, size: 14.w),
+                      Icon(
+                        Icons.work_outline,
+                        color: AppColors.textSecondary,
+                        size: 14.w,
+                      ),
                       SizedBox(width: 4.w),
                       Text(
                         '${doctor.experienceYears} years exp',
                         style: AppTextStyles.caption,
                       ),
                       SizedBox(width: 12.w),
-                      Icon(Icons.currency_rupee, color: AppColors.primary, size: 14.w),
+                      Icon(
+                        Icons.currency_rupee,
+                        color: AppColors.primary,
+                        size: 14.w,
+                      ),
                       Text(
-                        '${doctor.fees.toStringAsFixed(0)}',
+                        doctor.fees.toStringAsFixed(0),
                         style: AppTextStyles.caption.copyWith(
                           color: AppColors.primary,
                           fontWeight: FontWeight.w600,

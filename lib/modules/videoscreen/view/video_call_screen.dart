@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_text_style.dart';
 import '../controller/video_call_controller.dart';
-
 
 class VideoCallScreen extends StatefulWidget {
   const VideoCallScreen({super.key});
@@ -31,10 +33,25 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   //   }
   // }
 
+  int timeLeft = 10;
+  Timer? _timer;
+
+  void startCountdown() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (timeLeft > 0) {
+        setState(() {
+          timeLeft--;
+        });
+      } else {
+        timer.cancel(); // stop when reaches 0
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-
+    startCountdown();
     // Get arguments
     final args = Get.arguments as Map<String, dynamic>?;
 
@@ -68,6 +85,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   void dispose() {
     controller.leaveCall(appointmentId!);
     super.dispose();
+    _timer?.cancel();
   }
 
   @override
@@ -86,63 +104,161 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     );
   }
 
+  // Widget _buildVideoViews() {
+  //   if (!controller.engineInitialized.value) {
+  //     return const Center(
+  //       child: CircularProgressIndicator(color: AppColors.white),
+  //     );
+  //   }
+
+  //   if (controller.remoteUid.value != 0) {
+  //     return Column(
+  //       children: [
+  //         Expanded(
+  //           flex: 3,
+  //           child: AgoraVideoView(
+  //             controller: VideoViewController.remote(
+  //               rtcEngine: controller.engine!,
+  //               canvas: VideoCanvas(uid: controller.remoteUid.value),
+  //               connection: RtcConnection(channelId: channelName),
+  //             ),
+  //           ),
+  //         ),
+  //         Expanded(
+  //           flex: 1,
+  //           child: Obx(
+  //             () => controller.isVideoEnabled.value
+  //                 ? AgoraVideoView(
+  //                     controller: VideoViewController(
+  //                       rtcEngine: controller.engine!,
+  //                       canvas: const VideoCanvas(uid: 0),
+  //                     ),
+  //                   )
+  //                 : Container(
+  //                     color: AppColors.black87,
+  //                     child: const Center(
+  //                       child: Icon(
+  //                         Icons.videocam_off,
+  //                         size: 48,
+  //                         color: AppColors.white,
+  //                       ),
+  //                     ),
+  //                   ),
+  //           ),
+  //         ),
+  //       ],
+  //     );
+  //   } else {
+  //     return Center(
+  //       child: Obx(
+  //         () => controller.isVideoEnabled.value
+  //             ? AgoraVideoView(
+  //                 controller: VideoViewController(
+  //                   rtcEngine: controller.engine!,
+  //                   canvas: const VideoCanvas(uid: 0),
+  //                 ),
+  //               )
+  //             : Container(
+  //                 color: AppColors.black87,
+  //                 child: const Center(
+  //                   child: Icon(
+  //                     Icons.videocam_off,
+  //                     size: 80,
+  //                     color: AppColors.white,
+  //                   ),
+  //                 ),
+  //               ),
+  //       ),
+  //     );
+  //   }
+  // }
   Widget _buildVideoViews() {
     if (!controller.engineInitialized.value) {
-      return const Center(child: CircularProgressIndicator(color: AppColors.white));
+      return const Center(
+        child: CircularProgressIndicator(color: AppColors.white),
+      );
     }
 
-    if (controller.remoteUid.value != 0) {
-      return Column(
+    return Obx(
+      () => Stack(
         children: [
-          Expanded(
-            flex: 3,
-            child: AgoraVideoView(
-              controller: VideoViewController.remote(
-                rtcEngine: controller.engine!,
-                canvas: VideoCanvas(uid: controller.remoteUid.value),
-                connection: RtcConnection(channelId: channelName),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Obx(
-                  () => controller.isVideoEnabled.value
-                  ? AgoraVideoView(
-                controller: VideoViewController(
-                  rtcEngine: controller.engine!,
-                  canvas: const VideoCanvas(uid: 0),
+          //  Full screen video (local OR remote)
+          controller.isLocalFullScreen.value
+              ? AgoraVideoView(
+                  controller: VideoViewController(
+                    rtcEngine: controller.engine!,
+                    canvas: const VideoCanvas(uid: 0),
+                  ),
+                )
+              : controller.remoteUid.value != 0
+              ? AgoraVideoView(
+                  controller: VideoViewController.remote(
+                    rtcEngine: controller.engine!,
+                    canvas: VideoCanvas(uid: controller.remoteUid.value),
+                    connection: RtcConnection(channelId: channelName),
+                  ),
+                )
+              : Container(color: AppColors.black),
+
+          //  Draggable small preview
+          Positioned(
+            left: controller.localX.value,
+            top: controller.localY.value,
+            child: GestureDetector(
+              onTap: () {
+                controller.isLocalFullScreen.value =
+                    !controller.isLocalFullScreen.value;
+              },
+              onPanUpdate: (details) {
+                controller.localX.value += details.delta.dx;
+                controller.localY.value += details.delta.dy;
+              },
+              child: Container(
+                width: 130,
+                height: 160,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.35),
+                      blurRadius: 8,
+                    ),
+                  ],
                 ),
-              )
-                  : Container(
-                color: AppColors.black87,
-                child: const Center(
-                  child: Icon(Icons.videocam_off, size: 48, color: AppColors.white),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: controller.isLocalFullScreen.value
+                      ? (controller.remoteUid.value != 0
+                            ? AgoraVideoView(
+                                controller: VideoViewController.remote(
+                                  rtcEngine: controller.engine!,
+                                  canvas: VideoCanvas(
+                                    uid: controller.remoteUid.value,
+                                  ),
+                                  connection: RtcConnection(
+                                    channelId: channelName,
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                child: Text(
+                                  "Connecting...",
+                                  style: AppTextStyles.button,
+                                ),
+                              ))
+                      : AgoraVideoView(
+                          controller: VideoViewController(
+                            rtcEngine: controller.engine!,
+                            canvas: const VideoCanvas(uid: 0),
+                          ),
+                        ),
                 ),
               ),
             ),
           ),
         ],
-      );
-    } else {
-      return Center(
-        child: Obx(
-              () => controller.isVideoEnabled.value
-              ? AgoraVideoView(
-            controller: VideoViewController(
-              rtcEngine: controller.engine!,
-              canvas: const VideoCanvas(uid: 0),
-            ),
-          )
-              : Container(
-            color: AppColors.black87,
-            child: const Center(
-              child: Icon(Icons.videocam_off, size: 80, color: AppColors.white),
-            ),
-          ),
-        ),
-      );
-    }
+      ),
+    );
   }
 
   Widget _buildTopBar() {
@@ -167,22 +283,69 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(channelName ?? 'Video Call', style: const TextStyle(color: AppColors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-                  Obx(() => Text(controller.getFormattedDuration(), style: const TextStyle(color: AppColors.white70))),
+                  Text(
+                    channelName ?? 'Video Call',
+                    style: const TextStyle(
+                      color: AppColors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Obx(
+                    () => Text(
+                      controller.getFormattedDuration(),
+                      style: const TextStyle(color: AppColors.white70),
+                    ),
+                  ),
                 ],
               ),
             ),
-            Obx(() => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: controller.isCallConnected.value ? AppColors.green : AppColors.orange,
-                borderRadius: BorderRadius.circular(20),
+            Obx(
+              () => Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: controller.isCallConnected.value
+                      ? AppColors.green
+                      : AppColors.primaryLight,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  controller.isCallConnected.value
+                      ? 'Connected'
+                      : 'Connecting...',
+                  style: const TextStyle(
+                    color: AppColors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-              child: Text(
-                controller.isCallConnected.value ? 'Connected' : 'Connecting...',
-                style: const TextStyle(color: AppColors.white, fontSize: 12, fontWeight: FontWeight.bold),
-              ),
-            )),
+            ),
+            // Obx(
+            //   () => Container(
+            //     padding: const EdgeInsets.symmetric(
+            //       horizontal: 12,
+            //       vertical: 6,
+            //     ),
+            //     decoration: BoxDecoration(
+            //       color: controller.isCallConnected.value
+            //           ? AppColors.green
+            //           : AppColors.orange,
+            //       borderRadius: BorderRadius.circular(20),
+            //     ),
+            //     child: Text(
+            //       controller.isCallConnected.value ? 'Connected' : "$timeLeft",
+            //       style: const TextStyle(
+            //         color: AppColors.white,
+            //         fontSize: 12,
+            //         fontWeight: FontWeight.bold,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -206,18 +369,36 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Obx(() => _buildControlButton(
-              icon: controller.isMuted.value ? Icons.mic_off : Icons.mic,
-              label: controller.isMuted.value ? 'Unmute' : 'Mute',
-              onPressed: controller.toggleMute,
-              backgroundColor: controller.isMuted.value ? AppColors.red : AppColors.white24,
-            )),
-            Obx(() => _buildControlButton(
-              icon: controller.isVideoEnabled.value ? Icons.videocam : Icons.videocam_off,
-              label: controller.isVideoEnabled.value ? 'Stop Video' : 'Start Video',
-              onPressed: controller.toggleVideo,
-              backgroundColor: controller.isVideoEnabled.value ? AppColors.white24 : AppColors.red,
-            )),
+            Obx(
+              () => _buildControlButton(
+                icon: controller.isMuted.value ? Icons.mic_off : Icons.mic,
+                label: controller.isMuted.value ? 'Unmute' : 'Mute',
+                onPressed: controller.toggleMute,
+                color: controller.isMuted.value
+                    ? AppColors.white
+                    : AppColors.primaryLight,
+                backgroundColor: controller.isMuted.value
+                    ? AppColors.primaryLight
+                    : AppColors.white,
+              ),
+            ),
+            Obx(
+              () => _buildControlButton(
+                icon: controller.isVideoEnabled.value
+                    ? Icons.videocam
+                    : Icons.videocam_off,
+                label: controller.isVideoEnabled.value
+                    ? 'Stop Video'
+                    : 'Start Video',
+                onPressed: controller.toggleVideo,
+                color: controller.isVideoEnabled.value
+                    ? AppColors.primaryLight
+                    : AppColors.white,
+                backgroundColor: controller.isVideoEnabled.value
+                    ? AppColors.white
+                    : AppColors.primaryLight,
+              ),
+            ),
             _buildControlButton(
               icon: Icons.call_end,
               label: 'End',
@@ -226,21 +407,42 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                 controller.leaveCall(appointmentId!);
                 // Get.back();
               },
+              color: AppColors.white,
+
               backgroundColor: AppColors.red,
               iconSize: 32,
             ),
-            _buildControlButton(
-              icon: Icons.flip_camera_android,
-              label: 'Flip',
-              onPressed: controller.switchCamera,
-              backgroundColor: AppColors.white24,
+
+            Obx(
+              () => _buildControlButton(
+                icon: Icons.flip_camera_android,
+                label: 'Flip',
+                onPressed: controller.switchCamera,
+                color: controller.isCameraSwitched.value
+                    ? AppColors.primaryLight
+                    : AppColors.white,
+                backgroundColor: controller.isCameraSwitched.value
+                    ? AppColors.white
+                    : AppColors.primary,
+              ),
             ),
-            Obx(() => _buildControlButton(
-              icon: controller.isSpeakerEnabled.value ? Icons.volume_up : Icons.volume_off,
-              label: 'Speaker',
-              onPressed: controller.toggleSpeaker,
-              backgroundColor: controller.isSpeakerEnabled.value ? AppColors.white24 : Colors.grey,
-            )),
+
+            Obx(
+              () => _buildControlButton(
+                icon: controller.isSpeakerEnabled.value
+                    ? Icons.volume_up
+                    : Icons.volume_off,
+                label: 'Speaker',
+                onPressed: controller.toggleSpeaker,
+                color: controller.isSpeakerEnabled.value
+                    ? AppColors.primaryLight
+                    : AppColors.white,
+
+                backgroundColor: controller.isSpeakerEnabled.value
+                    ? AppColors.white
+                    : AppColors.primary,
+              ),
+            ),
           ],
         ),
       ),
@@ -250,9 +452,11 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   Widget _buildControlButton({
     required IconData icon,
     required String label,
+    required Color color,
+
     required VoidCallback onPressed,
     required Color backgroundColor,
-    double iconSize = 28,
+    double iconSize = 26,
   }) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -261,12 +465,18 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
           onTap: onPressed,
           child: Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: backgroundColor, shape: BoxShape.circle),
-            child: Icon(icon, color: AppColors.white, size: iconSize),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: iconSize),
           ),
         ),
         const SizedBox(height: 8),
-        Text(label, style: const TextStyle(color: AppColors.white, fontSize: 12)),
+        Text(
+          label,
+          style: const TextStyle(color: AppColors.white, fontSize: 12),
+        ),
       ],
     );
   }

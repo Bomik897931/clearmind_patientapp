@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/routes/app_routes.dart';
+import '../../../data/repositories/doctor_repository.dart';
 import '../../../data/models/doctor_model.dart';
 import '../../../data/models/category_model.dart';
-import '../../../data/repositories/doctor_repository.dart';
 import '../../../data/services/StorageService.dart';
 
 class HomeController extends GetxController {
@@ -16,10 +16,12 @@ class HomeController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxBool isSearching = false.obs;
   final RxInt selectedBottomIndex = 0.obs;
-  final StorageService _storage =  StorageService();
+  final StorageService _storage = StorageService();
   final DoctorsRepository _doctorsRepository = DoctorsRepository();
   // Search Controller
   final searchController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
+
 
   // Pagination
   final currentPage = 1.obs;
@@ -36,8 +38,15 @@ class HomeController extends GetxController {
 
     _loadSpecializations();
     loadDoctors();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 100) {
+        if (hasNext.value && !isLoading.value && !isSearching.value) {
+          nextPage();
+        }
+      }
+    });
   }
-
 
   @override
   void onClose() {
@@ -71,78 +80,25 @@ class HomeController extends GetxController {
       // ));
 
       print('🟢 Controller: Loaded ${response.length} specializations');
-
     } catch (e) {
       isLoading.value = false;
       print('🔴 Controller: Error loading specializations - $e');
       // Use fallback static data if API fails
       specializations.value = [
-        Specialization(specializationId: 1, specializationName: 'Psychologistt'),
-        Specialization(specializationId: 2, specializationName: 'Psychiatristt'),
+        Specialization(
+          specializationId: 1,
+          specializationName: 'Psychologistt',
+        ),
+        Specialization(
+          specializationId: 2,
+          specializationName: 'Psychiatristt',
+        ),
         Specialization(specializationId: 3, specializationName: 'Therapistt'),
       ];
     }
   }
 
-  // void loadData() {
-  //   isLoading.value = true;
-  //
-  //   // Load Categories (Mock Data - Replace with API call)
-  //   categories.value = [
-  //     CategoryModel(id: '1', name: 'General', icon: 'general'),
-  //     CategoryModel(id: '2', name: 'Cardiologist', icon: 'cardiologist'),
-  //     CategoryModel(id: '3', name: 'Dentist', icon: 'dentist'),
-  //     CategoryModel(id: '4', name: 'More', icon: 'more'),
-  //   ];
-  //
-  //   // Load Top Doctors (Mock Data - Replace with API call)
-  //   // topDoctors.value = [
-  //     // DoctorModel(
-  //     //   id: '1',
-  //     //   name: 'Dr. Anna Titanenko',
-  //     //   specialty: 'Gynecologist',
-  //     //   hospital: 'Christ Hospital in London UK',
-  //     //   image: '',
-  //     //   rating: 4.9,
-  //     //   reviewCount: 4945,
-  //     //   experience: 5,
-  //     //   about:
-  //     //       'Dr. Jenny Watson is the top most immunologists specialist in Christ Hospital at London. She achieved several awards for her wonderful contribution in medical field. She is available for private consultation.',
-  //     // ),
-  //     // DoctorModel(
-  //     //   id: '2',
-  //     //   name: 'Dr. Marvin Mickinney',
-  //     //   specialty: 'Physiotherapist',
-  //     //   hospital: 'Christ Hospital in London UK',
-  //     //   image: '',
-  //     //   rating: 4.5,
-  //     //   reviewCount: 3568,
-  //     //   experience: 10,
-  //     // ),
-  //     // DoctorModel(
-  //     //   id: '3',
-  //     //   name: 'Dr. Anna Titanenko',
-  //     //   specialty: 'Gynecologist',
-  //     //   hospital: 'Christ Hospital in London UK',
-  //     //   image: '',
-  //     //   rating: 4.9,
-  //     //   reviewCount: 4945,
-  //     //   experience: 8,
-  //     // ),
-  //     // DoctorModel(
-  //     //   id: '4',
-  //     //   name: 'Dr. Marvin Mickinney',
-  //     //   specialty: 'Physiotherapist',
-  //     //   hospital: 'Christ Hospital in London UK',
-  //     //   image: '',
-  //     //   rating: 4.5,
-  //     //   reviewCount: 3568,
-  //     //   experience: 12,
-  //     // ),
-  //   // ];
-  //
-  //   isLoading.value = false;
-  // }
+
 
   void onSearchChanged(String query) {
     searchQuery.value = query;
@@ -160,35 +116,40 @@ class HomeController extends GetxController {
         loadDoctors(page: 1, search: query);
       }
     });
-
   }
+
   void clearSearch() {
     searchController.clear();
     searchQuery.value = '';
     loadDoctors(page: 1);
   }
 
+
   void onSpecializationTap(Specialization specialization) {
     // Navigate to doctors list filtered by specialization
-    print(specialization);
-    Get.toNamed('/doctors-by-specialization', arguments: {
-      'specialization': specialization,
-    });
-  }
-  void onFavoriteTap(){
-    Get.toNamed(AppRoutes.FAVORITE_DOCTORS);
-  }
-  void onNotificationTap(){
-    Get.toNamed(AppRoutes.NOTIFICATIONS);
+    Get.toNamed(
+      '/doctors-by-specialization',
+      arguments: {'specialization': specialization},
+    );
   }
 
+  void onFavoriteTap() {
+    Get.toNamed(AppRoutes.FAVORITE_DOCTORS);
+  }
+
+  void onNotificationTap() {
+    Get.toNamed(AppRoutes.NOTIFICATIONS);
+  }
 
   void onCategoryTap(Specialization category) {
     if (category.specializationName == 'More') {
       Get.toNamed('/categories');
     } else {
       // Navigate to filtered doctors by category
-      Get.toNamed('/top-doctors', arguments: {'category': category.specializationName});
+      Get.toNamed(
+        '/top-doctors',
+        arguments: {'category': category.specializationName},
+      );
     }
   }
 
@@ -215,8 +176,8 @@ class HomeController extends GetxController {
         break;
       case 2:
         // Favorites screen
-      Get.toNamed('/all-slots');
-      break;
+        Get.toNamed('/all-slots');
+        break;
         break;
       case 3:
         Get.toNamed('/profile');
@@ -296,7 +257,13 @@ class HomeController extends GetxController {
         search: search,
       );
 
-      doctors.value = response.items;
+      // doctors.value = response.items;
+      if (page == 1) {
+        doctors.value = response.items;
+      } else {
+        doctors.addAll(response.items);
+      }
+
       currentPage.value = response.pageNumber;
       totalPages.value = response.totalPages;
       hasNext.value = response.hasNext;
@@ -304,7 +271,6 @@ class HomeController extends GetxController {
       totalCount.value = response.totalCount;
 
       print('🟢 Controller: Fetched ${response.items.length} doctors');
-
     } catch (e) {
       print('🔴 Controller: Error - $e');
       Get.snackbar(
@@ -318,6 +284,7 @@ class HomeController extends GetxController {
       isLoading.value = false;
     }
   }
+
   void nextPage() {
     if (hasNext.value) {
       loadDoctors(
@@ -336,12 +303,11 @@ class HomeController extends GetxController {
     }
   }
 
-
+  @override
   void refresh() {
     loadDoctors(
       page: 1,
       search: searchQuery.value.isEmpty ? null : searchQuery.value,
     );
   }
-
 }

@@ -7,7 +7,7 @@ import '../../../widgets/bottom_nav_bar.dart';
 import '../controller/favorite_controller.dart';
 
 class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
-  const FavoriteDoctorsScreen({Key? key}) : super(key: key);
+  const FavoriteDoctorsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
 
         return RefreshIndicator(
           onRefresh: controller.refresh,
-          color:  AppColors.circularprogressindicator,
+          color: AppColors.circularprogressindicator,
           child: ListView.separated(
             padding: const EdgeInsets.all(16),
             itemCount: controller.favoriteDoctors.length,
@@ -69,7 +69,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
         );
       }),
       bottomNavigationBar: Obx(
-            () => BottomNavBar(currentIndex: controller.selectedBottomIndex.value),
+        () => BottomNavBar(currentIndex: controller.selectedBottomIndex.value),
       ),
     );
   }
@@ -98,22 +98,22 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
               children: [
                 // Doctor Image
                 Container(
-                  width: 100,
-                  height: 120,
+                  width: 78,
+                  height: 68,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color:  AppColors.circularprogressindicator.withOpacity(0.1),
+                    color: AppColors.circularprogressindicator.withOpacity(0.1),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: _isValidUrl(doctor.imageUrl)
                         ? Image.network(
-                      doctor.imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return _buildPlaceholder(doctor.doctorName);
-                      },
-                    )
+                            doctor.imageUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return _buildPlaceholder(doctor.doctorName);
+                            },
+                          )
                         : _buildPlaceholder(doctor.doctorName),
                   ),
                 ),
@@ -134,7 +134,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        '${doctor.specialty} | Christ Hospital',
+                        doctor.specialty,
                         style: TextStyle(
                           fontSize: 13,
                           color: AppColors.grey600,
@@ -146,15 +146,10 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
-                            Icons.star,
-                            size: 18,
-                            color: AppColors.primary,
-                          ),
-                          const SizedBox(width: 4),
+
                           Flexible(
                             child: Text(
-                              '${doctor.rating} (${doctor.formattedReviews} reviews)',
+                              '₹ ${doctor.fees}',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: AppColors.grey700,
@@ -186,7 +181,10 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
   }
 
   bool _isValidUrl(String url) {
-    if (url.isEmpty || url == 'string' || url == 'image url' || url == 'Image Url') {
+    if (url.isEmpty ||
+        url == 'string' ||
+        url == 'image url' ||
+        url == 'Image Url') {
       return false;
     }
     return Uri.tryParse(url)?.hasScheme ?? false;
@@ -194,7 +192,7 @@ class FavoriteDoctorsScreen extends GetView<FavoriteDoctorsController> {
 
   Widget _buildPlaceholder(String name) {
     return Container(
-      color:  AppColors.circularprogressindicator.withOpacity(0.1),
+      color: AppColors.circularprogressindicator.withOpacity(0.1),
       child: Center(
         child: Text(
           name.isNotEmpty ? name[0].toUpperCase() : 'D',

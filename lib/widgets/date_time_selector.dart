@@ -8,10 +8,10 @@ class DateTimeSelector extends StatelessWidget {
   final Function(DateTime) onDateSelected;
 
   const DateTimeSelector({
-    Key? key,
+    super.key,
     required this.selectedDate,
     required this.onDateSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,8 @@ class DateTimeSelector extends StatelessWidget {
         itemCount: dates.length,
         itemBuilder: (context, index) {
           final date = dates[index];
-          final isSelected = date.day == selectedDate.day &&
+          final isSelected =
+              date.day == selectedDate.day &&
               date.month == selectedDate.month &&
               date.year == selectedDate.year;
 
@@ -37,21 +38,24 @@ class DateTimeSelector extends StatelessWidget {
               width: 70,
               margin: const EdgeInsets.only(right: 12),
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.circularprogressindicator : AppColors.white,
+                color: isSelected
+                    ? AppColors.circularprogressindicator
+                    : AppColors.white,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: isSelected
-                      ?  AppColors.circularprogressindicator
+                      ? AppColors.circularprogressindicator
                       : Colors.grey[300]!,
                 ),
                 boxShadow: isSelected
                     ? [
-                  BoxShadow(
-                    color:  AppColors.circularprogressindicator.withOpacity(0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
+                        BoxShadow(
+                          color: AppColors.circularprogressindicator
+                              .withOpacity(0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ]
                     : null,
               ),
               child: Column(

@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -5,7 +6,7 @@ import '../../../core/constants/app_colors.dart';
 import '../controller/review_confirm_controller.dart';
 
 class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
-  const ReviewConfirmScreen({Key? key}) : super(key: key);
+  const ReviewConfirmScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,33 +28,312 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildDoctorCard(),
-                  const SizedBox(height: 10),
-                  _buildAppointmentDetails(),
-                  const SizedBox(height: 24),
-                  _buildSelectedId(),
-                  const SizedBox(height: 24),
-                  _buildBillDetails(),
-                  // const SizedBox(height: 100),
-                ],
+      body: Obx(() {
+        // LOADING
+        if (!controller.isDataLoaded.value && !controller.hasError.value) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        // ERROR
+        if (controller.hasError.value || controller.doctor == null) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                const SizedBox(height: 12),
+                const Text(
+                  'Failed to load appointment data',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => Get.back(),
+                  child: const Text('Go Back'),
+                ),
+              ],
+            ),
+          );
+        }
+
+        // MAIN CONTENT
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    _doctorCard(),
+                    const SizedBox(height: 16),
+                    _appointmentDetails(),
+                    const SizedBox(height: 16),
+                    _billDetails(),
+                  ],
+                ),
               ),
             ),
+            _bottomBar(),
+          ],
+        );
+      }),
+    );
+  }
+
+  Widget _doctorCard() {
+    final doctor = controller.doctor!;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: AppColors.grey200,
+            backgroundImage: doctor.imageUrl.isNotEmpty
+                ? NetworkImage(doctor.imageUrl)
+                : null,
+            child: doctor.imageUrl.isEmpty
+                ? const Icon(Icons.person, size: 30)
+                : null,
           ),
-          _buildBottomBar(),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  doctor.fullName,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  doctor.specialty,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.grey600,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 
+  Widget _appointmentDetails() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Appointment Details',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 12),
+          _row('Date', controller.getFormattedDate()),
+          _row('Time', controller.selectedTime),
+          _row('Duration', '${controller.consultationDuration} mins'),
+          Obx(() => _row('Charges', '₹ ${controller.consultationFee.value}')),
+        ],
+      ),
+    );
+  }
+
+  Widget _billDetails() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Obx(() => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            'Total Amount',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          ),
+          Text(
+            '₹ ${controller.consultationFee.value}',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      )),
+    );
+  }
+
+  Widget _bottomBar() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Obx(() => SizedBox(
+        width: double.infinity,
+        height: 48,
+        child: ElevatedButton(
+          onPressed: controller.isBooking.value ? null : () {},
+          child: controller.isBooking.value
+              ? const CircularProgressIndicator(color: Colors.white)
+              : const Text('Proceed To Pay'),
+        ),
+      )),
+    );
+  }
+
+  Widget _row(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: TextStyle(color: AppColors.grey600)),
+          Text(value, style: const TextStyle(fontWeight: FontWeight.w500)),
+        ],
+      ),
+    );
+  }
+}
+*/
+
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import '../../../core/constants/app_colors.dart';
+import '../controller/review_confirm_controller.dart';
+
+class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
+  const ReviewConfirmScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.grey50,
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.black),
+          onPressed: () => Get.back(),
+        ),
+        title: const Text(
+          'Review & Confirm',
+          style: TextStyle(
+            color: AppColors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      body: Obx(() {
+        // Show loading while data is being loaded
+        if (!controller.isDataLoaded.value) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(
+                  color: AppColors.circularprogressindicator,
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'Loading appointment data...',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        // Show error if doctor is null
+        if (controller.doctor == null) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.error_outline,
+                  size: 64,
+                  color: AppColors.red,
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'Failed to load appointment data',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Please try again',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: () => Get.back(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.circularprogressindicator,
+                  ),
+                  child: Text('Go Back'),
+                ),
+              ],
+            ),
+          );
+        }
+
+        // Show main content
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildDoctorCard(),
+                    const SizedBox(height: 10),
+                    _buildAppointmentDetails(),
+                    const SizedBox(height: 24),
+                    _buildSelectedId(),
+                    const SizedBox(height: 24),
+                    _buildBillDetails(),
+                  ],
+                ),
+              ),
+            ),
+            _buildBottomBar(),
+          ],
+        );
+      }),
+    );
+  }
+
   Widget _buildDoctorCard() {
+    final doctor = controller.doctor!; // Safe because we checked above
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -74,9 +354,20 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
             height: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              image: DecorationImage(
-                image: NetworkImage('https://images.pexels.com/photos/8460157/pexels-photo-8460157.jpeg'),
+              color: AppColors.grey100,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.network(
+                doctor.imageUrl,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(
+                    Icons.person,
+                    size: 30,
+                    color: AppColors.grey400,
+                  );
+                },
               ),
             ),
           ),
@@ -86,7 +377,7 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  /*controller.doctor.fullName*/"Amir",
+                  doctor.fullName,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -94,7 +385,7 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                 /* controller.doctor.specialty*/"Therapist",
+                  doctor.specialty,
                   style: TextStyle(
                     fontSize: 13,
                     color: AppColors.grey600,
@@ -127,10 +418,6 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
   Widget _buildAppointmentDetails() {
     return Container(
       padding: const EdgeInsets.all(16),
-      // decoration: BoxDecoration(
-      //   color: AppColors.white,
-      //   borderRadius: BorderRadius.circular(16),
-      // ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -150,21 +437,21 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
           const SizedBox(height: 12),
           _buildDetailRow(
             Icons.access_time,
-            'Consultation Duration',
-            '${controller.selectedTime}',
+            'Time',
+            controller.selectedTime,
           ),
           const SizedBox(height: 12),
           _buildDetailRow(
             Icons.schedule_outlined,
-            'Slot',
-            '${controller.consultationDuration}',
+            'Duration',
+            '${controller.consultationDuration} mins',
           ),
           const SizedBox(height: 12),
-          _buildDetailRow(
+          Obx(() => _buildDetailRow(
             Icons.account_balance_wallet_outlined,
             'Charges',
             '₹ ${controller.consultationFee.value}',
-          ),
+          )),
         ],
       ),
     );
@@ -172,7 +459,7 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
 
   Widget _buildDetailRow(IconData icon, String label, String value) {
     return Container(
-      padding: const EdgeInsets.only(left: 8,right: 8,top: 4,bottom: 4),
+      padding: const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(1),
@@ -208,11 +495,7 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
 
   Widget _buildSelectedId() {
     return Container(
-      padding: const EdgeInsets.only(left: 16,right: 16),
-      // decoration: BoxDecoration(
-      //   color: AppColors.white,
-      //   borderRadius: BorderRadius.circular(16),
-      // ),
+      padding: const EdgeInsets.only(left: 16, right: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -255,6 +538,7 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
       ),
     );
   }
+
   Widget _buildBillDetails() {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -272,7 +556,6 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 🔹 Title
           const Text(
             'Bill Details',
             style: TextStyle(
@@ -281,10 +564,7 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
               color: AppColors.black87,
             ),
           ),
-
           const SizedBox(height: 12),
-
-          // 🔹 Price Details Card
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -303,7 +583,6 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
                   ),
                 ),
                 const SizedBox(height: 8),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -327,17 +606,14 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
               ],
             ),
           ),
-
           const SizedBox(height: 12),
-
-          // 🔹 Total Amount Highlight
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              color: const Color(0xFFF3F9EE), // light green
+              color: const Color(0xFFF3F9EE),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: const Color(0xFFB7E0A2), // green border
+                color: const Color(0xFFB7E0A2),
               ),
             ),
             child: Row(
@@ -387,28 +663,45 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
         ],
       ),
       child: SafeArea(
-        child: SizedBox(
-          width: double.infinity,
-          height: 40,
-          child: ElevatedButton(
-            onPressed: controller.proceedToPay,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.circularprogressindicator,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
+        child: Obx(() {
+          return SizedBox(
+            width: double.infinity,
+            height: 40,
+            child: ElevatedButton(
+              onPressed: (){},
+              /*controller.isBooking.value
+                  ? null
+                  : controller.proceedToPay,*/
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.circularprogressindicator,
+                disabledBackgroundColor: AppColors.grey300,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                elevation: 0,
               ),
-              elevation: 0,
-            ),
-            child: const Text(
-              'Proceed To Pay',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: AppColors.white,
+              child: controller.isBooking.value
+                  ? SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    AppColors.white,
+                  ),
+                ),
+              )
+                  : const Text(
+                'Proceed To Pay',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.white,
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

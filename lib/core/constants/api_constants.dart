@@ -1,35 +1,61 @@
 class ApiConstants {
   // Replace with your actual .NET backend URL
-  static const String baseUrl = 'http://erabdulg-001-site21.anytempurl.com/api/';
-
-  //Firebase
-  static const String registerDeviceEndpoint = 'Patient/register-userDevice';
+  static const String baseUrl =
+      'http://erabdulg-001-site21.anytempurl.com/api/';
+  //
+  static const String razorpayKeyId = 'rzp_test_S5fKChprzBGn5e';
   // // Auth Endpoints
+  static const String registerDeviceEndpoint = 'Patient/register-userDevice';
   static const String registerEndpoint = 'Patient/register-patient';
   static const String loginEndpoint = 'auth/login';
+  static const String refreshToken = 'Auth/verify-token';
   static const String getProfileEndpoint = 'Auth/my-profile';
   static const String updateProfileEndpoint = 'Patient/update-myprofile';
 
   static const String getSlotsEndpoint = 'Patient/all-slots';
+  static const String getUserEndpoint = 'Patient/profile';
+  static const String getIdentityDocsTypeEndpoint = 'Patient/identity-document-types';
   static const String bookAppointmentEndpoint = 'Patient/book-appointment';
   static const String doctorSlotsEndpoint = 'Patient/doctor-slots';
   static const String cancelAppointmentEndpoint = 'Patient/cancel-appointment';
-  static const String getAppointmentsEndpoint = 'Patient/my-appointmentsPnt';// Update with your endpoint// Update with your endpoint
+  static const String getAppointmentsEndpoint =
+      'Patient/my-appointmentsPnt'; // Update with your endpoint// Update with your endpoint
   static const String addReviewEndpoint = 'Patient/add-review';
   static const String getReviewsEndpoint = 'Patient/get-reviews';
-  static const String getFavoriteDoctorsEndpoint = 'Patient/get-doctor-wishlist';
+  static const String getFavoriteDoctorsEndpoint =
+      'Patient/get-doctor-wishlist';
   static const String notificationsEndpoint = 'Patient/get-notification';
-  static const String markNotificationReadEndpoint = 'Patient/mark-notification-read';
+  static const String markNotificationReadEndpoint =
+      'Patient/mark-notification-read';
+
+  //Prescription
+  static const String myPrescriptionsEndpoint = 'Patient/my-all-prescription';
+  static const String myPrescriptionsCartByIdEndpoint = 'Patient/prescription-cart';
+
+  //MedicalReport
+  static const String getReportEndpoint= "Patient/get-report";
+  static const String deleteReportEndpoint= "Patient/delete-report";
+  static const String uploadReportEndpoint= "Patient/upload-report";
+
+  //Orders
+  static const String myOrdersEndpoint = 'Patient/my-order';
+  static const String myOrderByIdEndpoint = 'Patient/my-order-byId';
 
   static const String logout = '/auth/logout';
-  static const String refreshToken = '/auth/refresh-token';
+  // static const String refreshToken = '/auth/refresh-token';
 
   //Doctor Endpoints
   static const String getDoctorsEndpoint = 'Patient/all-doctor';
   static const String getDoctorByIdEndpoint = 'Patient/getDoctorById';
-  static const String getSpecializationsEndpoint = 'Patient/get-doctorSpecialization';
+  static const String getSpecializationsEndpoint =
+      'Patient/get-doctorSpecialization';
   static const String addFavoriteEndpoint = 'Patient/add-doctor-wishlist';
   static const String removeFavoriteEndpoint = 'Patient/remove-doctor-wishlist';
+
+  //Address
+  static const String getAddressEndpoint = 'Patient/get-address';
+  static const String addAddressEndpoint = 'Patient/add-address';
+  static const String updateAddressEndpoint = 'Patient/update-address';
 
 
   // User Endpoints
@@ -41,10 +67,6 @@ class ApiConstants {
   static const String startCall = '/video/start-call';
   static const String endCall = '/video/end-call';
   static const String callHistory = '/video/history';
-
-
-
-
 
   static const Duration connectionTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);

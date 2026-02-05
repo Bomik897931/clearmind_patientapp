@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
@@ -10,13 +9,13 @@ import '../../../widgets/custom_button.dart';
 import '../controllers/help_controller.dart';
 
 class HelpScreen extends GetView<HelpController> {
-  const HelpScreen({Key? key}) : super(key: key);
+  const HelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
-      appBar:  CustomAppBar(title: AppStrings.help),
+      appBar: CustomAppBar(title: AppStrings.help),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(AppDimensions.paddingMD),
         child: Column(

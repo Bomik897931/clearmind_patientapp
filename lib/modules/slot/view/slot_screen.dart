@@ -10,7 +10,7 @@ import '../../../widgets/loading_widget.dart';
 import '../controller/slot_controller.dart';
 
 class SlotsScreen extends GetView<SlotsController> {
-  const SlotsScreen({Key? key}) : super(key: key);
+  const SlotsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,11 @@ class SlotsScreen extends GetView<SlotsController> {
               color: AppColors.primary.withOpacity(0.1),
               child: Row(
                 children: [
-                  Icon(Icons.info_outline, color: AppColors.primary, size: 20.w),
+                  Icon(
+                    Icons.info_outline,
+                    color: AppColors.primary,
+                    size: 20.w,
+                  ),
                   SizedBox(width: AppDimensions.paddingSM),
                   Expanded(
                     child: Text(
@@ -56,46 +60,43 @@ class SlotsScreen extends GetView<SlotsController> {
 
             // Slots List
             Expanded(
-              child:
-              controller.slots.isEmpty
-                  ?
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.event_busy,
-                      size: 64.w,
-                      color: AppColors.textTertiary,
-                    ),
-                    SizedBox(height: AppDimensions.paddingMD),
-                    Text(
-                      'No slots available',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.textSecondary,
+              child: controller.slots.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.event_busy,
+                            size: 64.w,
+                            color: AppColors.textTertiary,
+                          ),
+                          SizedBox(height: AppDimensions.paddingMD),
+                          Text(
+                            'No slots available',
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : RefreshIndicator(
+                      onRefresh: controller.refresh,
+                      child: ListView.separated(
+                        padding: EdgeInsets.all(AppDimensions.paddingMD),
+                        itemCount: controller.slots.length,
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: AppDimensions.paddingSM),
+                        itemBuilder: (context, index) {
+                          final slot = controller.slots[index];
+                          return _buildSlotCard(slot);
+                        },
                       ),
                     ),
-                  ],
-                ),
-              )
-                  : RefreshIndicator(
-                onRefresh: controller.refresh,
-                child: ListView.separated(
-                  padding: EdgeInsets.all(AppDimensions.paddingMD),
-                  itemCount: controller.slots.length,
-                  separatorBuilder: (context, index) =>
-                      SizedBox(height: AppDimensions.paddingSM),
-                  itemBuilder: (context, index) {
-                    final slot = controller.slots[index];
-                    return _buildSlotCard(slot);
-                  },
-                ),
-              ),
             ),
 
             // Pagination
-            if (controller.totalPages.value > 1)
-              _buildPaginationControls(),
+            if (controller.totalPages.value > 1) _buildPaginationControls(),
 
             // Selected Slot Info & Book Button
             Obx(() {
@@ -113,7 +114,9 @@ class SlotsScreen extends GetView<SlotsController> {
 
   Widget _buildSlotCard(Slot slot) {
     return Obx(() {
-      final isSelected = controller.selectedSlot.value?.slotId == slot.slotId;
+      final isSelected = true;
+          // controller.selectedSlot.value?.slotIds == slot.slotIds;
+
 
       return InkWell(
         onTap: () => controller.selectSlot(slot),
@@ -169,8 +172,11 @@ class SlotsScreen extends GetView<SlotsController> {
                     SizedBox(height: 4.h),
                     Row(
                       children: [
-                        Icon(Icons.calendar_today,
-                            size: 14.w, color: AppColors.textSecondary),
+                        Icon(
+                          Icons.calendar_today,
+                          size: 14.w,
+                          color: AppColors.textSecondary,
+                        ),
                         SizedBox(width: 4.w),
                         // Text(
                         //   slot.formattedDate,
@@ -183,8 +189,11 @@ class SlotsScreen extends GetView<SlotsController> {
                     SizedBox(height: 4.h),
                     Row(
                       children: [
-                        Icon(Icons.schedule,
-                            size: 14.w, color: AppColors.textSecondary),
+                        Icon(
+                          Icons.schedule,
+                          size: 14.w,
+                          color: AppColors.textSecondary,
+                        ),
                         SizedBox(width: 4.w),
                         // Text(
                         //   slot.formattedTime,
@@ -237,45 +246,45 @@ class SlotsScreen extends GetView<SlotsController> {
   }
 
   Widget _buildPaginationControls() {
-    return Obx(() => Container(
-      padding: EdgeInsets.symmetric(vertical: AppDimensions.paddingSM),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          TextButton.icon(
-            onPressed: controller.hasPrevious.value
-                ? controller.previousPage
-                : null,
-            icon: const Icon(Icons.arrow_back),
-            label: const Text('Previous'),
-          ),
-          Text(
-            'Page ${controller.currentPage.value} of ${controller.totalPages.value}',
-            style: AppTextStyles.bodySmall.copyWith(
-              fontWeight: FontWeight.w600,
+    return Obx(
+      () => Container(
+        padding: EdgeInsets.symmetric(vertical: AppDimensions.paddingSM),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, -2),
             ),
-          ),
-          TextButton.icon(
-            onPressed: controller.hasNext.value ? controller.nextPage : null,
-            icon: const Icon(Icons.arrow_forward),
-            label: const Text('Next'),
-            style: TextButton.styleFrom(
-              iconAlignment: IconAlignment.end,
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TextButton.icon(
+              onPressed: controller.hasPrevious.value
+                  ? controller.previousPage
+                  : null,
+              icon: const Icon(Icons.arrow_back),
+              label: const Text('Previous'),
             ),
-          ),
-        ],
+            Text(
+              'Page ${controller.currentPage.value} of ${controller.totalPages.value}',
+              style: AppTextStyles.bodySmall.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            TextButton.icon(
+              onPressed: controller.hasNext.value ? controller.nextPage : null,
+              icon: const Icon(Icons.arrow_forward),
+              label: const Text('Next'),
+              style: TextButton.styleFrom(iconAlignment: IconAlignment.end),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   Widget _buildBookingSection() {
@@ -331,39 +340,43 @@ class SlotsScreen extends GetView<SlotsController> {
             SizedBox(height: AppDimensions.paddingMD),
 
             // Book Button
-            Obx(() => SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: controller.isBooking.value
-                    ? null
-                    : controller.bookAppointment,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  padding: EdgeInsets.symmetric(vertical: 16.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.circular(AppDimensions.radiusMD),
+            Obx(
+              () => SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: controller.isBooking.value
+                      ? null
+                      : controller.bookAppointment,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    padding: EdgeInsets.symmetric(vertical: 16.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusMD,
+                      ),
+                    ),
                   ),
-                ),
-                child: controller.isBooking.value
-                    ? SizedBox(
-                  height: 20.h,
-                  width: 20.w,
-                  child: const CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor:
-                    AlwaysStoppedAnimation<Color>(AppColors.white),
-                  ),
-                )
-                    : Text(
-                  'Book Appointment',
-                  style: AppTextStyles.bodyLarge.copyWith(
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  child: controller.isBooking.value
+                      ? SizedBox(
+                          height: 20.h,
+                          width: 20.w,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              AppColors.white,
+                            ),
+                          ),
+                        )
+                      : Text(
+                          'Book Appointment',
+                          style: AppTextStyles.bodyLarge.copyWith(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                 ),
               ),
-            )),
+            ),
           ],
         ),
       ),

@@ -39,8 +39,8 @@
 //   }
 // }
 
-// lib/models/specialization.dart
-import 'package:flutter/material.dart';
+
+import '../../core/constants/app_assets.dart';
 
 class Specialization {
   final int specializationId;
@@ -59,16 +59,16 @@ class Specialization {
   }
 
   // Get icon based on specialization name
-  IconData get icon {
+  String get icon {
     switch (specializationName.toLowerCase()) {
       case 'psychologist':
-        return Icons.psychology;
+        return Assets.brain;
       case 'psychiatrist':
-        return Icons.medical_services;
+        return Assets.heartBeat;
       case 'therapist':
-        return Icons.healing;
+        return Assets.mind;
       default:
-        return Icons.local_hospital;
+        return Assets.mind;
     }
   }
 

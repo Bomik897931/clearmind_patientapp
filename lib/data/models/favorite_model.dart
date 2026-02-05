@@ -8,6 +8,7 @@ class FavoriteDoctorModel {
   final bool isPsychiatrist;
   final bool isPsychologist;
   final String imageUrl;
+  final double fees;
 
   FavoriteDoctorModel({
     required this.favoriteDoctorId,
@@ -19,6 +20,7 @@ class FavoriteDoctorModel {
     required this.isPsychiatrist,
     required this.isPsychologist,
     required this.imageUrl,
+    required this.fees
   });
 
   factory FavoriteDoctorModel.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,7 @@ class FavoriteDoctorModel {
       isPsychiatrist: json['isPsychiatrist'] ?? false,
       isPsychologist: json['isPsychologist'] ?? false,
       imageUrl: json['imageUrl'] ?? '',
+      fees: json['fees'] ?? ''
     );
   }
 

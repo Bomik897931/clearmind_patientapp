@@ -212,7 +212,6 @@
 //   }
 // }
 
-
 //working upto 573
 /*import 'dart:async';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
@@ -571,7 +570,6 @@ class VideoCallController extends GetxController {
   }
 }*/
 
-
 // lib/modules/videoscreen/controller/video_call_controller.dart
 import 'dart:async';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
@@ -587,7 +585,7 @@ class VideoCallController extends GetxController {
   final AgoraRepository _agoraRepository;
 
   VideoCallController({AgoraRepository? agoraRepository})
-      : _agoraRepository = agoraRepository ?? AgoraRepository();
+    : _agoraRepository = agoraRepository ?? AgoraRepository();
 
   RtcEngine? engine;
 
@@ -596,9 +594,14 @@ class VideoCallController extends GetxController {
   final RxBool isMuted = false.obs;
   final RxBool isVideoEnabled = true.obs;
   final RxBool isSpeakerEnabled = true.obs;
+  final RxBool isCameraSwitched = true.obs;
+
   final RxBool isCallConnected = false.obs;
   final RxBool engineInitialized = false.obs;
   final RxBool isJoining = false.obs;
+  RxDouble localX = 16.0.obs;
+  RxDouble localY = 100.0.obs;
+  RxBool isLocalFullScreen = false.obs;
 
   String? channelName;
   String? appId;
@@ -706,17 +709,21 @@ class VideoCallController extends GetxController {
           },
 
           onUserOffline:
-              (RtcConnection connection, int uid, UserOfflineReasonType reason) {
-            print('❌ Remote user left: $uid');
-            remoteUid.value = 0;
-            isCallConnected.value = false;
+              (
+                RtcConnection connection,
+                int uid,
+                UserOfflineReasonType reason,
+              ) {
+                print('❌ Remote user left: $uid');
+                remoteUid.value = 0;
+                isCallConnected.value = false;
 
-            Get.snackbar(
-              'User Left',
-              'Doctor has left the call',
-              snackPosition: SnackPosition.TOP,
-            );
-          },
+                Get.snackbar(
+                  'User Left',
+                  'Doctor has left the call',
+                  snackPosition: SnackPosition.TOP,
+                );
+              },
 
           onLeaveChannel: (RtcConnection connection, RtcStats stats) {
             print('👋 Left channel');
@@ -739,10 +746,13 @@ class VideoCallController extends GetxController {
           },
 
           onConnectionStateChanged:
-              (RtcConnection connection, ConnectionStateType state,
-              ConnectionChangedReasonType reason) {
-            print('🔄 Connection State: $state');
-          },
+              (
+                RtcConnection connection,
+                ConnectionStateType state,
+                ConnectionChangedReasonType reason,
+              ) {
+                print('🔄 Connection State: $state');
+              },
         ),
       );
 
@@ -756,7 +766,7 @@ class VideoCallController extends GetxController {
 
       engineInitialized.value = true;
       print('✅✅✅ AGORA FULLY INITIALIZED! ✅✅✅');
-    } catch (e, stack) {
+    } catch (e) {
       print('❌❌❌ INITIALIZATION FAILED! ❌❌❌');
       print('Error: $e');
 
@@ -771,11 +781,11 @@ class VideoCallController extends GetxController {
 
   /// Join call with token from API
   Future<void> joinCallWithToken(
-      String token,
-      String channel,
-      String dynamicAppId,
-      int uid,
-      ) async {
+    String token,
+    String channel,
+    String dynamicAppId,
+    int uid,
+  ) async {
     try {
       print('\n🚀 === JOINING CALL ===');
       print('Channel: $channel');
@@ -853,7 +863,7 @@ class VideoCallController extends GetxController {
 
       final agoraRepo = AgoraRepository();
 
-    final agoraToken= await agoraRepo.leaveAgoraCall(
+      final agoraToken = await agoraRepo.leaveAgoraCall(
         token: token,
         appointmentId: appointmentId,
       );
@@ -862,7 +872,6 @@ class VideoCallController extends GetxController {
 
       // Navigate back after leaving call
       Get.offAllNamed(AppRoutes.HOME);
-
     } catch (e) {
       print('Error leaving call: $e');
 
@@ -887,6 +896,7 @@ class VideoCallController extends GetxController {
   }
 
   Future<void> switchCamera() async {
+    isCameraSwitched.value = !isCameraSwitched.value;
     await engine?.switchCamera();
   }
 

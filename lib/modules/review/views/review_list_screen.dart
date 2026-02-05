@@ -6,7 +6,7 @@ import '../../../data/models/review_model.dart';
 import '../controller/review_list_controller.dart';
 
 class ReviewsListScreen extends GetView<ReviewsListController> {
-  const ReviewsListScreen({Key? key}) : super(key: key);
+  const ReviewsListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +19,16 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
           icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () => Get.back(),
         ),
-        title: Obx(() => Text(
-          '${controller.averageRating} (${controller.reviews.length} reviews)',
-          style: const TextStyle(
-            color: AppColors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
+        title: Obx(
+          () => Text(
+            '${controller.averageRating} (${controller.reviews.length} reviews)',
+            style: const TextStyle(
+              color: AppColors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        )),
+        ),
       ),
       body: Column(
         children: [
@@ -36,21 +38,23 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
             color: AppColors.white,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Obx(() => Row(
-                children: [
-                  _buildFilterChip('All'),
-                  const SizedBox(width: 8),
-                  _buildFilterChip('5'),
-                  const SizedBox(width: 8),
-                  _buildFilterChip('4'),
-                  const SizedBox(width: 8),
-                  _buildFilterChip('3'),
-                  const SizedBox(width: 8),
-                  _buildFilterChip('2'),
-                  const SizedBox(width: 8),
-                  _buildFilterChip('1'),
-                ],
-              )),
+              child: Obx(
+                () => Row(
+                  children: [
+                    _buildFilterChip('All'),
+                    const SizedBox(width: 8),
+                    _buildFilterChip('5'),
+                    const SizedBox(width: 8),
+                    _buildFilterChip('4'),
+                    const SizedBox(width: 8),
+                    _buildFilterChip('3'),
+                    const SizedBox(width: 8),
+                    _buildFilterChip('2'),
+                    const SizedBox(width: 8),
+                    _buildFilterChip('1'),
+                  ],
+                ),
+              ),
             ),
           ),
 
@@ -72,12 +76,18 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.rate_review_outlined,
-                          size: 64, color: Colors.grey[400]),
+                      Icon(
+                        Icons.rate_review_outlined,
+                        size: 64,
+                        color: Colors.grey[400],
+                      ),
                       const SizedBox(height: 16),
                       Text(
                         'No reviews yet',
-                        style: TextStyle(color: AppColors.grey600, fontSize: 16),
+                        style: TextStyle(
+                          color: AppColors.grey600,
+                          fontSize: 16,
+                        ),
                       ),
                     ],
                   ),
@@ -87,7 +97,8 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
               return ListView.separated(
                 padding: const EdgeInsets.all(16),
                 itemCount: filteredReviews.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 16),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 16),
                 itemBuilder: (context, index) {
                   final review = filteredReviews[index];
                   return _buildReviewCard(review);
@@ -107,10 +118,14 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ?  AppColors.circularprogressindicator : AppColors.white,
+          color: isSelected
+              ? AppColors.circularprogressindicator
+              : AppColors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ?  AppColors.circularprogressindicator : Colors.grey[300]!,
+            color: isSelected
+                ? AppColors.circularprogressindicator
+                : Colors.grey[300]!,
           ),
         ),
         child: Row(
@@ -118,7 +133,9 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
             Icon(
               Icons.star,
               size: 16,
-              color: isSelected ? AppColors.white :  AppColors.circularprogressindicator,
+              color: isSelected
+                  ? AppColors.white
+                  : AppColors.circularprogressindicator,
             ),
             const SizedBox(width: 4),
             Text(
@@ -174,7 +191,10 @@ class ReviewsListScreen extends GetView<ReviewsListController> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFE0F7FA),
                   borderRadius: BorderRadius.circular(20),

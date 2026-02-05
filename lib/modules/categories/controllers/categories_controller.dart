@@ -16,22 +16,22 @@
 //
 //     // Mock data - Replace with API call
 //     // categories.value = [
-    //   CategoryModel(id: '1', name: 'General', icon: 'general'),
-    //   CategoryModel(id: '2', name: 'Cardiologist', icon: 'cardiologist'),
-    //   CategoryModel(id: '3', name: 'Dentist', icon: 'dentist'),
-    //   CategoryModel(id: '4', name: 'Dermatologist', icon: 'dermatologist'),
-    //   CategoryModel(id: '5', name: 'Pediatrician', icon: 'pediatrician'),
-    //   CategoryModel(id: '6', name: 'Gynecologist', icon: 'gynecologist'),
-    //   CategoryModel(id: '7', name: 'Nutritionist', icon: 'nutritionist'),
-    //   CategoryModel(id: '8', name: 'Endocrinologist', icon: 'endocrinologist'),
-    //   CategoryModel(id: '9', name: 'Psychiatrist', icon: 'psychiatrist'),
-    //   CategoryModel(id: '10', name: 'Hematologist', icon: 'hematologist'),
-    //   CategoryModel(id: '11', name: 'Ophthalmologist', icon: 'ophthalmologist'),
-    //   CategoryModel(id: '12', name: 'Oncologist', icon: 'oncologist'),
-    //   CategoryModel(id: '13', name: 'Orthopedic', icon: 'orthopedic'),
-    //   CategoryModel(id: '14', name: 'Urologist', icon: 'urologist'),
-    //   CategoryModel(id: '15', name: 'Neurologist', icon: 'neurologist'),
-    // ];
+//   CategoryModel(id: '1', name: 'General', icon: 'general'),
+//   CategoryModel(id: '2', name: 'Cardiologist', icon: 'cardiologist'),
+//   CategoryModel(id: '3', name: 'Dentist', icon: 'dentist'),
+//   CategoryModel(id: '4', name: 'Dermatologist', icon: 'dermatologist'),
+//   CategoryModel(id: '5', name: 'Pediatrician', icon: 'pediatrician'),
+//   CategoryModel(id: '6', name: 'Gynecologist', icon: 'gynecologist'),
+//   CategoryModel(id: '7', name: 'Nutritionist', icon: 'nutritionist'),
+//   CategoryModel(id: '8', name: 'Endocrinologist', icon: 'endocrinologist'),
+//   CategoryModel(id: '9', name: 'Psychiatrist', icon: 'psychiatrist'),
+//   CategoryModel(id: '10', name: 'Hematologist', icon: 'hematologist'),
+//   CategoryModel(id: '11', name: 'Ophthalmologist', icon: 'ophthalmologist'),
+//   CategoryModel(id: '12', name: 'Oncologist', icon: 'oncologist'),
+//   CategoryModel(id: '13', name: 'Orthopedic', icon: 'orthopedic'),
+//   CategoryModel(id: '14', name: 'Urologist', icon: 'urologist'),
+//   CategoryModel(id: '15', name: 'Neurologist', icon: 'neurologist'),
+// ];
 //
 //     isLoading.value = false;
 //   }
@@ -42,12 +42,11 @@
 // }
 
 // lib/modules/doctors/controllers/doctors_by_specialization_controller.dart
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../data/models/doctor_model.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/category_model.dart';
-import '../../../data/models/doctor_model.dart';
 import '../../../data/repositories/doctor_repository.dart';
 import '../../../data/services/StorageService.dart';
 
@@ -58,8 +57,8 @@ class DoctorsBySpecializationController extends GetxController {
   DoctorsBySpecializationController({
     DoctorsRepository? doctorsRepository,
     StorageService? storage,
-  })  : _doctorsRepository = doctorsRepository ?? DoctorsRepository(),
-        _storage = storage ?? StorageService();
+  }) : _doctorsRepository = doctorsRepository ?? DoctorsRepository(),
+       _storage = storage ?? StorageService();
 
   final Rx<Specialization?> specialization = Rx<Specialization?>(null);
   final RxList<DoctorModel> doctors = <DoctorModel>[].obs;
@@ -99,11 +98,14 @@ class DoctorsBySpecializationController extends GetxController {
       final spec = specialization.value;
       if (spec == null) return;
 
-      print('🔵 Controller: Fetching doctors for ${spec.specializationName}...');
+      print(
+        '🔵 Controller: Fetching doctors for ${spec.specializationName}...',
+      );
 
       final response = await _doctorsRepository.getDoctors(
         token: token,
-        specialization: spec.shortName, // Use short name (e.g., "th" for Therapist)
+        specialization:
+            spec.shortName, // Use short name (e.g., "th" for Therapist)
         pageNumber: page,
         pageSize: pageSize,
       );
@@ -116,7 +118,6 @@ class DoctorsBySpecializationController extends GetxController {
       totalCount.value = response.totalCount;
 
       print('🟢 Controller: Fetched ${response.items.length} doctors');
-
     } catch (e) {
       print('🔴 Controller: Error - $e');
       Get.snackbar('Error', 'Failed to load doctors');
@@ -171,7 +172,7 @@ class DoctorsBySpecializationController extends GetxController {
       } catch (e) {
         // Revert on error
         doctor.isFavorite.value = wasFavorite;
-        throw e;
+        rethrow;
       }
     } catch (e) {
       print('🔴 Error toggling favorite: $e');
@@ -201,6 +202,7 @@ class DoctorsBySpecializationController extends GetxController {
     }
   }
 
+  @override
   Future<void> refresh() async {
     await loadDoctors(page: 1);
   }

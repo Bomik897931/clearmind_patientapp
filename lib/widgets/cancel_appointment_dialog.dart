@@ -9,17 +9,15 @@ class CancelAppointmentDialog extends StatelessWidget {
   final VoidCallback onConfirm;
 
   const CancelAppointmentDialog({
-    Key? key,
+    super.key,
     required this.appointment,
     required this.onConfirm,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       backgroundColor: AppColors.white,
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -54,8 +52,7 @@ class CancelAppointmentDialog extends StatelessWidget {
 
             // Message
             Text(
-              'Are you sure you want to cancel your appointment with ${appointment
-                  .doctorName}?',
+              'Are you sure you want to cancel your appointment with ${appointment.doctorName}?',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
@@ -77,7 +74,10 @@ class CancelAppointmentDialog extends StatelessWidget {
                   Row(
                     children: [
                       const Icon(
-                          Icons.calendar_today, size: 16, color: Colors.grey),
+                        Icons.calendar_today,
+                        size: 16,
+                        color: Colors.grey,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -91,7 +91,10 @@ class CancelAppointmentDialog extends StatelessWidget {
                   Row(
                     children: [
                       const Icon(
-                          Icons.access_time, size: 16, color: Colors.grey),
+                        Icons.access_time,
+                        size: 16,
+                        color: Colors.grey,
+                      ),
                       const SizedBox(width: 8),
                       Text(
                         appointment.time,
@@ -161,8 +164,18 @@ class CancelAppointmentDialog extends StatelessWidget {
     try {
       final date = DateTime.parse(dateString);
       final months = [
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
       ];
       return '${date.day} ${months[date.month - 1]}, ${date.year}';
     } catch (e) {

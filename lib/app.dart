@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     // final localeController = Get.find<LocaleController>();
     return ScreenUtilInit(
       designSize: const Size(375, 812),
@@ -32,6 +31,7 @@ class MyApp extends StatelessWidget {
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
+
               fallbackLocale: const Locale('en'),
               debugShowCheckedModeBanner: false,
               theme: AppTheme.lightTheme,
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
               getPages: AppPages.pages,
               defaultTransition: Transition.cupertino,
             );
-          }
+          },
         );
       },
     );

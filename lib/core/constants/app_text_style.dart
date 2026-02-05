@@ -9,7 +9,7 @@ class AppTextStyles {
     fontSize: 32.sp,
     fontWeight: FontWeight.w700,
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: 'Quicksand',
     height: 1.2,
   );
 
@@ -17,7 +17,7 @@ class AppTextStyles {
     fontSize: 28.sp,
     fontWeight: FontWeight.w700,
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: 'Quicksand',
     height: 1.2,
   );
 
@@ -25,13 +25,13 @@ class AppTextStyles {
     fontSize: 24.sp,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: 'Quicksand',
     height: 1.3,
   );
   static TextStyle heading51 = TextStyle(
     fontSize: 14.sp, // ✅ 14px
     fontWeight: FontWeight.w500, // ✅ Medium (500)
-    fontFamily: 'EBGaramond', // ✅ EB Garamond
+    fontFamily: 'Quicksand', // ✅ EB Garamond
     color: AppColors.white,
     height: 21 / 14, // ✅ line-height: 21px
     letterSpacing: -0.011 * 14, // ✅ -1.1%
@@ -50,20 +50,19 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
     height: 1.5, // 21px line-height
     letterSpacing: -0.15,
-    color:  AppColors.textPrimary,
+    color: AppColors.textPrimary,
   );
   static TextStyle heading5_2 = TextStyle(
     fontFamily: 'Quicksand',
     fontSize: 14.sp,
     fontWeight: FontWeight.w500,
-    height: 1.5,          // 21px line height
+    height: 1.5, // 21px line height
     letterSpacing: -0.15, // -1.1%
     color: AppColors.textPrimary,
   );
 
-
   static TextStyle heading5_1 = TextStyle(
-    fontFamily: 'EBGaramond',
+    fontFamily: 'Quicksand',
     fontSize: 14.sp,
     fontWeight: FontWeight.w500,
     height: 1.5, // 21px line height
@@ -71,14 +70,11 @@ class AppTextStyles {
     color: const Color(0xFF3F3F47),
   );
 
-
-
-
   static TextStyle h4 = TextStyle(
     fontSize: 20.sp,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: 'Quicksand',
     height: 1.3,
   );
 
@@ -86,7 +82,7 @@ class AppTextStyles {
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: 'Quicksand',
     height: 1.4,
   );
 
@@ -94,15 +90,15 @@ class AppTextStyles {
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: 'Quicksand',
     height: 1.4,
   );
 
   static TextStyle bodyLarge = TextStyle(
     fontSize: 16.sp,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: 'Quicksand',
     height: 1.5,
   );
 
@@ -110,23 +106,31 @@ class AppTextStyles {
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     color: AppColors.textPrimary,
-    fontFamily: 'Inter',
+    fontFamily: 'Quicksand',
     height: 1.5,
   );
 
   static TextStyle bodySmall = TextStyle(
     fontSize: 12.sp,
-    fontWeight: FontWeight.w400,
-    color: AppColors.textSecondary,
-    fontFamily: 'Inter',
+    fontWeight: FontWeight.w500,
+    color: AppColors.textPrimary,
+    fontFamily: 'Quicksand',
+    height: 1.5,
+  );
+
+  static TextStyle bodySmallGrey = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w500,
+    color: AppColors.grey300,
+    fontFamily: 'Quicksand',
     height: 1.5,
   );
 
   static TextStyle button = TextStyle(
-    fontSize: 16.sp,
-    fontWeight: FontWeight.w600,
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w500,
     color: AppColors.white,
-    fontFamily: 'Inter',
+    fontFamily: 'Quicksand',
     height: 1.2,
   );
 
@@ -134,8 +138,7 @@ class AppTextStyles {
     fontSize: 12.sp,
     fontWeight: FontWeight.w400,
     color: AppColors.textSecondary,
-    fontFamily: 'Inter',
+    fontFamily: 'Quicksand',
     height: 1.4,
   );
-
 }

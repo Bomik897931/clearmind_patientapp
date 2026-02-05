@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../core/constants/app_text_style.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
-import '../../../core/constants/app_text_style.dart';
 import '../../../widgets/custom_button.dart';
 import '../controllers/consultation_end_controller.dart';
 
 class ConsultationEndScreen extends GetView<ConsultationEndController> {
-  const ConsultationEndScreen({Key? key}) : super(key: key);
+  const ConsultationEndScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

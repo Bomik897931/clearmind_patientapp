@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../core/constants/app_text_style.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
-import '../../../core/constants/app_text_style.dart';
 import '../../../data/models/category_model.dart';
 
 class CategoryGridItem extends StatelessWidget {
@@ -10,10 +10,10 @@ class CategoryGridItem extends StatelessWidget {
   final VoidCallback onTap;
 
   const CategoryGridItem({
-    Key? key,
+    super.key,
     required this.category,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

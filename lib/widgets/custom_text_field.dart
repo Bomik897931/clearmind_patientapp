@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
 import '../core/constants/app_text_style.dart';
@@ -18,7 +17,7 @@ class CustomTextField extends StatelessWidget {
   final bool readOnly;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     this.hintText,
     this.labelText,
     this.controller,
@@ -30,7 +29,7 @@ class CustomTextField extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.readOnly = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

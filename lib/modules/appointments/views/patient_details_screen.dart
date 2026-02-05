@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
@@ -11,7 +10,7 @@ import '../../../widgets/custom_text_field.dart';
 import '../controllers/patient_details_controller.dart';
 
 class PatientDetailsScreen extends GetView<PatientDetailsController> {
-  const PatientDetailsScreen({Key? key}) : super(key: key);
+  const PatientDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

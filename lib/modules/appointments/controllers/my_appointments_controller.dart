@@ -39,7 +39,7 @@
 //       rating: 4.9,
 //       reviewCount: 4945,
 //       experience: 5,
-//     );
+//     );c
 //
 //     upcomingAppointments.value = [
 //       AppointmentModel(
@@ -104,8 +104,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:Clarminds/data/repositories/user_repository.dart';
-
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/routes/app_routes.dart';
@@ -116,15 +114,16 @@ import '../../../data/repositories/user_repository.dart';
 import '../../../data/services/StorageService.dart';
 import '../../../widgets/cancel_appointment_dialog.dart';
 
-class MyAppointmentsController extends GetxController with GetSingleTickerProviderStateMixin {
+class MyAppointmentsController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   final AppointmentsRepository _repository;
   final StorageService _storage;
 
   MyAppointmentsController({
     AppointmentsRepository? repository,
     StorageService? storage,
-  })  : _repository = repository ?? AppointmentsRepository(),
-        _storage = storage ?? StorageService();
+  }) : _repository = repository ?? AppointmentsRepository(),
+       _storage = storage ?? StorageService();
 
   late TabController tabController;
 
@@ -133,6 +132,11 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
   final RxList<Appointment> cancelledAppointments = <Appointment>[].obs;
   final RxBool isLoading = false.obs;
   final RxInt selectedBottomIndex = 1.obs;
+  final Map<String, String> videoUrls = {
+    'New Online Consultation Vedio': 'https://youtu.be/YOUR_VIDEO_ID_1',
+    'Why Really Happened': 'https://youtu.be/YOUR_VIDEO_ID_2',
+    'What is Anxiety?': 'https://youtu.be/YOUR_VIDEO_ID_3',
+  };
 
   @override
   void onInit() {
@@ -145,6 +149,17 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
   void onClose() {
     tabController.dispose();
     super.onClose();
+  }
+
+  void onVideoSelected(String videoTitle) {
+    final videoUrl = videoUrls[videoTitle];
+    if (videoUrl != null) {
+      // Play video
+      Get.toNamed('/video-player', arguments: {
+        'title': videoTitle,
+        'url': videoUrl,
+      });
+    }
   }
 
   Future<void> loadAppointments() async {
@@ -187,10 +202,11 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
           .where((apt) => apt.status.toLowerCase() == 'cancelled')
           .toList();
 
-      print('🟢 Loaded: ${upcomingAppointments.length} upcoming, '
-          '${completedAppointments.length} completed, '
-          '${cancelledAppointments.length} cancelled');
-
+      print(
+        '🟢 Loaded: ${upcomingAppointments.length} upcoming, '
+        '${completedAppointments.length} completed, '
+        '${cancelledAppointments.length} cancelled',
+      );
     } catch (e) {
       print('🔴 Error loading appointments: $e');
       Get.snackbar(
@@ -207,16 +223,20 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
 
   void onAppointmentTap(Appointment appointment) {
     // Navigate to appointment details
-    Get.toNamed('/appointment-details', arguments: {'appointment': appointment});
+    Get.toNamed(
+      '/appointment-details',
+      arguments: {'appointment': appointment},
+    );
   }
 
   void onReschedule(Appointment appointment) {
     // Navigate to reschedule screen
-    Get.toNamed('/book-appointment', arguments: {
-      'appointment': appointment,
-      'reschedule': true,
-    });
+    Get.toNamed(
+      '/book-appointment',
+      arguments: {'appointment': appointment, 'reschedule': true},
+    );
   }
+
   void showCancelDialog(Appointment appointment) {
     Get.dialog(
       CancelAppointmentDialog(
@@ -316,12 +336,13 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
 
   void onBookAgain(Appointment appointment) {
     // Navigate to book appointment with same doctor
-    Get.toNamed('/book-appointment', arguments: {
-      'doctorId': appointment.doctorUserId,
-    });
+    Get.toNamed(
+      '/book-appointment',
+      arguments: {'doctorId': appointment.doctorUserId},
+    );
   }
 
-  void onCall(Appointment appointment) async{
+  void onCall(Appointment appointment) async {
     // Implement call functionality
     try {
       // Show loading
@@ -356,7 +377,7 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
           'channelName': agoraToken.channelName,
           'token': agoraToken.token,
           'uid': agoraToken.uid,
-          'appointmentId':appointment.appointmentId
+          'appointmentId': appointment.appointmentId,
         },
       );
     } on RepositoryException catch (e) {
@@ -386,9 +407,7 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
                   Get.back();
                   // onCall(appointment);
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                 child: Text('Disconnect'),
               ),
             ],
@@ -403,8 +422,7 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
           colorText: Colors.white,
         );
       }
-    }
-    catch (e) {
+    } catch (e) {
       // Get.back(); // Close loading
       print('Error joining call: $e');
       Get.snackbar(
@@ -415,7 +433,6 @@ class MyAppointmentsController extends GetxController with GetSingleTickerProvid
         colorText: Colors.white,
       );
     }
-
 
     // Get.snackbar(
     //   'Call',

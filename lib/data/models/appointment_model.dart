@@ -12,10 +12,13 @@ class Appointment {
   final String? previousAppointment;
   final String reason;
   final String notes;
-  final int? slotsId;
+  List<int>? slotId;
+  // final int? slotsId;
   final int? userId;
   final int? doctorUserId;
   final int? patientUserId;
+  final int? slotsDuration;
+  final double? slotsFees;
   final String? phoneNumber;
 
   Appointment({
@@ -31,10 +34,12 @@ class Appointment {
     this.previousAppointment,
     required this.reason,
     required this.notes,
-    this.slotsId,
+    this.slotId,
     this.userId,
     this.doctorUserId,
     this.patientUserId,
+    this.slotsDuration,
+    this.slotsFees,
     this.phoneNumber,
   });
 
@@ -46,17 +51,45 @@ class Appointment {
       gender: json['gender'],
       appointmentDate: json['appointmentDate'],
       time: json['time'],
-      status: json['status'],
+      status: _parseStatus(json['status']),
       city: json['city'],
       diagnosis: json['diagnosis'],
       previousAppointment: json['previousAppointment'],
       reason: json['reason'],
       notes: json['notes'],
-      slotsId: json['slotsId'],
+      slotId: (json['slotsId'] as List?)?.map((e) => e as int).toList(),
+      // slotId: json['slotsId'],
       userId: json['userId'],
       doctorUserId: json['doctorUserId'],
       patientUserId: json['patientUserId'],
+      slotsDuration: json['slotsDuration'],
+      slotsFees: parseDouble(json['slotsFees']),
       phoneNumber: json['phoneNumber'],
     );
   }
+  /// Converts int/string/null → readable string
+  static String _parseStatus(dynamic value) {
+    if (value is int) {
+      switch (value) {
+        case 0:
+          return 'Pending';
+        case 1:
+          return 'Confirmed';
+        case 2:
+          return 'Cancelled';
+        default:
+          return 'Unknown';
+      }
+    }
+    if (value is String) return value;
+    return 'Unknown';
+  }
+
+  static double? parseDouble(dynamic value) {
+    if (value == null) return null;
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value);
+    return null;
+  }
+
 }

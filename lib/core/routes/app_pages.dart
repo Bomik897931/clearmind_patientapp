@@ -2,8 +2,18 @@ import 'package:get/get.dart';
 import '../../languageswitcher.dart';
 import '../../modules/Auth/controllers/splash_controller.dart';
 import '../../modules/Auth/view/login_screen.dart';
+import '../../modules/Auth/view/onboardingPage.dart';
+import '../../modules/Auth/view/otp_screen.dart';
 import '../../modules/Auth/view/registration_screen.dart';
 import '../../modules/Auth/view/splash_screen.dart';
+import '../../modules/Cart/controller/MyPrescriptions_Controller.dart';
+import '../../modules/Cart/controller/cart_controller.dart';
+import '../../modules/Cart/views/cart.dart';
+import '../../modules/Cart/views/prescription_screen.dart';
+import '../../modules/address/controller/editaddress_controller.dart';
+import '../../modules/address/controller/save_address_controller.dart';
+import '../../modules/address/view/editAddress_view.dart';
+import '../../modules/address/view/save_address_view.dart';
 import '../../modules/appointments/controllers/book_appointment_controller.dart';
 import '../../modules/appointments/controllers/my_appointments_controller.dart';
 import '../../modules/appointments/controllers/patient_details_controller.dart';
@@ -26,8 +36,13 @@ import '../../modules/favorite/controller/favorite_controller.dart';
 import '../../modules/favorite/view/favorite_screen.dart';
 import '../../modules/home/controller/home_controller.dart';
 import '../../modules/home/views/home_screen.dart';
-import '../../modules/homevc/view/homevc_view.dart';
 import '../../modules/incomingCall/view/incoming_call_screen.dart';
+import '../../modules/medicalReports/controller/medical_reports_controller.dart';
+import '../../modules/medicalReports/view/medical_reports_screen.dart';
+import '../../modules/myOrders/controllers/my_orders_controller.dart';
+import '../../modules/myOrders/controllers/order_details_controller.dart';
+import '../../modules/myOrders/views/my_orders_screen.dart';
+import '../../modules/myOrders/views/order_details_screen.dart';
 import '../../modules/notifications/controller/notification_controller.dart';
 import '../../modules/notifications/views/notification_screen.dart';
 import '../../modules/payments/controllers/add_card_controller.dart';
@@ -77,13 +92,25 @@ class AppPages {
       }),
     ),
     GetPage(
+      name: AppRoutes.ONBOARDVIEW,
+      page: () => const OnboardingPage(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<SplashController>(() => SplashController());
+      }),
+    ),
+    GetPage(
       name: AppRoutes.login,
       page: () => const LoginScreen(),
       transition: Transition.fadeIn,
     ),
     GetPage(
+      name: AppRoutes.otpScreen,
+      page: () => const OtpScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
       name: AppRoutes.register,
-      page: () => const RegisterScreen(),
+      page: () =>  RegisterScreen(),
       transition: Transition.rightToLeft,
     ),
     // GetPage(
@@ -141,11 +168,12 @@ class AppPages {
       }),
     ),
     GetPage(
-        name: AppRoutes.BOOK_SLOT,
-        page: () => const SlotsScreen(),
-    binding: BindingsBuilder((){
-      Get.lazyPut(() => SlotsController());
-    })),
+      name: AppRoutes.BOOK_SLOT,
+      page: () => const SlotsScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => SlotsController());
+      }),
+    ),
     GetPage(
       name: AppRoutes.BOOK_APPOINTMENT,
       page: () => const BookAppointmentScreen(),
@@ -274,6 +302,59 @@ class AppPages {
         Get.lazyPut(() => ReviewConfirmController());
       }),
     ),
-    GetPage(name: AppRoutes.LanguageSwitcher, page: () => LanguageSwitcher())
+    GetPage(name: AppRoutes.LanguageSwitcher, page: () => LanguageSwitcher()),
+    GetPage(
+      name: AppRoutes.CartScreen,
+      page: () => CartScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => CartController());
+      }),
+    ),
+    GetPage(
+      name: AppRoutes.Prescription,
+      page: () => MyPrescriptionsScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => MyPrescriptionsController());
+      }),
+    ),
+    GetPage(
+      name: AppRoutes.MedicalReport,
+      page: () => MedicalReportScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => MedicalReportController());
+      }),
+    ),
+    GetPage(
+      name: AppRoutes.MyOrders,
+      page: () => MyOrdersScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => MyOrdersController());
+      }),
+    ),
+    GetPage(
+      name: AppRoutes.OrdersDetails,
+      page: () => OrderDetailsScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => OrderDetailsController());
+      }),
+    ),
+    GetPage(
+      name: AppRoutes.editAddress,
+      page: () => const EditAddressView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<EditAddressController>(
+              () => EditAddressController(),
+        );
+      }),
+    ),
+    GetPage(
+      name: AppRoutes.SaveAddress,
+      page: () => const SaveAddressView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<SaveAddressController>(
+              () => SaveAddressController(),
+        );
+      }),
+    ),
   ];
 }

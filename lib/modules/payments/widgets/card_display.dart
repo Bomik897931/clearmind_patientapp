@@ -11,12 +11,12 @@ class CardDisplay extends StatelessWidget {
   final String expiryDate;
 
   const CardDisplay({
-    Key? key,
+    super.key,
     required this.balance,
     required this.cardNumber,
     required this.cardHolder,
     required this.expiryDate,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

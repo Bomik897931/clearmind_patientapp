@@ -210,7 +210,6 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -225,11 +224,9 @@ class AuthController extends GetxController {
   final AuthRepository _authRepository;
   final StorageService _storage;
 
-  AuthController({
-    AuthRepository? authRepository,
-    StorageService? storage,
-  })  : _authRepository = authRepository ?? AuthRepository(),
-        _storage = storage ?? StorageService();
+  AuthController({AuthRepository? authRepository, StorageService? storage})
+    : _authRepository = authRepository ?? AuthRepository(),
+      _storage = storage ?? StorageService();
 
   // Observable variables
   final isLoading = false.obs;
@@ -253,8 +250,11 @@ class AuthController extends GetxController {
   final stateController = TextEditingController();
   final countryController = TextEditingController();
   final zipCodeController = TextEditingController();
+  final ageController = TextEditingController();
+  RxBool isChecked = false.obs;
+  final selectedGender = ''.obs;
+  final selectedLanguage = ''.obs;
 
-  final selectedGender = 'male'.obs;
   final Rx<DateTime?> selectedDob = Rx<DateTime?>(null);
 
   final _apiService = ApiService();
@@ -298,68 +298,24 @@ class AuthController extends GetxController {
 
   bool _validateRegisterForm() {
     if (firstNameController.text.trim().isEmpty) {
-      _showError('Please enter your first name');
+      _showError("Please enter full name");
       return false;
     }
 
-    // if (lastNameController.text.trim().isEmpty) {
-    //   _showError('Please enter your last name');
-    //   return false;
-    // }
-
-    if (emailController.text.trim().isEmpty) {
-      _showError('Please enter your email');
+    if (phoneController.text.trim().length != 10) {
+      _showError("Enter valid phone number");
       return false;
     }
 
-    // if (!GetUtils.isEmail(emailController.text.trim())) {
-    //   _showError('Please enter a valid email address');
-    //   return false;
-    // }
-
-    // if (phoneController.text.trim().isEmpty) {
-    //   _showError('Please enter your phone number');
-    //   return false;
-    // }
-
-    if (passwordController.text.isEmpty) {
-      _showError('Please enter a password');
+    if (selectedGender.value.isEmpty) {
+      _showError("Please select gender");
       return false;
     }
 
-    if (passwordController.text.length < 6) {
-      _showError('Password must be at least 6 characters long');
+    if (!isChecked.value) {
+      _showError("Accept terms & conditions");
       return false;
     }
-
-    if (passwordController.text != confirmPasswordController.text) {
-      _showError('Passwords do not match');
-      return false;
-    }
-
-    // if (selectedDob.value == null) {
-    //   _showError('Please select your date of birth');
-    //   return false;
-    // }
-    //
-    // if (bloodGroupController.text.trim().isEmpty) {
-    //   _showError('Please enter your blood group');
-    //   return false;
-    // }
-    //
-    // if (emergencyContactController.text.trim().isEmpty) {
-    //   _showError('Please enter emergency contact number');
-    //   return false;
-    // }
-    //
-    // if (streetController.text.trim().isEmpty ||
-    //     cityController.text.trim().isEmpty ||
-    //     stateController.text.trim().isEmpty ||
-    //     countryController.text.trim().isEmpty ||
-    //     zipCodeController.text.trim().isEmpty) {
-    //   _showError('Please complete all address fields');
-    //   return false;
-    // }
 
     return true;
   }
@@ -387,26 +343,22 @@ class AuthController extends GetxController {
         // country: countryController.text.trim(),
         // zipCode: zipCodeController.text.trim(),
         // dob: selectedDob.value!.toIso8601String(),
-
-            firstName:  firstNameController.text.trim(),
-            lastName:  "",
-            email:  emailController.text.trim(),
-            phoneNumber:  "9098909890",
-            gender:  "male",
-            password:  passwordController.text,
-            bloodGroup:  "A+",
-            emergencyContact:  "9098909890",
-            insuranceDetails:  "insu",
-            profilePicUrl:  "string",
-            street:  "mall road",
-            city:  "Aligarh",
-            state:  "UP",
-            country:  "India",
-            zipCode:  "123333",
-            dob:  "2025-12-03T07:19:55.096Z"
-
-
-
+        firstName: firstNameController.text.trim(),
+        lastName: "",
+        email: emailController.text.trim(),
+        phoneNumber: phoneController.text.trim(),
+        gender: selectedGender.value.toLowerCase(),
+        password: passwordController.text,
+        bloodGroup: "A+",
+        emergencyContact: "9098909890",
+        insuranceDetails: "insu",
+        profilePicUrl: "string",
+        street: "mall road",
+        city: "Aligarh",
+        state: "UP",
+        country: "India",
+        zipCode: "123333",
+        dob: selectedDob.value?.toIso8601String() ?? "",
       );
       print(request);
 
@@ -477,11 +429,6 @@ class AuthController extends GetxController {
       print('🟢 Controller: Login successful, user: ${user.email}');
 
       currentUser.value = user;
-      if (user.role == 'Patient'){
-        Get.offAllNamed('/home');
-      }else{
-        _showSuccess('Your role is not patient, Please try again with another user');
-      }
 
       // Save token separately if needed
       if (user.token != null) {
@@ -492,15 +439,12 @@ class AuthController extends GetxController {
       await _storage.saveUser(user);
       isLoggedIn.value = true;
 
-      _showSuccess(user.fullName != null
-          ? 'Welcome back, ${user.fullName}!'
-          : 'Login successful!');
+      _showSuccess('Welcome back, ${user.fullName}!');
 
       // loginEmailController.clear();
       // loginPasswordController.clear();
 
-
-
+      Get.offAllNamed('/home');
     } on RepositoryException catch (e) {
       print('🔴 Controller: RepositoryException - ${e.message}');
       _showError(e.message);
@@ -511,7 +455,6 @@ class AuthController extends GetxController {
       isLoading.value = false;
     }
   }
-
 
   // Future<void> login() async {
   //   // if (!_validateRegisterForm()) return;
@@ -556,8 +499,6 @@ class AuthController extends GetxController {
   //   }
   // }
 
-
-
   void _clearForm() {
     firstNameController.clear();
     lastNameController.clear();
@@ -587,10 +528,12 @@ class AuthController extends GetxController {
       duration: const Duration(seconds: 3),
     );
   }
-    void togglePasswordVisibility() {
+
+  void togglePasswordVisibility() {
     obscurePassword.value = !obscurePassword.value;
   }
-    void toggleConfirmPasswordVisibility() {
+
+  void toggleConfirmPasswordVisibility() {
     obscureConfirmPassword.value = !obscureConfirmPassword.value;
   }
 
@@ -604,6 +547,7 @@ class AuthController extends GetxController {
       duration: const Duration(seconds: 3),
     );
   }
+
   Future<void> logout() async {
     try {
       isLoading.value = true;
@@ -638,17 +582,11 @@ class AuthController extends GetxController {
     }
   }
 
-
   bool _validateLoginForm() {
-
-
-
     if (firstNameController.text.trim().isEmpty) {
       _showError('Please enter your email');
       return false;
     }
-
-
 
     if (passwordController.text.isEmpty) {
       _showError('Please enter a password');

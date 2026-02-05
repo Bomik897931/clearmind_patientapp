@@ -49,17 +49,13 @@
 // lib/modules/doctors/screens/doctors_by_specialization_screen.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/constants/app_colors.dart';
-import '../../../core/constants/app_dimensions.dart';
-import '../../../core/constants/app_text_style.dart';
 import '../../../data/models/doctor_model.dart';
-import '../../../widgets/loading_widget.dart';
-import '../../doctors/widgets/doctor_list_item.dart';
 import '../controllers/categories_controller.dart';
 
-class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationController> {
-  const DoctorsBySpecializationScreen({Key? key}) : super(key: key);
+class DoctorsBySpecializationScreen
+    extends GetView<DoctorsBySpecializationController> {
+  const DoctorsBySpecializationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,14 +68,16 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
           icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () => Get.back(),
         ),
-        title: Obx(() => Text(
-          controller.specialization.value?.specializationName ?? 'Doctors',
-          style: const TextStyle(
-            color: AppColors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
+        title: Obx(
+          () => Text(
+            controller.specialization.value?.specializationName ?? 'Doctors',
+            style: const TextStyle(
+              color: AppColors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        )),
+        ),
         // actions: [
         //   IconButton(
         //     icon: const Icon(Icons.search, color: AppColors.black),
@@ -111,10 +109,7 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
                 const SizedBox(height: 16),
                 Text(
                   'No doctors found',
-                  style: TextStyle(
-                    color: AppColors.grey600,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(color: AppColors.grey600, fontSize: 16),
                 ),
               ],
             ),
@@ -123,7 +118,7 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
 
         return RefreshIndicator(
           onRefresh: controller.refresh,
-          color:  AppColors.circularprogressindicator,
+          color: AppColors.circularprogressindicator,
           child: ListView.separated(
             padding: const EdgeInsets.all(16),
             itemCount: controller.doctors.length,
@@ -224,14 +219,20 @@ class DoctorsBySpecializationScreen extends GetView<DoctorsBySpecializationContr
                 ),
                 const SizedBox(width: 8),
                 // Favorite Button
-                Obx(() => IconButton(
-                  onPressed: () => controller.toggleFavorite(doctor),
-                  icon: Icon(
-                    doctor.isFavorite.value ? Icons.favorite : Icons.favorite_border,
-                    color: doctor.isFavorite.value ? AppColors.primary : AppColors.circularprogressindicator,
-                    size: 28,
+                Obx(
+                  () => IconButton(
+                    onPressed: () => controller.toggleFavorite(doctor),
+                    icon: Icon(
+                      doctor.isFavorite.value
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: doctor.isFavorite.value
+                          ? AppColors.primary
+                          : AppColors.circularprogressindicator,
+                      size: 28,
+                    ),
                   ),
-                )),
+                ),
               ],
             ),
           ),

@@ -192,6 +192,7 @@
 
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import '../../core/constants/api_constants.dart';
@@ -311,70 +312,8 @@ class ApiService {
   }
 
 
-  // In ApiService._handleResponse method
-  dynamic _handleResponse(http.Response response) {
+  Map<String, dynamic> _handleResponse(http.Response response) {
     try {
-      if (response.body.isEmpty) {
-        throw ApiException(
-          'Empty response from server (Status: ${response.statusCode})',
-          statusCode: response.statusCode,
-        );
-      }
-
-      // Handle 400 Bad Request with plain text response
-      if (response.statusCode == 400) {
-        print('❌ 400 Bad Request: ${response.body}');
-
-        // Check if response is plain text (not JSON)
-        if (!response.body.trim().startsWith('{') &&
-            !response.body.trim().startsWith('[')) {
-          throw ApiException(
-            response.body, // Use plain text message directly
-            statusCode: 400,
-          );
-        }
-      }
-
-      final jsonResponse = jsonDecode(response.body);
-
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        return jsonResponse;
-      } else if (response.statusCode == 404) {
-        throw ApiException(
-          'API endpoint not found',
-          statusCode: 404,
-        );
-      } else {
-        // Try to get error message from JSON
-        String message = 'Request failed';
-        if (jsonResponse is Map) {
-          message = jsonResponse['message'] ??
-              jsonResponse['error'] ??
-              message;
-        }
-        throw ApiException(message, statusCode: response.statusCode);
-      }
-    } catch (e) {
-      if (e is ApiException) rethrow;
-      throw ApiException('Failed to parse response: ${e.toString()}');
-    }
-  }
-
-/*  Map<String, dynamic> _handleResponse(http.Response response) {
-    try {
-
-      if (response.statusCode == 400) {
-        print('❌ 400 Bad Request: ${response.body}');
-
-        // Check if response is plain text (not JSON)
-        if (!response.body.trim().startsWith('{') &&
-            !response.body.trim().startsWith('[')) {
-          throw ApiException(
-            response.body, // Use plain text message directly
-            statusCode: 400,
-          );
-        }
-      }
       final jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -393,9 +332,7 @@ class ApiService {
       if (e is ApiException) rethrow;
       throw ApiException('Failed to parse response: ${e.toString()}');
     }
-  }*/
-
-
+  }
   Future<Map<String, dynamic>> delete({
     required String endpoint,
     Map<String, String>? headers,
@@ -457,6 +394,55 @@ class ApiService {
       throw ApiException('Network error: ${e.toString()}');
     }
   }
+
+  Future<Map<String, dynamic>> multipartPost({
+    required String endpoint,
+    required File file,
+    required String fileFieldName, // "File"
+    required Map<String, String> fields, // FileName
+    required String token,
+  }) async {
+    try {
+      final url = Uri.parse('$baseUrl$endpoint');
+
+      print('🔵 API Service: MULTIPART POST $url');
+
+      final request = http.MultipartRequest('POST', url);
+
+      // ✅ TOKEN ADDED HERE
+      request.headers.addAll({
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+      });
+
+      request.fields.addAll(fields);
+
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          fileFieldName,
+          file.path,
+        ),
+      );
+
+      final streamedResponse = await request.send().timeout(
+        const Duration(seconds: 30),
+        onTimeout: () {
+          throw ApiException('Connection timeout');
+        },
+      );
+
+      final response = await http.Response.fromStream(streamedResponse);
+
+      print('🟢 Status: ${response.statusCode}');
+      print('🟢 Body: ${response.body}');
+
+      return _handleResponse(response);
+    } catch (e) {
+      print('🔴 Upload Error: $e');
+      throw ApiException('Upload failed');
+    }
+  }
+
 
 
   dynamic _handleRawResponse(http.Response response) {

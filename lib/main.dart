@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'app.dart';
 import 'controller/locale_controller.dart';
 import 'core/constants/app_colors.dart';
@@ -23,6 +24,7 @@ Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
+  print('This print for GitHub ');
   // Catch Flutter framework errors FIRST (before runZonedGuarded)
   FlutterError.onError = (FlutterErrorDetails details) {
     print('❌ FLUTTER ERROR: ${details.exception}');
@@ -34,11 +36,6 @@ void main() async {
       try {
         // CRITICAL: Must be first
         WidgetsFlutterBinding.ensureInitialized();
-
-        // await Firebase.initializeApp();
-        // Optional: only if you handle background messages
-        // FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
-
         await Firebase.initializeApp(
           // options: DefaultFirebaseOptions.currentPlatform,
         );
@@ -60,7 +57,6 @@ void main() async {
         // }
 
         initialMessage = await FirebaseMessaging.instance.getInitialMessage();
-
 
         print('✅ Starting app initialization...');
 
@@ -106,7 +102,8 @@ void main() async {
 
         // Show error screen if initialization fails
         runApp(
-          MaterialApp(
+          GetMaterialApp(
+            theme: ThemeData(textTheme: GoogleFonts.quicksandTextTheme()),
             home: Scaffold(
               backgroundColor: AppColors.redshade100,
               body: Center(

@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:developer';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:Clarminds/data/repositories/user_repository.dart';
 
-import '../../core/constants/api_constants.dart';
 
 import '../../core/routes/app_routes.dart';
+import '../repositories/user_repository.dart';
 import 'StorageService.dart';
 
 class NotificationServices {
@@ -91,7 +88,7 @@ class NotificationServices {
         print("edfghjkl;");
         return;
       }
-      await authRepository.registerDevice(token: token!,deviceToken: devicetoken,platform: platform);
+      await authRepository.registerDevice(token: token,deviceToken: devicetoken,platform: platform);
 
       // 👉 Replace the above with your actual API call
       print("Registering token with backend: $token");

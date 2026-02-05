@@ -54,7 +54,6 @@
 //   }
 // }
 
-
 // lib/modules/doctors/controllers/top_doctors_controller.dart
 import 'package:get/get.dart';
 
@@ -69,8 +68,8 @@ class TopDoctorsController extends GetxController {
   TopDoctorsController({
     DoctorsRepository? doctorsRepository,
     StorageService? storage,
-  })  : _doctorsRepository = doctorsRepository ?? DoctorsRepository(),
-        _storage = storage ?? StorageService();
+  }) : _doctorsRepository = doctorsRepository ?? DoctorsRepository(),
+       _storage = storage ?? StorageService();
 
   final RxList<DoctorModel> doctors = <DoctorModel>[].obs;
   final RxBool isLoading = false.obs;
@@ -123,7 +122,9 @@ class TopDoctorsController extends GetxController {
         pageSize: pageSize,
       );
       print('🔵 Controller: Fetching doctors...$response');
-      print('wertyu  ${specialization ?? selectedCategory.value.toLowerCase()}');
+      print(
+        'wertyu  ${specialization ?? selectedCategory.value.toLowerCase()}',
+      );
       doctors.value = response.items;
       currentPage.value = response.pageNumber;
       totalPages.value = response.totalPages;
@@ -132,7 +133,6 @@ class TopDoctorsController extends GetxController {
       totalCount.value = response.totalCount;
 
       print('🟢 Controller: Fetched ${response.items.length} doctors');
-
     } catch (e) {
       print('🔴 Controller: Error - $e');
       Get.snackbar('Error', 'Failed to load doctors');
@@ -181,6 +181,7 @@ class TopDoctorsController extends GetxController {
     }
   }
 
+  @override
   void refresh() {
     loadDoctors(page: 1);
   }

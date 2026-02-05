@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_text_style.dart';
@@ -13,14 +12,14 @@ class ProfileMenuItem extends StatelessWidget {
   final bool showArrow;
 
   const ProfileMenuItem({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.iconColor,
     this.onTap,
     this.trailing,
     this.showArrow = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

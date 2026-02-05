@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/constants/app_colors.dart';
@@ -14,10 +13,11 @@ class FavoriteDoctorsController extends GetxController {
   FavoriteDoctorsController({
     DoctorsRepository? repository,
     StorageService? storage,
-  })  : _repository = repository ?? DoctorsRepository(),
-        _storage = storage ?? StorageService();
+  }) : _repository = repository ?? DoctorsRepository(),
+       _storage = storage ?? StorageService();
 
-  final RxList<FavoriteDoctorModel> favoriteDoctors = <FavoriteDoctorModel>[].obs;
+  final RxList<FavoriteDoctorModel> favoriteDoctors =
+      <FavoriteDoctorModel>[].obs;
   final RxBool isLoading = false.obs;
 
   final RxInt selectedBottomIndex = 2.obs;
@@ -82,7 +82,6 @@ class FavoriteDoctorsController extends GetxController {
       // Optimistically remove from list
       favoriteDoctors.removeWhere((d) => d.doctorId == doctor.doctorId);
 
-
       final success = await _repository.removeFavorite(
         token: token,
         doctorId: doctor.doctorId,
@@ -115,6 +114,7 @@ class FavoriteDoctorsController extends GetxController {
     }
   }
 
+  @override
   Future<void> refresh() async {
     await loadFavoriteDoctors();
   }

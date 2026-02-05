@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
@@ -11,13 +10,13 @@ import '../controllers/payment_controller.dart';
 import '../widgets/payment_method_item.dart';
 
 class PaymentScreen extends GetView<PaymentController> {
-  const PaymentScreen({Key? key}) : super(key: key);
+  const PaymentScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
-      appBar:  CustomAppBar(title: AppStrings.payments),
+      appBar: CustomAppBar(title: AppStrings.payments),
       body: Column(
         children: [
           Expanded(

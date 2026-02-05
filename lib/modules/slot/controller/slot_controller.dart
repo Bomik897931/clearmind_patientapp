@@ -13,11 +13,9 @@ class SlotsController extends GetxController {
   final SlotsRepository _slotsRepository;
   final StorageService _storage;
 
-  SlotsController({
-    SlotsRepository? slotsRepository,
-    StorageService? storage,
-  })  : _slotsRepository = slotsRepository ?? SlotsRepository(),
-        _storage = storage ?? StorageService();
+  SlotsController({SlotsRepository? slotsRepository, StorageService? storage})
+    : _slotsRepository = slotsRepository ?? SlotsRepository(),
+      _storage = storage ?? StorageService();
 
   final isLoading = false.obs;
   final isBooking = false.obs;
@@ -148,9 +146,9 @@ class SlotsController extends GetxController {
       final request = BookAppointmentRequest(
         doctorUserId: finalDoctorUserId,
         patientUserId: user.userId!,
-        slotId: selectedSlot.value!.slotId,
+        // slotId: selectedSlot.value!.slotIds,
         reason: reasonController.text.trim(),
-        notes: notesController.text.trim(),
+        notes: notesController.text.trim(), 
       );
 
       final appointment = await _slotsRepository.bookAppointment(
@@ -177,7 +175,6 @@ class SlotsController extends GetxController {
       // Navigate to my appointments after short delay
       await Future.delayed(const Duration(seconds: 1));
       Get.offAllNamed('/my-appointments');
-
     } on RepositoryException catch (e) {
       print('🔴 Controller: RepositoryException - ${e.message}');
       Get.snackbar(
@@ -213,7 +210,8 @@ class SlotsController extends GetxController {
     }
   }
 
-  Future<void> refresh() async{
+  @override
+  Future<void> refresh() async {
     selectedSlot.value = null;
     reasonController.clear();
     notesController.clear();

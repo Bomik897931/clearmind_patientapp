@@ -1,91 +1,3 @@
-// class DoctorModel {
-//   final String id;
-//   final String name;
-//   final String specialty;
-//   final String hospital;
-//   final String image;
-//   final double rating;
-//   final int reviewCount;
-//   final int experience;
-//   final String about;
-//   final String workingTime;
-//   final bool isFavorite;
-//
-//   DoctorModel({
-//     required this.id,
-//     required this.name,
-//     required this.specialty,
-//     required this.hospital,
-//     required this.image,
-//     required this.rating,
-//     required this.reviewCount,
-//     required this.experience,
-//     this.about = '',
-//     this.workingTime = 'Monday - Friday, 08:00 AM - 07:00 PM',
-//     this.isFavorite = false,
-//   });
-//
-//   factory DoctorModel.fromJson(Map<String, dynamic> json) {
-//     return DoctorModel(
-//       id: json['id'] ?? '',
-//       name: json['name'] ?? '',
-//       specialty: json['specialty'] ?? '',
-//       hospital: json['hospital'] ?? '',
-//       image: json['image'] ?? '',
-//       rating: (json['rating'] ?? 0).toDouble(),
-//       reviewCount: json['reviewCount'] ?? 0,
-//       experience: json['experience'] ?? 0,
-//       about: json['about'] ?? '',
-//       workingTime: json['workingTime'] ?? '',
-//       isFavorite: json['isFavorite'] ?? false,
-//     );
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     return {
-//       'id': id,
-//       'name': name,
-//       'specialty': specialty,
-//       'hospital': hospital,
-//       'image': image,
-//       'rating': rating,
-//       'reviewCount': reviewCount,
-//       'experience': experience,
-//       'about': about,
-//       'workingTime': workingTime,
-//       'isFavorite': isFavorite,
-//     };
-//   }
-//
-//   DoctorModel copyWith({
-//     String? id,
-//     String? name,
-//     String? specialty,
-//     String? hospital,
-//     String? image,
-//     double? rating,
-//     int? reviewCount,
-//     int? experience,
-//     String? about,
-//     String? workingTime,
-//     bool? isFavorite,
-//   }) {
-//     return DoctorModel(
-//       id: id ?? this.id,
-//       name: name ?? this.name,
-//       specialty: specialty ?? this.specialty,
-//       hospital: hospital ?? this.hospital,
-//       image: image ?? this.image,
-//       rating: rating ?? this.rating,
-//       reviewCount: reviewCount ?? this.reviewCount,
-//       experience: experience ?? this.experience,
-//       about: about ?? this.about,
-//       workingTime: workingTime ?? this.workingTime,
-//       isFavorite: isFavorite ?? this.isFavorite,
-//     );
-//   }
-// }
-
 import 'package:get/get.dart';
 
 class DoctorModel {
@@ -113,7 +25,12 @@ class DoctorModel {
   final String wokingTime;
   final String wokingHospital;
   final String imageUrl;
-  final String? specialization;
+
+  /// ✅ FIXED
+  final List<String> specialization;
+  final List<String> languages;
+
+  final List<ConsultingFee> consultingFees;
   final RxBool isFavorite;
 
   DoctorModel({
@@ -141,7 +58,9 @@ class DoctorModel {
     required this.wokingTime,
     required this.wokingHospital,
     required this.imageUrl,
-    this.specialization,
+    required this.specialization,
+    required this.languages,
+    required this.consultingFees,
     bool isFavorite = false,
   }) : isFavorite = RxBool(isFavorite);
 
@@ -158,31 +77,80 @@ class DoctorModel {
       dob: json['dob'] ?? '',
       age: json['age'] ?? 0,
       experienceYears: json['experienceYears'] ?? 0,
-      fees: json['fees'] != null ? (json['fees'] as num).toDouble() : 0.0,
+      fees: (json['fees'] as num?)?.toDouble() ?? 0.0,
       about: json['about'] ?? '',
       role: json['role'] ?? 'Doctor',
       isActive: json['isActive'] ?? true,
       isPsychiatrist: json['isPsychiatrist'] ?? false,
       isPsychologist: json['isPsychologist'] ?? false,
       isTherapist: json['isTherapist'] ?? false,
-      rating: json['rating']?.toString() ?? '0.0',  // Convert to string safely
+      rating: json['rating']?.toString() ?? '0',
       reviews: json['reviews'] ?? 0,
       patients: json['patients'] ?? 0,
       wokingTime: json['wokingTime'] ?? '',
       wokingHospital: json['wokingHospital'] ?? '',
       imageUrl: json['imageUrl'] ?? '',
-      specialization: json['specialization'], // Already nullable, so this is fine
+
+      /// ✅ FIXED HERE
+      specialization: (json['specialization'] as List<dynamic>?)
+          ?.map((e) => e.toString())
+          .toList() ??
+          [],
+
+      languages: (json['languages'] as List<dynamic>?)
+          ?.map((e) => e.toString())
+          .toList() ??
+          [],
+
+      consultingFees: (json['consultingFees'] as List<dynamic>?)
+          ?.map(
+            (e) =>
+            ConsultingFee.fromJson(e as Map<String, dynamic>),
+      )
+          .toList() ??
+          [],
+
       isFavorite: json['isFavorite'] ?? false,
     );
   }
 
+  /// Computed properties
   String get fullName => '$firstName $lastName';
 
   String get specialty {
     List<String> specialties = [];
+
     if (isPsychiatrist) specialties.add('Psychiatrist');
     if (isPsychologist) specialties.add('Psychologist');
     if (isTherapist) specialties.add('Therapist');
-    return specialties.isEmpty ? education : specialties.join(', ');
+
+    if (specialties.isNotEmpty) {
+      return specialties.join(', ');
+    }
+
+    return specialization.isNotEmpty
+        ? specialization.join(', ')
+        : education;
+  }
+}
+
+
+
+class ConsultingFee {
+  final int durationInMinutes;
+  final double fee;
+
+  ConsultingFee({
+    required this.durationInMinutes,
+    required this.fee,
+  });
+
+  factory ConsultingFee.fromJson(Map<String, dynamic> json) {
+    return ConsultingFee(
+      durationInMinutes: json['durationInMinutes'] ?? 0,
+      fee: json['fee'] != null
+          ? (json['fee'] as num).toDouble()
+          : 0.0,
+    );
   }
 }

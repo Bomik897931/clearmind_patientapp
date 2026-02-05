@@ -12,13 +12,13 @@ class PaymentMethodItem extends StatelessWidget {
   final Function(String) onChanged;
 
   const PaymentMethodItem({
-    Key? key,
+    super.key,
     required this.icon,
     required this.name,
     required this.value,
     required this.selectedValue,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

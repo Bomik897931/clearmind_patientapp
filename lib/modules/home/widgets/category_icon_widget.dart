@@ -98,6 +98,8 @@
 // lib/modules/home/widgets/category_icon_widget.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import '../../../core/constants/app_assets.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_text_style.dart';
@@ -108,10 +110,10 @@ class CategoryIconWidget extends StatelessWidget {
   final VoidCallback onTap;
 
   const CategoryIconWidget({
-    Key? key,
+    super.key,
     required this.specialization,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -133,11 +135,12 @@ class CategoryIconWidget extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(
-              specialization.icon,
-              color: AppColors.primary,
-              size: 28.w,
-            ),
+            child: SvgPicture.asset(Assets.all),
+            //  Icon(
+            //   specialization.icon,
+            //   color: AppColors.primary,
+            //   size: 28.w,
+            // ),
           ),
           SizedBox(height: 8.h),
           SizedBox(

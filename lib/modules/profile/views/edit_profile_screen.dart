@@ -2,222 +2,298 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/constants/app_colors.dart';
-import '../../../core/constants/app_dimensions.dart';
-import '../../../core/constants/app_strings.dart';
-import '../../../core/constants/app_text_style.dart';
-import '../../../widgets/custom_app_bar.dart';
-import '../../../widgets/custom_button.dart';
-import '../../../widgets/custom_text_field.dart';
 import '../controllers/edit_profile_controller.dart';
 
 class EditProfileScreen extends GetView<EditProfileController> {
-  const EditProfileScreen({Key? key}) : super(key: key);
+  const EditProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
-      appBar: CustomAppBar(title: AppStrings.editProfile),
+      backgroundColor: Colors.white,
+      appBar: _buildAppBar(),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(AppDimensions.paddingMD),
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 20.h,
+        ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildProfileImage(),
-            SizedBox(height: AppDimensions.paddingLG),
-            CustomTextField(
-              labelText: AppStrings.fullName,
+            // Name Field
+            _buildTextField(
+              label: "Name",
               controller: controller.fullNameController,
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.close, size: 20),
-                onPressed: () => controller.fullNameController.clear(),
-              ),
+              hintText: "Enter your name",
             ),
-            SizedBox(height: AppDimensions.paddingMD),
-            _buildGenderDropdown(),
-            SizedBox(height: AppDimensions.paddingMD),
-            _buildAgeDropdown(),
-            SizedBox(height: AppDimensions.paddingMD),
-            CustomTextField(
-              labelText: AppStrings.emailID,
+            SizedBox(height: 16.h),
+
+            // Age Dropdown
+            Obx(() => _buildDropdownField<int>(
+              label: "Age",
+              value: controller.selectedAge.value,
+              items: List.generate(100, (index) => index + 1)
+                  .map((age) => DropdownMenuItem(
+                value: age,
+                child: Text('$age Years'),
+              ))
+                  .toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  controller.selectedAge.value = value;
+                }
+              },
+            )),
+            SizedBox(height: 16.h),
+
+            // Gender Dropdown
+            Obx(() => _buildDropdownField<String>(
+              label: "Gender",
+              value: controller.selectedGender.value,
+              items: ['Male', 'Female', 'Other']
+                  .map((gender) => DropdownMenuItem(
+                value: gender,
+                child: Text(gender),
+              ))
+                  .toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  controller.selectedGender.value = value;
+                }
+              },
+            )),
+            SizedBox(height: 16.h),
+
+            // Email Field
+            _buildTextField(
+              label: "Email",
               controller: controller.emailController,
+              hintText: "Enter your email",
               keyboardType: TextInputType.emailAddress,
-              suffixIcon: const Icon(Icons.email_outlined, size: 20),
             ),
-            SizedBox(height: AppDimensions.paddingMD),
-            _buildPhoneField(),
-            SizedBox(height: AppDimensions.paddingXL),
-            CustomButton(
-              text: AppStrings.update,
-              onPressed: controller.onUpdate,
-            ),
+            SizedBox(height: 32.h),
+
+            // Update Button
+            _buildUpdateButton(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildProfileImage() {
-    return Stack(
-      children: [
-        Container(
-          width: 100.w,
-          height: 100.w,
-          decoration: BoxDecoration(
-            color: AppColors.grey100,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(Icons.person, size: 50.w, color: AppColors.textTertiary),
+  // AppBar with Figma specs
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.w),
+        onPressed: () => Get.back(),
+      ),
+      title: Text(
+        "Edit Profile",
+        style: TextStyle(
+          fontSize: 18.sp,
+          fontWeight: FontWeight.w500,
+          color: Colors.black,
+          height: 27 / 18, // Line height 27px / font size 18px
+          letterSpacing: -0.11 * 18 / 100, // -1.1% letter spacing
         ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: Container(
-            padding: EdgeInsets.all(6.w),
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              shape: BoxShape.circle,
-              border: Border.all(color: AppColors.white, width: 2),
+      ),
+      centerTitle: false,
+    );
+  }
+
+  // Text Field Widget with Figma specs
+  Widget _buildTextField({
+    required String label,
+    required TextEditingController controller,
+    String? hintText,
+    TextInputType? keyboardType,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Label - Figma specs: heading 4 - Quicksand, 16px, Medium (500)
+        Padding(
+          padding: EdgeInsets.only(bottom: 8.h),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textPrimary,
+              height: 24 / 16, // Line height 24px / font size 16px
+              letterSpacing: -0.11 * 16 / 100, // -1.1% letter spacing
             ),
-            child: Icon(Icons.edit, size: 16.w, color: AppColors.white),
+          ),
+        ),
+
+        // Text Field Container - Full width, responsive height
+        SizedBox(
+          width: double.infinity,
+          child: TextField(
+            controller: controller,
+            keyboardType: keyboardType,
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w400,
+              color: Colors.black,
+              height: 1.5,
+            ),
+            decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF9E9E9E),
+                height: 1.5,
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 16.w,
+                vertical: 14.h,
+              ),
+              isDense: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(
+                  color: Color(0xFFE0E0E0),
+                  width: 1,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(
+                  color: Color(0xFFE0E0E0),
+                  width: 1,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(
+                  color: AppColors.primary,
+                  width: 1.5,
+                ),
+              ),
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildGenderDropdown() {
-    return Obx(
-      () => DropdownButtonFormField<String>(
-        value: controller.selectedGender.value,
-        decoration: InputDecoration(
-          labelText: AppStrings.gender,
-          filled: true,
-          fillColor: AppColors.grey50,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: AppDimensions.paddingMD,
-            vertical: AppDimensions.paddingMD,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppDimensions.radiusMD),
-            borderSide: const BorderSide(color: AppColors.border),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppDimensions.radiusMD),
-            borderSide: const BorderSide(color: AppColors.border),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppDimensions.radiusMD),
-            borderSide: const BorderSide(color: AppColors.primary, width: 2),
-          ),
-        ),
-        items: ['Male', 'Female', 'Other'].map((gender) {
-          return DropdownMenuItem(value: gender, child: Text(gender));
-        }).toList(),
-        onChanged: (value) {
-          if (value != null) {
-            controller.selectedGender.value = value;
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _buildAgeDropdown() {
-    return Obx(
-      () => DropdownButtonFormField<int>(
-        value: controller.selectedAge.value,
-        decoration: InputDecoration(
-          labelText: AppStrings.yourAge,
-          filled: true,
-          fillColor: AppColors.grey50,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: AppDimensions.paddingMD,
-            vertical: AppDimensions.paddingMD,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppDimensions.radiusMD),
-            borderSide: const BorderSide(color: AppColors.border),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppDimensions.radiusMD),
-            borderSide: const BorderSide(color: AppColors.border),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppDimensions.radiusMD),
-            borderSide: const BorderSide(color: AppColors.primary, width: 2),
-          ),
-        ),
-        items: List.generate(100, (index) => index + 1).map((age) {
-          return DropdownMenuItem(value: age, child: Text('$age years'));
-        }).toList(),
-        onChanged: (value) {
-          if (value != null) {
-            controller.selectedAge.value = value;
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _buildPhoneField() {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.grey50,
-        borderRadius: BorderRadius.circular(AppDimensions.radiusMD),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppDimensions.paddingMD,
-              vertical: AppDimensions.paddingMD,
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 28.w,
-                  height: 20.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Image.asset(
-                    'assets/images/india_flag.png',
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: AppColors.white,
-                        child: const Center(
-                          child: Text('🇮🇳', style: TextStyle(fontSize: 14)),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(width: 8.w),
-                const Icon(Icons.arrow_drop_down, size: 20),
-              ],
+  // Dropdown Field Widget with Figma specs
+  Widget _buildDropdownField<T>({
+    required String label,
+    required T value,
+    required List<DropdownMenuItem<T>> items,
+    required ValueChanged<T?> onChanged,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Label - Figma specs: heading 4 - Quicksand, 16px, Medium (500)
+        Padding(
+          padding: EdgeInsets.only(bottom: 8.h),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+              height: 24 / 16, // Line height 24px / font size 16px
+              letterSpacing: -0.11 * 16 / 100, // -1.1% letter spacing
             ),
           ),
-          Expanded(
-            child: TextField(
-              controller: controller.phoneController,
-              keyboardType: TextInputType.phone,
-              style: AppTextStyles.bodyMedium,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Phone Number',
-                hintStyle: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.textTertiary,
+        ),
+
+        // Dropdown Field Container - Full width, responsive height
+        SizedBox(
+          width: double.infinity,
+          child: DropdownButtonFormField<T>(
+            value: value,
+            items: items,
+            onChanged: onChanged,
+            isExpanded: true,
+            icon: Icon(
+              Icons.keyboard_arrow_down,
+              color: Colors.black,
+              size: 24.w,
+            ),
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w400,
+              color: Colors.black,
+              height: 1.5,
+            ),
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 16.w,
+                vertical: 14.h,
+              ),
+              isDense: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(
+                  color: Color(0xFFE0E0E0),
+                  width: 1,
                 ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: AppDimensions.paddingMD,
-                  vertical: AppDimensions.paddingMD,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(
+                  color: Color(0xFFE0E0E0),
+                  width: 1,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(
+                  color: AppColors.primary,
+                  width: 1.5,
                 ),
               ),
             ),
           ),
-        ],
+        ),
+      ],
+    );
+  }
+
+  // Update Button with exact Figma specs
+  // Button specs: Width Fill (328px), Height 40px, Radius 24px, Padding 11px 112px
+  Widget _buildUpdateButton() {
+    return SizedBox(
+      width: double.infinity, // Fill width - adapts to screen size
+      height: 40.h, // Fixed height 40px
+      child: ElevatedButton(
+        onPressed: controller.onUpdate,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xFFBC6C25), // Primary color #BC6C25
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24.r), // Radius 24px
+          ),
+          padding: EdgeInsets.symmetric(
+            vertical: 11.h, // Top & Bottom padding 11px
+          ),
+          elevation: 0,
+          shadowColor: Colors.transparent,
+        ),
+        child: Text(
+          "Update",
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+            height: 1.2,
+            letterSpacing: 0,
+          ),
+        ),
       ),
     );
   }

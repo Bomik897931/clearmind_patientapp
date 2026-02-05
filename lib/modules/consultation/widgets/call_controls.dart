@@ -12,14 +12,14 @@ class CallControls extends StatelessWidget {
   final VoidCallback onSwitchCamera;
 
   const CallControls({
-    Key? key,
+    super.key,
     required this.isMuted,
     required this.isVideoOff,
     required this.onMuteToggle,
     required this.onVideoToggle,
     required this.onEndCall,
     required this.onSwitchCamera,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

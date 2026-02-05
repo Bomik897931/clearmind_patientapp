@@ -33,6 +33,7 @@ class ProfileController extends GetxController {
     }
   }
 
+
   void onEditProfile() {
     Get.toNamed('/edit-profile');
   }

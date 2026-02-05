@@ -1,3 +1,5 @@
+// lib/repositories/doctors_repository.dart
+
 import 'package:Clarminds/data/repositories/user_repository.dart';
 
 import '../../core/constants/api_constants.dart';
@@ -30,6 +32,7 @@ class DoctorsRepository {
       String endpoint = '${ApiConstants
           .getDoctorsEndpoint}?Specialization=$finalSpec&PageNumber=$pageNumber&PageSize=$pageSize';
 
+      print(endpoint);
       // Add search query if provided
       if (search != null && search.isNotEmpty) {
         endpoint += '&Search=$search';

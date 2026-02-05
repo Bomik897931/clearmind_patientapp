@@ -9,17 +9,15 @@ class RemoveFavoriteDialog extends StatelessWidget {
   final VoidCallback onConfirm;
 
   const RemoveFavoriteDialog({
-    Key? key,
+    super.key,
     required this.doctor,
     required this.onConfirm,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       backgroundColor: AppColors.white,
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -63,7 +61,9 @@ class RemoveFavoriteDialog extends StatelessWidget {
                     height: 80,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color:  AppColors.circularprogressindicator.withOpacity(0.1),
+                      color: AppColors.circularprogressindicator.withOpacity(
+                        0.1,
+                      ),
                     ),
                     child: Center(
                       child: Text(
@@ -135,7 +135,9 @@ class RemoveFavoriteDialog extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       side: BorderSide(
-                        color:  AppColors.circularprogressindicator.withOpacity(0.3),
+                        color: AppColors.circularprogressindicator.withOpacity(
+                          0.3,
+                        ),
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),
@@ -157,7 +159,7 @@ class RemoveFavoriteDialog extends StatelessWidget {
                     onPressed: onConfirm,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
-                      backgroundColor:  AppColors.circularprogressindicator,
+                      backgroundColor: AppColors.circularprogressindicator,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),
                       ),

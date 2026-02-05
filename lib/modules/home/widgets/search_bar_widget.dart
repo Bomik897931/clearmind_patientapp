@@ -58,62 +58,64 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import '../../../core/constants/app_assets.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_style.dart';
-import '../../../core/constants/app_dimensions.dart';
 import '../controller/home_controller.dart';
 
 class SearchBarWidget extends StatelessWidget {
   final Function(String) onChanged;
 
-  const SearchBarWidget({Key? key, required this.onChanged}) : super(key: key);
+  const SearchBarWidget({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    const double referenceHeight = 800;
     final controller = Get.find<HomeController>();
     return Container(
-      height: 44, // matches your image height
+      height: screenHeight * 37 / referenceHeight,
       decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppDimensions.radiusLG),
+        color: AppColors.green,
+        borderRadius: BorderRadius.circular(50),
       ),
       child: TextField(
         controller: controller.searchController,
         onChanged: onChanged,
         style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textPrimary),
         decoration: InputDecoration(
-          hintText: "Search Specialist/City",
-          hintStyle: AppTextStyles.bodyMedium.copyWith(
-            color: AppColors.textTertiary,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide.none,
           ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide.none,
+          ),
+          hintText: "Search",
+          hintStyle: AppTextStyles.bodySmallGrey,
           border: InputBorder.none,
-          prefixIconConstraints: const BoxConstraints(minWidth: 0),
           prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 5.0),
-            child: Icon(
-              Icons.search,
-              color: AppColors.textTertiary,
-            ),
+            padding: const EdgeInsets.all(8.0),
+            child: SvgPicture.asset(Assets.searchIcon, height: 16, width: 16),
           ),
           suffixIcon: Obx(() {
             if (controller.searchQuery.value.isEmpty) {
               return const SizedBox();
             }
             return IconButton(
-              icon: Icon(
-                Icons.clear,
-                color: AppColors.textTertiary,
-              ),
+              icon: Icon(Icons.clear, color: AppColors.textTertiary),
               onPressed: controller.clearSearch,
             );
           }),
-          // suffixIcon: Padding(
-          //   padding: const EdgeInsets.only(right: 12),
-          //   child: Icon(Icons.search, color: Colors.grey, size: 22),
-          // ),
+
           suffixIconConstraints: const BoxConstraints(minWidth: 40),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
         ),
       ),
     );

@@ -3,12 +3,15 @@ class AppRoutes {
 
   static const String splash = '/splash';
   static const String login = '/login';
+  static const String otpScreen = '/otpScreen';
+
   static const String register = '/register';
   // static const String home = '/home';
   static const String videoCall = '/video-call';
   static const String incomingCall = '/incoming-call';
 
   static const String test = '/test';
+  static const String ONBOARDVIEW = '/onboard-view';
 
   static const String HOME = '/home';
   static const String CATEGORIES = '/doctors-by-specialization';
@@ -34,6 +37,12 @@ class AppRoutes {
   static const String HELP = '/help';
   static const String FAVORITE_DOCTORS = '/favorite-doctors';
   static const String LanguageSwitcher = '/language';
+  static const String Prescription = '/priscription';
+    static const String CartScreen = '/cartScreen';
+    static const String MedicalReport = '/medicalReport';
+    static const String MyOrders = '/my-orders';
+    static const String OrdersDetails = '/order-details';
+    static const String SaveAddress = '/save-address';
+    static const String editAddress = '/edit-address';
 
-  // static const String notification = '/notifications';
 }

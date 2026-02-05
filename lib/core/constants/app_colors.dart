@@ -7,21 +7,24 @@ class AppColors {
   static const Color primary = Color(0xFFBC6C25);
   static const Color primaryLight = Color(0xFFD58843);
   static const Color primaryDark = Color(0xFFD67118);
+    static const Color extraPrimaryLight = Color(0xFFFFF3E9);
+
+  
 
   // static const Color background = Color(0xFFF5F5F5);
   static const Color background = Color(0xFFFFF3E9);
   static const Color cardBackground = Color(0xFFFFFFFF);
-  static const Color scaffoldBackground = Color(0xFFF8F9FA);
+  static const Color scaffoldBackground = Color(0xFFFFFFFF);
 
   // static const Color textPrimary = Color(0xFF1F2937);
-  static const Color textPrimary = Color(0xFF18171D);
+  static const Color textPrimary = Color(0xFF18171d);
   // static const Color textSecondary = Color(0xFF6B7280);
   static const Color textSecondary = Color(0xFF3f3f47);
   static const Color textTertiary = Color(0xFF9CA3AF);
   static const Color textWhite = Color(0xFFFFFFFF);
   static const Color searchcolor = Color(0xffF3F3F3);
 
-  static const Color success = Color(0xFF10B981);
+  static const Color success = Color(0xFF2E7D32);
   static const Color warning = Color(0xFFF59E0B);
   static const Color error = Color(0xFFEF4444);
   static const Color info = Color(0xFF3B82F6);
@@ -35,27 +38,25 @@ class AppColors {
   static const Color grey50 = Color(0xFFF9FAFB);
   static const Color grey100 = Color(0xFFF3F4F6);
   static const Color grey200 = Color(0xFFE5E7EB);
-  static const Color grey300 = Color(0xFFD1D5DB);
+  static const Color grey300 = Color(0xFFA5A5A5);
   static const Color grey400 = Color(0xFF9CA3AF);
   static const Color grey500 = Color(0xFF6B7280);
   static const Color grey600 = Color(0xFF4B5563);
   static const Color grey700 = Color(0xFF374151);
   static const Color grey800 = Color(0xFF1F2937);
   static const Color grey900 = Color(0xFF111827);
-  static const Color golden =  Color(0xffFFB541);
-  static const Color orange =  Color(0XFF9800FF);
-  static const Color orangeshade100 =  Color(0XF57C00FF);
-  static const Color red =  Color(0xFFD32F2F);
-  static const Color redshade100 =  Color(0xFFCDD2FF);
-  static const Color blue =  Color(0x2196F3FF);
-  static const Color green =  Color(0x4CAF50FF);
+  static const Color golden = Color(0xffFFB541);
+  static const Color orange = Color(0XFF9800FF);
+  static const Color orangeshade100 = Color(0XF57C00FF);
+  static const Color red = Color(0xFFD32F2F);
+  static const Color redshade100 = Color(0xFFCDD2FF);
+  static const Color blue = Color(0x2196F3FF);
+  // static const Color green = Color(0x4CAF50FF);
+  static const Color green =  Color(0xFF5F6C37);
 
   static const Color hinttextcolor = Color(0xFF7D7D7D);
 
-
   static const Color circularprogressindicator = Color(0xFFBC6C25);
-
-
 
   static const Color rating = Color(0xFFFBBF24);
   // static const Color border = Color(0xFFE5E7EB);
@@ -64,4 +65,6 @@ class AppColors {
 
   static Color shadow = const Color(0xFF000000).withOpacity(0.08);
   static Color shadowLight = const Color(0xFF000000).withOpacity(0.04);
+
+  static const int razorpayColor = 0x3399cc;
 }

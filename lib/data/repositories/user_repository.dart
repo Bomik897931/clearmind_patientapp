@@ -1,23 +1,17 @@
-import 'package:http/http.dart';
-import 'package:Clarminds/data/repositories/user_repository.dart';
-
 import '../../core/constants/api_constants.dart';
-
 import '../models/api_response.dart';
 import '../models/profile_model.dart';
+import '../models/refresh_token_model.dart';
 import '../models/register_request.dart';
 import '../models/register_response.dart';
 import '../models/user_model.dart';
 import '../services/api_service.dart';
-import '../services/notification_service.dart';
 
 class AuthRepository {
   final ApiService _apiService;
 
   AuthRepository({ApiService? apiService})
-      : _apiService = apiService ?? ApiService();
-
-  // lib/repositories/auth_repository.dart
+    : _apiService = apiService ?? ApiService();
 
   Future<void> registerDevice({
     required String token,
@@ -29,10 +23,7 @@ class AuthRepository {
 
       final response = await _apiService.post(
         endpoint: ApiConstants.registerDeviceEndpoint,
-        body: {
-          'deviceToken': deviceToken,
-          'platform': platform,
-        },
+        body: {'deviceToken': deviceToken, 'platform': platform},
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -71,9 +62,7 @@ class AuthRepository {
       if (apiResponse.success && apiResponse.data != null) {
         return RegisterResponse.fromJson(apiResponse.data!);
       } else {
-        throw RepositoryException(
-          apiResponse.message ?? 'Registration failed',
-        );
+        throw RepositoryException(apiResponse.message ?? 'Registration failed');
       }
     } on ApiException catch (e) {
       throw RepositoryException(_parseErrorMessage(e.message));
@@ -89,7 +78,7 @@ class AuthRepository {
       final response = await _apiService.post(
         endpoint: ApiConstants.loginEndpoint,
         body: {
-          'username': email,  // API expects 'username' not 'email'
+          'username': email, // API expects 'username' not 'email'
           'password': password,
           'role': role,
         },
@@ -100,13 +89,11 @@ class AuthRepository {
       // Login API returns user data directly (not wrapped in ApiResponse)
       if (response.containsKey('token') && response.containsKey('userId')) {
         print('✅ Repository: Token found, creating User object');
-        // After successful login
-        await NotificationServices().init();
-// or force re-register
-//         await NotificationServices()._getFCMToken();
         return User.fromJson(response);
       } else if (response.containsKey('message')) {
-        print('❌ Repository: Login failed with message: ${response['message']}');
+        print(
+          '❌ Repository: Login failed with message: ${response['message']}',
+        );
         throw RepositoryException(response['message']);
       } else {
         print('❌ Repository: Unexpected response format');
@@ -117,26 +104,51 @@ class AuthRepository {
       throw RepositoryException(_parseErrorMessage(e.message));
     } catch (e) {
       print('🔴 Repository: Unexpected error - $e');
-      throw RepositoryException('An unexpected error occurred: ${e.toString()}');
+      throw RepositoryException(
+        'An unexpected error occurred: ${e.toString()}',
+      );
+    }
+  }
+
+  Future<RefreshTokenModel?> refreshToken(String token) async {
+    try {
+      final response = await _apiService.post(
+        endpoint: ApiConstants.refreshToken,
+        body: {"token": token},
+      );
+
+      final apiResponse = RefreshTokenModel.fromJson(response);
+      print(response);
+
+      if (apiResponse.isValid != null) {
+        print("success");
+        return RefreshTokenModel.fromJson(response);
+      } else {
+        throw RepositoryException(apiResponse.message ?? 'Token has expired');
+      }
+    } catch (e) {
+      throw RepositoryException(
+        'An unexpected error from refreshTokenRepo : ${e.toString()}',
+      );
     }
   }
 
   Future<bool> updateMyProfile(
-      int patientId,
-      Map<String, dynamic> profileData,
-      String token
-      ) async {
+    int patientId,
+    Map<String, dynamic> profileData,
+    String token,
+  ) async {
     try {
       print('🔵 Repository: Starting update profile request...');
 
       final response = await _apiService.put(
         // endpoint: "/api/Patient/update-myprofile?patientId=$patientId",
-        endpoint: ApiConstants.updateProfileEndpoint+"?patientId=$patientId",
+        endpoint: "${ApiConstants.updateProfileEndpoint}?patientId=$patientId",
         body: profileData,
         headers: {
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json',
-      },
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
       );
 
       print('🟢 Repository: Update profile response: $response');
@@ -154,13 +166,11 @@ class AuthRepository {
       throw RepositoryException(_parseErrorMessage(e.message));
     } catch (e) {
       print('🔴 Repository: Unexpected error - $e');
-      throw RepositoryException("An unexpected error occurred: ${e.toString()}");
+      throw RepositoryException(
+        "An unexpected error occurred: ${e.toString()}",
+      );
     }
   }
-
-
-
-
 
   // Future<User> login(String email, String password) async {
   //   try {
@@ -209,7 +219,9 @@ class AuthRepository {
       if (apiResponse.success && apiResponse.data != null) {
         return UserProfile.fromJson(apiResponse.data!);
       } else {
-        throw RepositoryException(apiResponse.message ?? 'Failed to fetch profile');
+        throw RepositoryException(
+          apiResponse.message ?? 'Failed to fetch profile',
+        );
       }
     } on ApiException catch (e) {
       print('🔴 Repository: ApiException - ${e.message}');
@@ -219,12 +231,6 @@ class AuthRepository {
       throw RepositoryException('Failed to fetch profile: ${e.toString()}');
     }
   }
-
-
-
-
-
-
 
   String _parseErrorMessage(String message) {
     // Handle duplicate email error

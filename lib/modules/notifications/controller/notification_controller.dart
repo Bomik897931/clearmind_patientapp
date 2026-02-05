@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/constants/app_colors.dart';
@@ -13,8 +12,8 @@ class NotificationController extends GetxController {
   NotificationController({
     NotificationRepository? repository,
     StorageService? storage,
-  })  : _repository = repository ?? NotificationRepository(),
-        _storage = storage ?? StorageService();
+  }) : _repository = repository ?? NotificationRepository(),
+       _storage = storage ?? StorageService();
 
   final RxList<NotificationModel> notifications = <NotificationModel>[].obs;
   final RxBool isLoading = false.obs;
@@ -25,7 +24,7 @@ class NotificationController extends GetxController {
     loadNotifications();
     // loadDummyNotifications();
   }
- /* void loadDummyNotifications() {
+  /* void loadDummyNotifications() {
     notifications.value = [
     NotificationModel(
     notificationId: 1,
@@ -62,7 +61,7 @@ class NotificationController extends GetxController {
     ];
   }*/
 
-    Future<void> loadNotifications() async {
+  Future<void> loadNotifications() async {
     try {
       isLoading.value = true;
 
@@ -136,6 +135,7 @@ class NotificationController extends GetxController {
     }
   }
 
+  @override
   Future<void> refresh() async {
     await loadNotifications();
   }
