@@ -1,117 +1,120 @@
+import 'package:Clarminds/data/services/StorageService.dart';
 import 'package:get/get.dart';
+
 import '../../../data/models/cart_response_model.dart';
 import '../../../data/repositories/cart_repository.dart';
-import '../../../data/services/StorageService.dart';
-import '../../../core/constants/app_colors.dart';
 
 class CartController extends GetxController {
-  // final CartRepository _repository = Get.find<CartRepository>();
-  // final StorageService _storage = Get.find<StorageService>();
   final CartRepository _repository;
   final StorageService _storage;
 
   CartController({
     CartRepository? repository,
     StorageService? storage,
-  }) : _repository = repository ?? CartRepository(),
+  })  : _repository = repository ?? CartRepository(),
         _storage = storage ?? StorageService();
 
-  // Observables
-  var isLoading = false.obs;
-  var cart = Rxn<CartResponse>();
+  /// STATES
+  final isLoading = false.obs;
+  final noRecordFound = false.obs;
+  final cart = Rxn<CartResponse>();
 
-  // Prescription ID (will be set from arguments)
-  late int prescriptionId;
+  int? prescriptionId;
 
+  /// 🚀 DO NOT LOAD HERE
   @override
   void onInit() {
     super.onInit();
-    _loadArguments();
+    print('🟢 CartController onInit');
   }
 
-  void _loadArguments() {
-    try {
-      final args = Get.arguments;
+  /// 🔥 MAIN ENTRY POINT (call this manually)
+  Future<void> handleEntry({dynamic args}) async {
+    print('🟣 handleEntry called with args: $args');
 
-      if (args == null) {
-        print('❌ No arguments received');
-        Get.snackbar(
-          'Error',
-          'Prescription ID not provided',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: AppColors.red,
-          colorText: AppColors.white,
-        );
-        Future.delayed(Duration(seconds: 2), () => Get.back());
-        return;
-      }
+    // RESET OLD STATE
+    cart.value = null;
+    noRecordFound.value = false;
+    prescriptionId = null;
 
-      // Handle different argument formats
-      if (args is Map<String, dynamic>) {
-        prescriptionId = args['prescriptionId'] as int;
-      } else if (args is int) {
-        prescriptionId = args;
-      } else {
-        throw Exception('Invalid argument type');
-      }
-
-      print('✅ Prescription ID loaded: $prescriptionId');
-
-      // Now fetch cart
-      fetchCart();
-    } catch (e) {
-      print('❌ Error loading arguments: $e');
-      Get.snackbar(
-        'Error',
-        'Failed to load cart data',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.red,
-        colorText: AppColors.white,
-      );
-      Future.delayed(Duration(seconds: 2), () => Get.back());
+    if (args is int) {
+      prescriptionId = args;
+      await fetchCartByPrescription();
+    } else if (args is Map && args['prescriptionId'] != null) {
+      prescriptionId = args['prescriptionId'];
+      await fetchCartByPrescription();
+    } else {
+      // 👉 Bottom nav direct entry
+      await fetchMyCartDetail();
     }
   }
 
-  Future<void> fetchCart() async {
+  /// 🔹 CART BY PRESCRIPTION
+  Future<void> fetchCartByPrescription() async {
     try {
+      print('🟡 fetchCartByPrescription START');
+
       isLoading.value = true;
 
       final token = await _storage.getToken();
       if (token == null) {
-        Get.snackbar(
-          'Error',
-          'Login required',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: AppColors.red,
-          colorText: AppColors.white,
-        );
         Get.offAllNamed('/login');
         return;
       }
 
-      print('🔵 Controller: Fetching cart for prescription $prescriptionId');
-
-      cart.value = await _repository.getCart(
-        prescriptionId: prescriptionId,
+      final response = await _repository.getCart(
+        prescriptionId: prescriptionId!,
         token: token,
       );
 
-      print('✅ Controller: Cart loaded successfully');
-    } catch (e) {
-      print('❌ Controller: Error fetching cart - $e');
-      Get.snackbar(
-        'Error',
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.red,
-        colorText: AppColors.white,
-      );
+      if (response.orderItems.isEmpty) {
+        noRecordFound.value = true;
+        return;
+      }
+
+      cart.value = response;
+      print('✅ Cart loaded via prescription');
+
+    } catch (e, s) {
+      print('❌ fetchCartByPrescription ERROR: $e');
+      print(s);
+      noRecordFound.value = true;
     } finally {
       isLoading.value = false;
     }
   }
 
-  Future<void> refresh() async {
-    await fetchCart();
+  /// 🔹 DIRECT CART
+  Future<void> fetchMyCartDetail() async {
+    try {
+      print('🟡 fetchMyCartDetail START');
+
+      isLoading.value = true;
+
+      final token = await _storage.getToken();
+      if (token == null) {
+        Get.offAllNamed('/login');
+        return;
+      }
+
+      final response = await _repository.getMyCartDetail(token: token);
+
+      print('🟢 OrderItems: ${response.orderItems.length}');
+
+      if (response.orderItems.isEmpty) {
+        noRecordFound.value = true;
+        return;
+      }
+
+      cart.value = response;
+      print('✅ Cart loaded via my-cart-detail');
+
+    } catch (e, s) {
+      print('❌ fetchMyCartDetail ERROR: $e');
+      print(s);
+      noRecordFound.value = true;
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

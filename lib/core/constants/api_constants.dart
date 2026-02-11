@@ -31,6 +31,7 @@ class ApiConstants {
   //Prescription
   static const String myPrescriptionsEndpoint = 'Patient/my-all-prescription';
   static const String myPrescriptionsCartByIdEndpoint = 'Patient/prescription-cart';
+  static const String myCartDetailsEndpoint = 'Patient/my-cart-detail';
 
   //MedicalReport
   static const String getReportEndpoint= "Patient/get-report";

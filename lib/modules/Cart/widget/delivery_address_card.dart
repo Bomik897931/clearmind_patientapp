@@ -14,7 +14,7 @@ class DeliveryAddressCard extends StatelessWidget {
       child: ListTile(
         leading: const Icon(Icons.location_on),
         title: Text(
-          patient.fullName,
+          patient.fullName!,
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         subtitle: Text(

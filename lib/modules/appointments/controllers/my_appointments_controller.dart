@@ -146,10 +146,16 @@ class MyAppointmentsController extends GetxController
   }
 
   @override
+  void onReady() {
+    loadAppointments();
+  }
+  @override
   void onClose() {
     tabController.dispose();
     super.onClose();
   }
+
+
 
   void onVideoSelected(String videoTitle) {
     final videoUrl = videoUrls[videoTitle];

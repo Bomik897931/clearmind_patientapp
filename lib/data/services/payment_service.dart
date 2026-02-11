@@ -104,12 +104,19 @@ class PaymentService {
     String? orderId,
   }) {
     var options = {
-      'key': ApiConstants.razorpayKeyId,
+      'key': 'rzp_test_S5fKChprzBGn5e',
       'amount': (amount * 100).toInt(), // Amount in paise
       'name': "CM",
       'description': description,
       'timeout': 300, // 5 minutes
       'currency': 'INR',
+      // 🔥 VERY IMPORTANT
+      'method': {
+        'upi': false,
+        'wallet': false,
+        'netbanking': false,
+        'card': true,
+      },
       'prefill': {
         'contact': contact ?? '',
         'email': email ?? '',
@@ -119,6 +126,8 @@ class PaymentService {
         'color': '#${AppColors.razorpayColor.toRadixString(16).padLeft(6, '0')}'
       }
     };
+
+    print(options);
 
     // Add order ID if provided
     if (orderId != null && orderId.isNotEmpty) {

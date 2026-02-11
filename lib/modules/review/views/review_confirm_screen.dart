@@ -668,10 +668,10 @@ class ReviewConfirmScreen extends GetView<ReviewConfirmController> {
             width: double.infinity,
             height: 40,
             child: ElevatedButton(
-              onPressed: (){},
-              /*controller.isBooking.value
+              onPressed:
+              controller.isBooking.value
                   ? null
-                  : controller.proceedToPay,*/
+                  : controller.proceedToPay,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.circularprogressindicator,
                 disabledBackgroundColor: AppColors.grey300,

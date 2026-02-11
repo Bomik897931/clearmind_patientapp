@@ -10,6 +10,7 @@ import '../../../widgets/bottom_nav_bar.dart';
 import '../../../widgets/loading_widget.dart';
 import '../../../widgets/textWidget.dart';
 import '../../Cart/controller/MyPrescriptions_Controller.dart';
+import '../../Cart/controller/cart_controller.dart';
 import '../../Cart/views/cart.dart';
 import '../../Cart/views/prescription_screen.dart';
 import '../../appointments/controllers/my_appointments_controller.dart';
@@ -31,7 +32,7 @@ class HomeScreen extends GetView<HomeController> {
     final screenHeight = MediaQuery.of(context).size.height;
     Get.lazyPut(() => MyAppointmentsController(), fenix: true);
     Get.lazyPut(() => ProfileController(), fenix: true);
-    Get.lazyPut(() => MyPrescriptionsController(), fenix: true);
+    Get.lazyPut(() => CartController(), fenix: true);
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -44,7 +45,8 @@ class HomeScreen extends GetView<HomeController> {
             _buildHomeTab(context, screenHeight), // Tab 0: Home
 
             MyAppointmentsScreen(), // Tab 1: Appointments
-            MyPrescriptionsScreen(), // Tab 2: Cart
+            // MyPrescriptionsScreen(), // Tab 2: Cart
+            CartScreen(),
             ProfileScreen(), // Tab 3: Profile
           ],
         ),

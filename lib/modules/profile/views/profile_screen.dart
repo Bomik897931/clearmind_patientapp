@@ -84,7 +84,9 @@ class ProfileScreen extends GetView<ProfileController> {
                     _buildMenuItem(
                       icon: Icons.payment_outlined,
                       title: "Payment History",
-                      onTap: (){},
+                      onTap: (){
+                        Get.toNamed(AppRoutes.Prescription);
+                      },
                     ),
                     _buildMenuItem(
                       icon: Icons.language_outlined,

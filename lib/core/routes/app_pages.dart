@@ -164,7 +164,7 @@ class AppPages {
       name: AppRoutes.MY_APPOINTMENTS,
       page: () => const MyAppointmentsScreen(),
       binding: BindingsBuilder(() {
-        Get.lazyPut(() => MyAppointmentsController());
+        Get.lazyPut(() => MyAppointmentsController(),fenix: true);
       }),
     ),
     GetPage(
@@ -197,7 +197,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.PAYMENT,
-      page: () => const PaymentScreen(),
+      page: () =>  PaymentScreen(),
       binding: BindingsBuilder(() {
         Get.lazyPut(() => PaymentController());
       }),
